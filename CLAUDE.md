@@ -47,10 +47,10 @@ Requiere .NET 10 SDK (`export PATH=$HOME/.dotnet:$PATH`), Docker y Node 22. Copi
 Puertos del host (ver D10): Postgres 5433, Keycloak 8180, API 5080, web 5174.
 
 - `docker compose up -d --build` — Postgres, Keycloak, API, web (`curl localhost:5080/health/ready`; web en http://localhost:5174)
-- `dotnet run --project tools/Sses.Seed -- --estudiantes 500000` — datos sintéticos
+- `dotnet run --project tools/Sses.Seed -c Release -- --estudiantes 500000` — datos sintéticos
 - `npm --prefix frontend run dev` — front en desarrollo
 - `dotnet test backend/Sses.sln` / `npm --prefix frontend test` / `npm --prefix tests/e2e test` (Playwright; requiere el stack arriba y `npx playwright install chromium`)
-- `./scripts/reset-demo.sh` — deja la base en el estado inicial del guion de demo
+- `./scripts/reset-demo.sh` — (requiere el stack arriba) deja la base en el estado inicial del guion de demo
 
 ## Reglas de negocio que no se negocian
 

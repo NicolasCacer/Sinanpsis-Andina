@@ -303,5 +303,12 @@
     }
    ]
   }
- ]
+ ],
+ "localizationTexts": {
+  "es": {
+   "doLogIn": "Continuar",
+   "loginTitle": "Ingresar al SSES",
+   "loginAccountTitle": "Ingresar al SSES"
+  }
+ }
 }

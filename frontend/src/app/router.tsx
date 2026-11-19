@@ -5,6 +5,9 @@ import Landing from './Landing'
 import Callback from './Callback'
 import Shell from './Shell'
 import Inicio from './Inicio'
+import Auditoria from './Auditoria'
+import Debug from './Debug'
+import { config } from './config'
 
 const Estrategias = lazy(() => import('../features/estrategias/EstrategiasRoutes'))
 const Acompanamientos = lazy(() => import('../features/acompanamiento/AcompanamientoRoutes'))
@@ -27,7 +30,8 @@ function Raiz() {
 const router = createBrowserRouter([
   { path: '/', element: <Raiz /> },
   { path: '/auth/callback', element: <Callback /> },
-  { element: <Privado />, children: [{ path: '/inicio', element: <Inicio /> }] },
+  { element: <Privado />, children: [{ path: '/inicio', element: <Inicio /> }, { path: '/auditoria', element: <Auditoria /> }] },
+  ...(config.demo ? [{ path: '/debug', element: <Debug /> }] : []),
   { element: <Privado roles={['GESTOR_ESTRATEGIAS']} />, children: [{ path: '/estrategias/*', element: <Suspense fallback={<Cargando />}><Estrategias /></Suspense> }] },
   { element: <Privado roles={['TUTOR_LIDER']} />, children: [{ path: '/acompanamientos/*', element: <Suspense fallback={<Cargando />}><Acompanamientos /></Suspense> }] },
   { path: '*', element: <Navigate to="/" replace /> },

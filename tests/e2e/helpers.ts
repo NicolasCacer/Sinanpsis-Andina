@@ -1,6 +1,7 @@
 import { createHmac } from 'node:crypto'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { expect, type Page } from '@playwright/test'
+import { execSync } from 'node:child_process'
 
 export const DEMO_PASSWORD = process.env.DEMO_PASSWORD ?? 'Sinapsis2026!Demo'
 export const DEMO_TOTP_SECRET = process.env.DEMO_TOTP_SECRET ?? 'KNUW4YLQONUXGQLOMRUW4YKEMVWW6MBR'
@@ -66,7 +67,7 @@ export async function limpiarBloqueos(request: import('@playwright/test').APIReq
 
 /** Tutor líder programa un plan grupal con los 3 primeros docentes en las semanas indicadas (mes actual). */
 export async function programarPlanDemo(page: Page, semanas = [1, 2, 3]) {
-  await page.getByRole('navigation', { name: 'Menú principal' }).getByRole('link', { name: 'Acompañamientos' }).click()
+  await page.getByRole('navigation').getByRole('link', { name: 'Acompañamientos' }).click() // menú lateral (escritorio) o barra inferior (móvil)
   const form = page.getByTestId('form-programar')
   await expect(form.getByText('Marina Docente')).toBeVisible()
   for (const i of [0, 1, 2]) await form.getByRole('checkbox').nth(i).check()
@@ -90,3 +91,18 @@ export async function adjuntarFotoPesada(page: Page, ancho = 3000, alto = 2000):
     return blob.size
   }, [ancho, alto] as const)
 }
+
+export const sql = (q: string) => execSync(`docker compose exec -T postgres psql -U postgres -d sses -Atc "${q}"`, { cwd: '../..' }).toString().trim()
+export const mesActual = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}` }
+
+export async function registrarSemana(page: Page, n: number, actividades: string, foto = false) {
+  await page.getByTestId('hito').nth(n - 1).getByRole('button', { name: 'Registrar seguimiento' }).click()
+  await expect(page.getByRole('heading', { name: 'Registrar seguimiento' })).toBeVisible()
+  await page.getByLabel(/Asistió Marina/).check()
+  await page.getByLabel('Actividades').fill(actividades)
+  await page.getByLabel('Avances').fill('Avance registrado en campo')
+  if (foto) { await adjuntarFotoPesada(page, 1600, 1200); await expect(page.getByTestId('peso-foto')).toBeVisible({ timeout: 60_000 }) }
+  await page.getByRole('button', { name: 'Guardar', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'Plan mensual' })).toBeVisible()
+}
+

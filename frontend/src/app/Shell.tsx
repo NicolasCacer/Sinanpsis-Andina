@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from 'react-router'
+import { Link, NavLink, Outlet } from 'react-router'
 import { useAuth } from './auth'
 import { useOnline } from './useOnline'
 import { useEffect } from 'react'
@@ -28,9 +28,9 @@ export default function Shell() {
 
       <div className="flex-1 flex flex-col min-w-0">
         <header className="bg-white border-b border-slate-200 px-4 py-2 flex items-center gap-3 flex-wrap">
-          <div className="min-w-0 flex-1">
-            <p className="font-semibold truncate" data-testid="encabezado-nombre">{perfil.nombre}</p>
-            <p className="text-xs text-slate-500 truncate"><span data-testid="encabezado-rol">{perfil.rolEtiqueta}</span> · Último ingreso: <span data-testid="encabezado-ultimo">{fmt(perfil.ultimoIngreso)}</span></p>
+          <div className="min-w-0 basis-full sm:basis-0 sm:flex-1">
+            <p className="font-semibold" data-testid="encabezado-nombre">{perfil.nombre}</p>
+            <p className="text-xs text-slate-500"><span data-testid="encabezado-rol">{perfil.rolEtiqueta}</span> · Último ingreso: <span data-testid="encabezado-ultimo">{fmt(perfil.ultimoIngreso)}</span></p>
           </div>
           <span data-testid="indicador-conexion" className={`inline-flex items-center gap-1.5 text-xs rounded-full px-2.5 py-1 ${online ? 'bg-cumple-50 text-cumple' : 'bg-slate-200 text-slate-700'}`}>
             <span className={`w-2 h-2 rounded-full ${online ? 'bg-cumple' : 'bg-slate-500'}`} />{online ? 'En línea' : 'Sin conexión'}
@@ -39,6 +39,7 @@ export default function Shell() {
             {pendientes} pendientes
           </span>
           {enConflicto > 0 && <span data-testid="indicador-conflictos" className="text-xs rounded-full px-2.5 py-1 bg-red-100 text-red-800">{enConflicto} en conflicto</span>}
+          <Link to="/auditoria" className="text-sm text-andino-700 underline">Bitácora</Link>
           <button onClick={salir} className="text-sm text-andino-700 underline">Salir</button>
         </header>
 

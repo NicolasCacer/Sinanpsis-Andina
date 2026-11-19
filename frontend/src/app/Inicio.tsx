@@ -14,6 +14,10 @@ export default function Inicio() {
             <span className="font-semibold text-andino-900">{m.etiqueta}</span>
           </Link>
         ))}
+        <Link to="/auditoria" className="rounded-xl bg-white border border-slate-200 p-5 shadow-sm hover:border-andino-700">
+          <span className="font-semibold text-andino-900">Bitácora de actividad</span>
+          <span className="block text-xs text-slate-500 mt-1">Qué se registró a tu nombre y verificación de la cadena</span>
+        </Link>
       </div>
     </div>
   )
