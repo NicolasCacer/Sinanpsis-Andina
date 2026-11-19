@@ -59,6 +59,7 @@ public sealed class SsesFixture : IAsyncLifetime
         }
         await Sembrar();
         Environment.SetEnvironmentVariable("ConnectionStrings__Sses", ConnApi);
+        Environment.SetEnvironmentVariable("Evidencias__Ruta", Path.Combine(Path.GetTempPath(), "sses-evid-" + Guid.NewGuid()));
         Environment.SetEnvironmentVariable("SSES__CLAVE_AES", Convert.ToBase64String(ClaveAes));
         Environment.SetEnvironmentVariable("SSES__CLAVE_HMAC", Convert.ToBase64String(ClaveHmac));
         Factory = new WebApplicationFactory<Program>().WithWebHostBuilder(b => b.ConfigureTestServices(s =>

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useSearchParams } from 'react-router'
+import { Link, useLocation, useSearchParams } from 'react-router'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { api, apiRaw, ApiError } from '../../app/api'
 import { useOnline } from '../../app/useOnline'
@@ -17,6 +17,7 @@ export default function PlanMensual() {
   const mes = sp.get('mes') ?? mesActual()
   const plan = useQuery({ queryKey: ['plan', mes], queryFn: async () => (await apiRaw<PlanMes>(`/tutores/me/plan?mes=${mes}`)).data })
   const p = plan.data
+  const registrada = (useLocation().state as { registrada?: number } | null)?.registrada
   return (
     <div className="max-w-3xl mx-auto md:mx-0">
       <div className="flex items-end justify-between gap-3 flex-wrap">
@@ -27,6 +28,7 @@ export default function PlanMensual() {
         </label>
       </div>
 
+      {registrada && <Aviso tono="ok" className="mt-4" data-testid="aviso-registrada">Semana {registrada} registrada.</Aviso>}
       {plan.isLoading && <p className="mt-6 text-slate-500">Cargando plan…</p>}
       {plan.isError && <Aviso tono="error" className="mt-4">No pudimos cargar el plan. <button className="underline" onClick={() => void plan.refetch()}>Reintentar</button></Aviso>}
 

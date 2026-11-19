@@ -63,3 +63,30 @@ export async function limpiarBloqueos(request: import('@playwright/test').APIReq
   const { access_token } = await tk.json()
   await request.delete(`${KC}/admin/realms/sses/attack-detection/brute-force/users`, { headers: { Authorization: `Bearer ${access_token}` } })
 }
+
+/** Tutor líder programa un plan grupal con los 3 primeros docentes en las semanas indicadas (mes actual). */
+export async function programarPlanDemo(page: Page, semanas = [1, 2, 3]) {
+  await page.getByRole('navigation', { name: 'Menú principal' }).getByRole('link', { name: 'Acompañamientos' }).click()
+  const form = page.getByTestId('form-programar')
+  await expect(form.getByText('Marina Docente')).toBeVisible()
+  for (const i of [0, 1, 2]) await form.getByRole('checkbox').nth(i).check()
+  await form.getByLabel('Temas').fill('Planeación de clases y evaluación formativa')
+  for (const n of semanas) await form.getByLabel(`Semana ${n}`).check({ force: true })
+  await form.getByRole('button', { name: 'Programar' }).click()
+  await expect(page.getByTestId('calendario').getByTestId('hito')).toHaveCount(semanas.length)
+}
+
+/** Crea en el navegador una imagen PNG ruidosa (pesada) y la entrega al input de fotos. Devuelve su tamaño original en bytes. */
+export async function adjuntarFotoPesada(page: Page, ancho = 3000, alto = 2000): Promise<number> {
+  return page.evaluate(async ([w, h]) => {
+    const c = document.createElement('canvas'); c.width = w; c.height = h
+    const ctx = c.getContext('2d')!; const d = ctx.createImageData(w, h)
+    for (let i = 0; i < d.data.length; i += 4) { d.data[i] = Math.random() * 255; d.data[i + 1] = Math.random() * 255; d.data[i + 2] = Math.random() * 255; d.data[i + 3] = 255 }
+    ctx.putImageData(d, 0, 0)
+    const blob: Blob = await new Promise((r) => c.toBlob((b) => r(b!), 'image/png'))
+    const dt = new DataTransfer(); dt.items.add(new File([blob], 'grande.png', { type: 'image/png' }))
+    const input = document.querySelector('[data-testid=input-fotos]') as HTMLInputElement
+    input.files = dt.files; input.dispatchEvent(new Event('change', { bubbles: true }))
+    return blob.size
+  }, [ancho, alto] as const)
+}

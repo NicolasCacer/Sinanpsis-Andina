@@ -59,6 +59,8 @@ app.MapMaestros();
 app.MapEstrategias();
 app.MapBusquedaEstudiantes();
 app.MapAcompanamiento();
+app.MapSeguimientos();
+app.MapEvidencias();
 app.MapAuditoria();
 app.Run();
 

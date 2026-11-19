@@ -139,7 +139,7 @@ long gestorId = await Scalar("select id from seguridad.participante where rol='G
 for (int e = 1; e <= 60; e++)
 {
     int ent = e <= 6 ? (e - 1) / 2 + 1 : rnd.Next(1, 40);
-    string nom = e <= 6 ? (e == 1 ? "Semillero de Robótica Pacífico" : $"{nomEstr[e - 1]} {2026}") : $"{Pick(nomEstr)} {Pick(["Norte","Sur","Rural","Urbano","Ribereño","Andino"])} {e}";
+    string nom = e <= 6 ? (e == 1 ? "Semillero de Robótica Pacífico" : e == 5 ? "Círculos de Lectura Pacífico" : e == 6 ? "Taller de Teatro Pacífico" : $"{nomEstr[e - 1]} {2026}") : $"{Pick(nomEstr)} {Pick(["Norte","Sur","Rural","Urbano","Ribereño","Andino"])} {e}";
     await Exec(@"insert into estrategias.estrategia (public_id,entidad_id,nombre,objetivo,poblacion,fecha_inicio,fecha_fin,creado_por)
       values (@p,@e,@n,@o,@po,'2026-08-01','2027-05-31',@c)", ("p", Guid.CreateVersion7()), ("e", (long)ent), ("n", nom),
       ("o", "Fortalecer habilidades socioemocionales y de aprendizaje de niñas, niños y adolescentes mediante actividades extracurriculares."),
