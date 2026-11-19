@@ -27,7 +27,7 @@ async function registrarBackgroundSync() {
   } catch { /* no soportado */ }
 }
 
-export const contarPendientes = () => db.outbox.where('estado').equals('Pendiente').count()
+export const contarPendientes = async () => (await db.outbox.where('estado').equals('Pendiente').count()) + (await db.confirmaciones.where('estado').equals('Pendiente').count())
 export function usePendientes(): number { return useLiveQuery(() => contarPendientes(), [], 0) }
 export function useEnConflicto(): number { return useLiveQuery(() => db.outbox.where('estado').equals('En conflicto').count(), [], 0) }
 export function useOutbox(mes?: string): RegistroOutbox[] {

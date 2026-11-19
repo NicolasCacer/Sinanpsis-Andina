@@ -11,6 +11,7 @@ create temp table _segs   as select id from acompanamiento.seguimiento_semanal w
 delete from acompanamiento.asistencia_seguimiento where seguimiento_id in (select id from _segs);
 delete from acompanamiento.evidencia where seguimiento_id in (select id from _segs) or subido_por = (select id from seguridad.participante where rol = 'TUTOR_LIDER' and persona_id = 1);
 delete from acompanamiento.seguimiento_semanal where id in (select id from _segs);
+delete from acompanamiento.confirmacion_docente where hito_id in (select id from _hitos);
 delete from acompanamiento.hito_semanal where id in (select id from _hitos);
 delete from acompanamiento.plan_docente where plan_id in (select id from _planes);
 delete from acompanamiento.plan where id in (select id from _planes);

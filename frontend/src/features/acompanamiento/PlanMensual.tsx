@@ -12,6 +12,8 @@ import { sincronizarAhora } from '../../offline/sync'
 import type { RegistroOutbox } from '../../offline/db'
 
 export function EstadoHito({ h }: { h: Hito }) {
+  if (h.estado === 'CONFIRMADO') return <Insignia tono="verde" data-testid="estado-hito">Confirmada por el docente</Insignia>
+  if (h.estado === 'OBSERVADO') return <Insignia tono="rojo" data-testid="estado-hito">Observada</Insignia>
   return h.estado === 'PROGRAMADA'
     ? <Insignia tono="azul" data-testid="estado-hito">Programada</Insignia>
     : <Insignia tono="verde" data-testid="estado-hito">Registrada</Insignia>

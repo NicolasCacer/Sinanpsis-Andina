@@ -19,7 +19,7 @@ var sw = Stopwatch.StartNew();
 
 // Sub de Keycloak fijos (el realm importado usa los mismos id)
 const string SubAdmin = "7a000000-0000-4000-8000-000000000001", SubGestor = "7a000000-0000-4000-8000-000000000002",
-             SubTutor = "7a000000-0000-4000-8000-000000000003", SubDocente = "7a000000-0000-4000-8000-000000000004";
+             SubTutor = "7a000000-0000-4000-8000-000000000003", SubDocente = "7a000000-0000-4000-8000-000000000004", SubAnalista = "7a000000-0000-4000-8000-000000000005", SubContraloria = "7a000000-0000-4000-8000-000000000006", SubProcuraduria = "7a000000-0000-4000-8000-000000000007";
 
 string[] nombres = ["Camila","Santiago","Valentina","Mateo","Sofía","Samuel","Isabella","Juan","Mariana","Daniel","Luciana","Nicolás","Sara","Emmanuel","Laura","Tomás","Gabriela","Andrés","Daniela","Julián","Manuela","Sebastián","Paula","David","Salomé","Felipe","Antonella","Miguel","Juliana","Esteban","Karen","Cristian","Yulieth","Brayan","Mayerly","Jhon","Dayana","Kevin","Luisa","Alexander"];
 string[] apellidos = ["Rojas","Pérez","Gómez","Rodríguez","Martínez","López","García","Hernández","Torres","Ramírez","Castro","Mosquera","Valencia","Angulo","Caicedo","Quiñones","Cortés","Mendoza","Ortiz","Vargas","Moreno","Ríos","Jiménez","Arias","Campaz","Preciado","Cuero","Riascos","Ospina","Peña"];
@@ -96,8 +96,13 @@ await Exec(@"insert into seguridad.participante (keycloak_sub,correo,nombre,rol,
   (@a,'admin@sinapsis.co','Admin Funcional','ADMIN_FUNCIONAL','FUNCIONARIO',null),
   (@g,'gestor.demo@sinapsis.co','Laura Gestora','GESTOR_ESTRATEGIAS','FUNCIONARIO',null),
   (@t,'tutor.lider@sinapsis.co','Andrés Tutor Líder','TUTOR_LIDER','TUTOR',1),
-  (@d,'tutor.docente@sinapsis.co','Marina Docente','TUTOR_DOCENTE','DOCENTE',1)",
-    ("a", SubAdmin), ("g", SubGestor), ("t", SubTutor), ("d", SubDocente));
+  (@d,'tutor.docente@sinapsis.co','Marina Docente','TUTOR_DOCENTE','DOCENTE',1),
+  (@n,'analista.men@sinapsis.co','Carolina Analista','ANALISTA_MEN','FUNCIONARIO',null)",
+    ("a", SubAdmin), ("g", SubGestor), ("t", SubTutor), ("d", SubDocente), ("n", SubAnalista));
+await Exec(@"insert into seguridad.participante (keycloak_sub,correo,nombre,rol,persona_tipo,persona_id,organizacion_id) values
+  (@c,'contraloria@sinapsis.co','Camilo Contraloría','ENTE_CONTROL','FUNCIONARIO',null,(select id from reportes.organizacion_control where nombre like 'Contraloría%')),
+  (@p,'procuraduria@sinapsis.co','Paula Procuraduría','ENTE_CONTROL','FUNCIONARIO',null,(select id from reportes.organizacion_control where nombre like 'Procuraduría%'))",
+    ("c", SubContraloria), ("p", SubProcuraduria));
 await Exec("insert into seguridad.gestor_entidad select (select id from seguridad.participante where rol='GESTOR_ESTRATEGIAS'), e from generate_series(1,3) e");
 
 // Estudiantes (COPY binario por lotes)
@@ -161,6 +166,7 @@ for (int d = 1; d <= 3000; d++)
     await Exec("insert into acompanamiento.asignacion (tutor_id,docente_id,estrategia_id) values (@t,@d,@e) on conflict do nothing", ("t", tl), ("d", (long)d), ("e", es));
 }
 await Exec("analyze");
+Console.WriteLine("Para el tablero de analítica: docker compose exec -T postgres psql -U postgres -d sses < scripts/seed-analitica.sql (con SET ROLE sses_owner)");
 Console.WriteLine($"Listo en {sw.Elapsed.TotalSeconds:F1} s. Estudiantes: {await Scalar("select count(*) from maestros.estudiante_huella"):N0}");
 
 static void LeerDotEnv()

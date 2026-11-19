@@ -87,7 +87,15 @@ public sealed class SsesFixture : IAsyncLifetime
             ('gestorB','gestorB@test.co','Gestor B','GESTOR_ESTRATEGIAS','FUNCIONARIO',null),
             ('gestorC','gestorC@test.co','Gestor C','GESTOR_ESTRATEGIAS','FUNCIONARIO',null),
             ('tutor1','tutor1@test.co','Tutor Uno','TUTOR_LIDER','TUTOR',1),
-            ('tutor2','tutor2@test.co','Tutor Dos','TUTOR_LIDER','TUTOR',2);
+            ('tutor2','tutor2@test.co','Tutor Dos','TUTOR_LIDER','TUTOR',2),
+            ('docente1','docente1@test.co','Doc A','TUTOR_DOCENTE','DOCENTE',1),
+            ('docente2','docente2@test.co','Doc B','TUTOR_DOCENTE','DOCENTE',2),
+            ('docente4','docente4@test.co','Doc D','TUTOR_DOCENTE','DOCENTE',4),
+            ('analista1','analista1@test.co','Analista Uno','ANALISTA_MEN','FUNCIONARIO',null);
+          insert into seguridad.participante (keycloak_sub,correo,nombre,rol,persona_tipo,persona_id,organizacion_id) select v.sub, v.sub||'@test.co', v.nom, 'ENTE_CONTROL','FUNCIONARIO',null, o.id
+            from (values ('contraloria1','Funcionario Contraloría 1','Contraloría (demo)'),('contraloria2','Funcionario Contraloría 2','Contraloría (demo)'),('procuraduria1','Funcionario Procuraduría 1','Procuraduría (demo)')) v(sub,nom,org)
+            join reportes.organizacion_control o on o.nombre=v.org;
+          insert into seguridad.participante (keycloak_sub,correo,nombre,rol,persona_tipo,persona_id) values ('ente_sin_org','ente_sin_org@test.co','Ente sin organización','ENTE_CONTROL','FUNCIONARIO',null);
           insert into seguridad.gestor_entidad select p.id, e.id from seguridad.participante p, maestros.entidad e
             where (p.keycloak_sub in ('gestorA','gestorB') and e.nombre in ('Entidad Uno','Entidad Dos','Entidad Inactiva')) or (p.keycloak_sub='gestorC' and e.nombre='Entidad Ajena');
           insert into maestros.tutor (nombres,correo,municipio_id) values ('Tutor Uno','tutor1@test.co',1),('Tutor Dos','tutor2@test.co',1);
@@ -108,6 +116,9 @@ public sealed class SsesFixture : IAsyncLifetime
         return h;
     }
     public HttpClient Gestor(string sub = "gestorA") => Cliente(sub, "GESTOR_ESTRATEGIAS");
+    public HttpClient Analista() => Cliente("analista1", "ANALISTA_MEN");
+    public HttpClient Ente(string sub = "contraloria1") => Cliente(sub, "ENTE_CONTROL");
+    public HttpClient Docente(string sub = "docente1") => Cliente(sub, "TUTOR_DOCENTE");
     public HttpClient Tutor(string sub = "tutor1") => Cliente(sub, "TUTOR_LIDER");
 
     public async Task<T> Super<T>(string sql, object? p = null) { await using var c = new NpgsqlConnection(ConnSuper); await c.OpenAsync(); return await c.ExecuteScalarAsync<T>(sql, p) ?? default!; }

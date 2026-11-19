@@ -1,3 +1,5 @@
+using Sses.Api.Analitica;
+using Sses.Api.Reportes;
 using FluentValidation;
 using Npgsql;
 using Sses.Api.Maestros;
@@ -17,6 +19,7 @@ builder.Services.AddSingleton(_ => new NpgsqlDataSourceBuilder(builder.Configura
 builder.Services.AddSingleton<IProteccionDatos>(_ => ProteccionDatos.DesdeConfiguracion(builder.Configuration));
 builder.Services.AddScoped<IUsuarioActual, UsuarioActual>();
 builder.Services.AddScoped<IBitacora, Bitacora>();
+builder.Services.AddHostedService<Sses.Api.Analitica.RefrescoAnalitica>();
 builder.Services.AddProblemDetails();
 builder.Services.AddSingleton<IValidator<EstrategiaCrear>, EstrategiaCrearValidator>();
 builder.Services.AddSingleton<IValidator<EstrategiaEditar>, EstrategiaEditarValidator>();
@@ -63,6 +66,8 @@ app.MapAcompanamiento();
 app.MapSeguimientos();
 app.MapEvidencias();
 app.MapSincronizacion();
+app.MapMiAcompanamiento();
+app.MapAnalitica(); app.MapReportesLey();
 app.MapAuditoria();
 app.Run();
 

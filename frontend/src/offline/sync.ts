@@ -5,6 +5,7 @@ import { descifrarBytes, descifrarJson } from './crypto'
 import { db, type RegistroOutbox, type RegistroServidor } from './db'
 import { esErrorDeRed } from './red'
 import { refrescarPlan } from './planLocal'
+import { sincronizarConfirmaciones } from './confirmaciones'
 import type { DatosSeguimiento } from '../features/acompanamiento/guardar'
 
 type ResultadoItem = { idempotencyKey: string; estado: 'APLICADO' | 'DUPLICADO' | 'CONFLICTO' | 'RECHAZADO'; versionServidor?: number; registroServidor?: RegistroServidor; motivo?: string }
@@ -25,7 +26,7 @@ async function armarItem(r: RegistroOutbox) {
 }
 
 /** Envía la cola en orden de creación, en lotes de ≤ 50. Idempotente: reenviar nunca duplica (RQ_012). */
-export async function sincronizarAhora(): Promise<EstadoSync> {
+async function sincronizarSeguimientos(): Promise<EstadoSync> {
   if (corriendo) return 'ocupado'
   corriendo = true
   try {
@@ -69,6 +70,13 @@ export async function sincronizarAhora(): Promise<EstadoSync> {
     await queryClient.invalidateQueries({ queryKey: ['plan'] })
     return alguno ? 'ok' : 'sin-pendientes'
   } finally { corriendo = false }
+}
+
+/** Seguimientos del Tutor Líder (RQ_012) y confirmaciones del Tutor Docente (RQ_016). */
+export async function sincronizarAhora(): Promise<EstadoSync> {
+  const r = await sincronizarSeguimientos()
+  if (r === 'sin-sesion' || r === 'ocupado') return r
+  return (await sincronizarConfirmaciones()) ?? r
 }
 
 function programarReintento() {

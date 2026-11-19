@@ -8,12 +8,12 @@ namespace Sses.Api.Comun;
 
 public static class Roles
 {
-    public const string Admin = "ADMIN_FUNCIONAL", Gestor = "GESTOR_ESTRATEGIAS", TutorLider = "TUTOR_LIDER", TutorDocente = "TUTOR_DOCENTE";
+    public const string Admin = "ADMIN_FUNCIONAL", Gestor = "GESTOR_ESTRATEGIAS", TutorLider = "TUTOR_LIDER", TutorDocente = "TUTOR_DOCENTE", Analista = "ANALISTA_MEN", EnteControl = "ENTE_CONTROL";
 }
 
 public static class Auth
 {
-    public const string PGestor = "Gestor", PTutorLider = "TutorLider", PTutorDocente = "TutorDocente", PAutenticado = "Autenticado";
+    public const string PGestor = "Gestor", PTutorLider = "TutorLider", PTutorDocente = "TutorDocente", PAnalista = "Analista", PEnteControl = "EnteControl", PAutenticado = "Autenticado";
 
     /// <summary>RQ_003: valida firma, emisor, audiencia y expiración del JWT emitido por Keycloak.</summary>
     public static void AgregarAuth(this WebApplicationBuilder b)
@@ -36,7 +36,9 @@ public static class Auth
             .AddPolicy(PAutenticado, p => p.RequireAuthenticatedUser())
             .AddPolicy(PGestor, p => p.RequireRole(Roles.Gestor))
             .AddPolicy(PTutorLider, p => p.RequireRole(Roles.TutorLider))
-            .AddPolicy(PTutorDocente, p => p.RequireRole(Roles.TutorDocente));
+            .AddPolicy(PTutorDocente, p => p.RequireRole(Roles.TutorDocente))
+            .AddPolicy(PAnalista, p => p.RequireRole(Roles.Analista))
+            .AddPolicy(PEnteControl, p => p.RequireRole(Roles.EnteControl));
         b.Services.AddSingleton<IAuthorizationMiddlewareResultHandler, ResultadoAutorizacion>();
     }
 }

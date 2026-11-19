@@ -23,6 +23,9 @@ Determinista (semilla fija) para que la demo sea reproducible. Parámetro `--est
 | `gestor.demo@sinapsis.co` | GESTOR_ESTRATEGIAS | Laura Gestora — administra 3 entidades del Pacífico | Estrategias y vinculación |
 | `tutor.lider@sinapsis.co` | TUTOR_LIDER | Andrés Tutor Líder — Tumaco, Nariño | Plan mensual y seguimiento offline |
 | `tutor.docente@sinapsis.co` | TUTOR_DOCENTE | Marina Docente — asignada al TL demo | Stretch |
+| `analista.men@sinapsis.co` | ANALISTA_MEN | Carolina Analista | Stretch (tablero; requiere `scripts/seed-analitica.sql`) |
+| `contraloria@sinapsis.co` | ENTE_CONTROL | Camilo Contraloría (org. Contraloría) | Stretch (reporte de ley; 1 plantilla autorizada) |
+| `procuraduria@sinapsis.co` | ENTE_CONTROL | Paula Procuraduría (org. Procuraduría) | Stretch (reporte de ley; 2 plantillas; no ve lo de la Contraloría) |
 | `admin@sinapsis.co` | ADMIN_FUNCIONAL | — | Soporte |
 
 - Contraseña común de demo y **secreto TOTP conocido** (base32) documentado en `.env.example` como `DEMO_TOTP_SECRET`, para cargar en el autenticador del celular de quien presenta. Alternativa: mostrar el código con `oathtool --totp -b $DEMO_TOTP_SECRET` en otra terminal.
