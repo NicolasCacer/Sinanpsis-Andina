@@ -1,12 +1,12 @@
 // E2E del guion de la demo (context/08-semilla-y-demo.md). Debe pasar 3 veces seguidas tras scripts/reset-demo.sh.
 import { test, expect, devices } from '@playwright/test'
 import { execSync } from 'node:child_process'
-import { login, programarPlanDemo, registrarSemana, tokenDe, API, sql, mesActual } from './helpers'
+import { login, programarPlanDemo, registrarSemana, tokenDe, API, sql, mesActual, resetDemo } from './helpers'
 
 const nombre = `Semillero Demo ${Date.now().toString().slice(-5)}`
 
 test.describe.serial('Demo en vivo', () => {
-  test.beforeAll(() => { execSync('./scripts/reset-demo.sh', { cwd: '../..' }) })
+  test.beforeAll(() => { resetDemo() })
 
   test('1-4 · Laura (Gestora): TOTP, estrategia, búsqueda entre 500.000, bloqueo visible y en la BD', async ({ page }) => {
     // 1. acceso con segundo factor, menú por rol y encabezado

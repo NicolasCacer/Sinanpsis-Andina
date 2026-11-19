@@ -5,15 +5,16 @@ import { esErrorDeRed } from '../../offline/red'
 import { queryClient } from '../../app/queryClient'
 import { AreaTexto, Aviso, Boton, Campo, Seleccion } from '../../ui/kit'
 import { reportarIncidente, TIPOS, type Incidente } from './ayuda'
+import { IconoAyuda } from '../../ui/iconos'
 
 /** HU_011: botón 'Ayuda' que aparece en cualquier pantalla del aplicativo (RQ_020). */
 export default function BotonAyuda() {
   const [abierto, setAbierto] = useState(false)
   return (
     <>
-      <button onClick={() => setAbierto(true)} data-testid="boton-ayuda"
-        className="text-sm rounded-full border border-andino-700 text-andino-700 px-3 py-1 font-medium hover:bg-andino-50">
-        Ayuda
+      <button onClick={() => setAbierto(true)} data-testid="boton-ayuda" aria-label="Ayuda" title="¿Algo no funciona? Repórtalo aquí"
+        className="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-sm font-medium text-andino-700 ring-1 ring-inset ring-andino-200 bg-andino-50/60 hover:bg-andino-50 hover:ring-andino-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-andino-600/50">
+        <IconoAyuda width={18} height={18} /><span className="hidden sm:inline">Ayuda</span>
       </button>
       {abierto && <FormularioAyuda cerrar={() => setAbierto(false)} />}
     </>
@@ -44,7 +45,7 @@ function FormularioAyuda({ cerrar }: { cerrar: () => void }) {
     <div className="fixed inset-0 z-30 bg-black/40 flex items-end sm:items-center justify-center p-0 sm:p-4" onClick={cerrar}>
       <div role="dialog" aria-modal="true" aria-labelledby="titulo-ayuda" onClick={(e) => e.stopPropagation()}
         className="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-5 shadow-xl">
-        <h2 id="titulo-ayuda" className="text-lg font-bold text-andino-900">Ayuda</h2>
+        <div className="flex items-center gap-3"><span className="grid place-items-center w-10 h-10 rounded-full bg-andino-50 text-andino-700"><IconoAyuda /></span><div><h2 id="titulo-ayuda" className="text-lg font-bold text-andino-900">Ayuda</h2><p className="text-xs text-slate-500">Mesa de ayuda del pilotaje</p></div></div>
         {caso ? (
           <div className="mt-3 space-y-3">
             <Aviso tono="ok" data-testid="caso-creado">

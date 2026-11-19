@@ -1,5 +1,5 @@
 import { createHmac } from 'node:crypto'
-import { readFileSync, writeFileSync } from 'node:fs'
+import { readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { expect, type Page } from '@playwright/test'
 import { execSync } from 'node:child_process'
 
@@ -90,6 +90,13 @@ export async function adjuntarFotoPesada(page: Page, ancho = 3000, alto = 2000):
     input.files = dt.files; input.dispatchEvent(new Event('change', { bubbles: true }))
     return blob.size
   }, [ancho, alto] as const)
+}
+
+/** Deja la base en el estado del guion. En Windows, Node usa cmd.exe y no ejecuta .sh: se invoca Git Bash. */
+export function resetDemo() {
+  const gitBash = 'C:\Program Files\Git\bin\bash.exe'
+  const cmd = process.platform === 'win32' ? `"${existsSync(gitBash) ? gitBash : 'bash'}" scripts/reset-demo.sh` : './scripts/reset-demo.sh'
+  execSync(cmd, { cwd: '../..', stdio: 'pipe' })
 }
 
 export const sql = (q: string) => execSync(`docker compose exec -T postgres psql -U postgres -d sses -Atc "${q}"`, { cwd: '../..' }).toString().trim()
