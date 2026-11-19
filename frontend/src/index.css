@@ -1,0 +1,9 @@
+@import "tailwindcss";
+@theme {
+  --color-andino-900: #0b3a63;
+  --color-andino-700: #14538a;
+  --color-andino-50: #eef4fa;
+  --color-cumple: #1f9d63;
+  --color-cumple-50: #e6f6ee;
+}
+body { @apply bg-slate-50 text-slate-900 antialiased; }

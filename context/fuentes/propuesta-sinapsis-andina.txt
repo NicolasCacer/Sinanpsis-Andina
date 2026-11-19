@@ -1,0 +1,2782 @@
+          SINAPSIS ANDINA S.A.S.
+              Tecnología que llega a cada rincón del país
+
+
+
+
+   Propuesta para el Piloto del Sistema de
+Seguimiento de Actividades Extracurriculares
+                   (SSES)
+
+
+
+                            Presentado a:
+       Ministerio de Educación Nacional – Oficina de Tecnología
+
+
+                                Autores:
+                       Nicolas Joel Cáceres Parra
+                     Carmen Celeste Durán Báez
+                    Elioth Thomás Gómez Morales
+                    Camilo Andrés Otálora Riveros
+                        Mauricio Suárez Barrera
+
+
+            Asignatura: Gestión de Proyectos de Software
+              Docente: Didier Mauricio Calderón Novoa
+
+
+
+
+                          Chía, Colombia
+                        Noviembre de 2026
+1. RESUMEN
+El Ministerio de Educación Nacional, a través de su Oficina de Tecnología, hace seguimiento a las
+actividades extracurriculares que se desarrollan en el país en el marco del Sistema de Seguimiento de
+Actividades Extracurriculares (SSES). Hoy esa información se gestiona en hojas de cálculo compartidas
+entre funcionarios y equipos territoriales: las estrategias estudiantiles, las entidades que las ejecutan, los
+estudiantes vinculados y los acompañamientos pedagógicos que los tutores líderes realizan a los tutores
+docentes, que son quienes dan la clase, quedan repartidos en archivos con versiones distintas, sin registro
+de quién modificó qué ni cuándo, y sin reglas que impidan, por ejemplo, alterar una estrategia que ya
+tiene estudiantes vinculados.
+
+Esta forma de trabajo limita la trazabilidad, la integridad, el control y la disponibilidad de los datos;
+dificulta consolidar cifras confiables sobre el desempeño de los tutores líderes y el cumplimiento de los
+acompañamientos mensuales y de su seguimiento semanal, y obliga a preparar a mano la información
+que piden los distintos entes de control, como la Contraloría, la Procuraduría o la Fiscalía, y los reportes
+de ley. A ello se suma que muchos tutores trabajan en regiones con conectividad limitada y que el volumen
+de información, con millones de registros entre estudiantes, docentes, tutores y entidades, supera lo que
+una hoja de cálculo puede manejar con seguridad. Antes de invertir en un sistema nacional, la Oficina de
+Tecnología no tiene cómo saber si el SSES es viable: le falta evidencia obtenida con usuarios reales, en las
+condiciones de conectividad y concurrencia del país, para decidir una eventual implementación a gran
+escala, y cuenta para ello con un plazo de cinco meses y un presupuesto oficial de $200.000.000.
+
+2. OBJETIVO GENERAL
+Dotar a la Oficina de Tecnología del Ministerio de Educación Nacional, en cinco meses y dentro del
+presupuesto oficial de $200.000.000, de la evidencia que necesita para decidir si es viable desarrollar el
+SSES a nivel nacional. Para ello, Sinapsis Andina construirá un software piloto que permita gestionar las
+estrategias estudiantiles y el acompañamiento pedagógico de los tutores líderes a los tutores docentes
+sobre la información que el Ministerio ya tiene, y ejecutará el pilotaje con usuarios reales de distintas
+regiones: desplegará el piloto, convocará y conectará a los participantes, les dará soporte en tiempo real,
+recogerá su percepción y entregará los registros, reportes e informe integral con recomendaciones que el
+área pide para tomar la decisión.
+
+3. OBJETIVOS ESPECÍFICOS
+   • Levantar, durante las tres primeras semanas, las necesidades de negocio de la Oficina de Tecnología
+     y traducirlas en historias de usuario, casos de uso y requerimientos priorizados para los actores
+     reales del programa (Tutor Líder, Tutor Docente, Gestor de Estrategias, Analista, entes de control,
+     Coordinador del Pilotaje y Administrador Funcional), de modo que el Comité de Seguimiento
+     apruebe en la semana 3 una línea base con lo indispensable para evaluar la viabilidad: acceso
+     seguro, estrategias estudiantiles, vinculación de estudiantes, acompañamiento pedagógico,
+     reportes de ley y gestión del pilotaje.
+
+
+                                                   Página 2
+   • Construir, en cinco sprints de dos semanas, un software piloto liviano y rápido, en forma de
+     aplicativo web progresivo, con un MVP demostrable al cierre del Sprint 3 (semana 9), que trabaje
+     sobre la información de estudiantes, docentes y entidades que ya reside en la base de datos del
+     Ministerio, que le permita al tutor seguir trabajando sin señal y sincronice solo lo registrado al volver
+     la conexión, y que soporte millones de registros y miles de usuarios conectados al mismo tiempo.
+   • Diseñar y aprovisionar la infraestructura de los ambientes de desarrollo, pruebas y producción,
+     aislados entre sí, con alta disponibilidad, cifrado de los datos personales de estudiantes menores de
+     edad y monitoreo continuo, y certificarla con pruebas integrales, de carga y de seguridad antes del
+     paso a producción en la semana 16.
+   • Ejecutar el pilotaje como un frente propio del contrato, distinto de las pruebas del software: alistar
+     entre las semanas 6 y 13 la muestra de regiones, la convocatoria oficial y los instrumentos; desplegar
+     el piloto y capacitar a los participantes en la semana 16; operar entre las semanas 17 y 20 dieciséis
+     sesiones con tutores líderes y tutores docentes, con control de asistencia, mesa de ayuda y soporte
+     en tiempo real; recoger su percepción, y entregar los entregables 4, 5 y 6 del pliego, cerrando con
+     un informe integral que recomiende si es viable o no llevar el SSES a escala nacional y en qué
+     condiciones.
+
+4. CONTEXTO GENERAL
+Nuestro cliente es la Oficina de Tecnología del Ministerio de Educación Nacional, y su problema no es
+técnico: necesita decidir con evidencia si vale la pena desarrollar el SSES a nivel nacional. Sinapsis Andina
+aborda esa decisión desde los dos frentes que pide el pliego. El primero es el software piloto: un aplicativo
+que reemplaza las hojas de cálculo y en el que los gestores crean estrategias asociadas a entidades y
+vinculan estudiantes, los tutores líderes programan y registran el acompañamiento pedagógico a los
+tutores docentes, los tutores docentes confirman el acompañamiento recibido, los analistas miden el
+desempeño de los tutores líderes y cada ente de control genera por sí mismo los reportes que le
+corresponden. El segundo es la ejecución del pilotaje: desplegar ese piloto, lograr que los participantes de
+distintas regiones se conecten en sesiones programadas, darles soporte mientras lo usan, preguntarles
+cómo les fue y convertir todo ello en los registros, reportes e informes que el área necesita para decidir.
+
+La propuesta responde a las condiciones del país que el pliego valora de forma especial: tutores en
+regiones con conectividad limitada, alta concurrencia durante las sesiones y volúmenes de millones de
+registros. Por eso el aplicativo permite trabajar sin conexión y se pone al día cuando la señal regresa, la
+información de los estudiantes, en su mayoría menores de edad, se protege conforme a la Ley 1581 de
+2012, y el proyecto se gobierna con una metodología híbrida: control contractual formal para el Ministerio
+y entregas funcionales cada dos semanas, con un MVP que el Ministerio puede ver y usar desde el segundo
+mes de ejecución.
+
+5. ALCANCE
+El alcance tiene dos frentes. El primero es el análisis, el diseño, la construcción, las pruebas y el despliegue
+de un software piloto en forma de aplicativo web progresivo, con nueve módulos: seguridad y acceso por
+
+
+                                                    Página 3
+rol, con segundo factor de autenticación y federación con el directorio institucional del Ministerio;
+habilitación de participantes del piloto y de los entes de control, cada uno como organización con sus
+propios usuarios y reportes autorizados; gestión de estrategias estudiantiles asociadas a entidades
+previamente definidas, con la regla de que solo son editables mientras no tengan estudiantes vinculados;
+vinculación individual y masiva de estudiantes existentes; acompañamiento pedagógico del Tutor Líder al
+Tutor Docente, individual y grupal, con programación mensual, seguimiento semanal, confirmación del
+docente y trabajo sin conexión con sincronización automática al volver la señal; analítica del desempeño
+de los tutores líderes; reportes de ley para varios entes de control (por ejemplo, Contraloría, Procuraduría
+y Fiscalía); gestión del pilotaje (sesiones, asistencia, mesa de ayuda e incidentes) e instrumentos de
+percepción. El segundo frente es la ejecución del pilotaje, que no es parte de QA: alistamiento (muestra
+de seis regiones, plan operativo, convocatoria oficial e instrumentos), despliegue y capacitación,
+operación de dieciséis sesiones con soporte técnico y acompañamiento en tiempo real, recolección de la
+percepción con el instrumento y grupos focales, análisis y entrega de los entregables 4 (registro de
+sesiones, información consolidada, reportes de desempeño técnico y funcional y reportes de ley), 5
+(resultados de la percepción) y 6 (informe integral con recomendaciones). Incluye también la
+infraestructura en la nube de los tres ambientes durante el contrato. Quedan por fuera el origen y la carga
+de la información de estudiantes, docentes, tutores y entidades, que ya reside en la base de datos del
+Ministerio y el piloto usa tal como está; su creación o edición; la integración en línea con otros sistemas
+misionales; las aplicaciones móviles nativas, porque el aplicativo progresivo funciona desde el navegador
+del celular, y la operación posterior al plazo de cinco meses. Supuestos declarados: el Ministerio designa
+un Product Owner con cuatro horas semanales, da acceso de lectura a su base de datos desde la semana
+2, define los formatos de los reportes de ley y los entes de control habilitados antes de la semana 9 y
+expide la convocatoria oficial de los participantes; la solución se dimensiona para hasta 10 millones de
+estudiantes, 500.000 tutores docentes, 20.000 tutores líderes, 15.000 entidades y 2.000 usuarios
+concurrentes durante las sesiones.
+
+6. PREGUNTAS DE CONCEPTOS
+Pregunta 1. ¿Qué se necesita tener para definir la Línea Base en un proyecto de Fábrica de Software?
+Para definir la Línea Base no basta con tener una idea general de lo que se quiere hacer, se necesita
+claridad total sobre qué se va a construir, cuándo y con qué recursos. En una Fábrica de Software, para
+fijar este punto de control se necesitan cuatro insumos fundamentales:
+    •   Necesidades de negocio aprobadas: las necesidades del cliente identificadas y validadas con él
+        (por ejemplo, con su Product Owner), porque la línea base existe para resolver directamente esas
+        necesidades.
+    •   Análisis y diseño completos y trazables: historias de usuario asociadas a las necesidades, casos de
+        uso asociados a las historias y requerimientos asociados a los casos de uso, cada requerimiento
+
+
+
+
+                                                  Página 4
+        con su prioridad Alta, Media o Baja. Sin requerimientos priorizados no se sabe cuáles actividades
+        del cronograma son indispensables.
+    •   Cronograma en Gantt con dependencias y recursos: actividades, duraciones, responsables y
+        dependencias, para identificar la ruta crítica, es decir, la secuencia de actividades que no tiene
+        holgura.
+    •   Aprobación formal del cliente: el acta del comité de seguimiento en la que el cliente acepta esa
+        línea base como referencia contractual de control, sin aprobación no sirve para medir el avance
+        ni para tramitar cambios
+Pregunta 2. En un proyecto de Fábrica de Software, ¿quién, cuándo y para qué se define la Línea Base?
+    •   Quién: la define el Gerente de Proyecto del contratista con el Arquitecto de Soluciones y el
+        Analista Funcional, que conocen los requerimientos y su esfuerzo, y la aprueba formalmente el
+        cliente a través de su Product Owner o de su comité de seguimiento.
+    •   Cuándo: al cerrar el análisis, el diseño y la planeación, antes de iniciar la construcción. Si se define
+        antes de tener los requerimientos detallados y priorizados, no hay forma de saber qué actividades
+        son indispensables; si se define después de empezar a programar, ya no sirve como punto de
+        partida para medir el avance.
+    •   Para qué: para fijar el punto de referencia contra el que se mide cada semana el avance real, para
+        ordenar el trabajo (primero lo que está en la ruta crítica) y para evaluar el impacto en costo y
+        tiempo de toda solicitud de cambio: si un cambio toca un requerimiento de la línea base, se
+        tramita formalmente ante el comité con recotización y ajuste de cronograma; si no la toca, en un
+        enfoque ágil o híbrido puede intercambiarse en el backlog por una funcionalidad de esfuerzo
+        equivalente sin mover la fecha final.
+Pregunta 3. En un proyecto de Fábrica de Software, ¿qué es la Línea Base?
+La línea base es el conjunto de requerimientos y actividades prioritarias que resuelven directamente las
+necesidades de negocio del cliente. La integran los requerimientos de prioridad Alta, funcionales o no
+funcionales, cuya construcción y certificación forman la ruta crítica del cronograma; por eso no admiten
+holgura: si cualquiera de ellos se retrasa, se retrasa la entrega final del proyecto. Los requerimientos de
+prioridad Media o Baja quedan por fuera, porque tienen holgura y pueden moverse sin afectar la fecha
+final.
+La línea base se gestiona en la Gerencia del proyecto, sobre el Gantt, controlando cada semana su avance
+frente a lo planeado en el comité de seguimiento, y aplica en cada fase, sprint o actividad donde se
+construyen y certifican esos requerimientos; no se gestiona en el código fuente. Como complemento, el
+PMBOK la describe como la versión aprobada del alcance, el cronograma y el costo que se usa como
+
+
+
+
+                                                   Página 5
+referencia de control; en una Fábrica de Software esa referencia se concreta en los requerimientos y
+actividades prioritarias que componen la ruta crítica.
+Pregunta 4. En UML, ¿cuáles son las diferencias entre diagrama de clases y diagrama de despliegue?
+El diagrama de clases muestra la arquitectura lógica del software: es uno solo para todo el sistema, cada
+caja contiene únicamente el nombre de un módulo funcional (por ejemplo, Seguridad, Facturación o
+Inventario) y cada flecha indica qué datos envía un módulo y qué recibe de vuelta. Se construye desde las
+historias de usuario y los requerimientos y responde a la pregunta de qué componentes tiene el software
+y cómo se comunican; en la asignatura no lleva atributos, métodos, herencia ni cardinalidad, porque eso
+ya es diseño de código.
+El diagrama de despliegue muestra la arquitectura física y lógica de la infraestructura que soporta ese
+software: nodos (servidores, máquinas virtuales, contenedores, servicios de nube) rotulados como on-
+premise, cloud o híbridos, los componentes que se alojan en cada nodo con su versión exacta, los
+dispositivos de red y seguridad (WAF, firewall, VPN, balanceadores) y los protocolos de cada conexión
+(HTTPS con TLS, JDBC, SFTP, AMQP). Se construye desde los requerimientos, sobre todo los no funcionales,
+y siempre son tres diagramas independientes, uno por ambiente (Desarrollo, Pruebas y Producción),
+porque cada ambiente tiene distinto dimensionamiento y costo y, por seguridad, no comparten redes,
+claves ni bases de datos. En síntesis: el de clases dice qué hace el software por dentro y cómo se
+comunican sus módulos; el de despliegue dice dónde corre, con qué protección y cuánto cuesta esa
+infraestructura.
+Pregunta 5. ¿Qué es UML y para qué sirve?
+UML (Unified Modeling Language) es un lenguaje gráfico estándar, mantenido por el Object Management
+Group, para especificar, visualizar, construir y documentar los artefactos de un sistema de software. Sirve
+como notación común para que el cliente, el analista, el arquitecto, el desarrollador y el equipo de QA
+entiendan el mismo diseño sin ambigüedades: los casos de uso describen la interacción del actor con el
+sistema, los diagramas de secuencia muestran esa interacción a lo largo del tiempo, el diagrama de clases
+muestra los módulos y los datos que intercambian, y los diagramas de despliegue muestran la
+infraestructura que soporta el software.
+UML aplica a sistemas transaccionales, que automatizan procedimientos operativos paso a paso: por
+ejemplo, un torniquete de acceso valida el saldo, autoriza el giro e inserta el registro, una secuencia de
+pasos que los casos de uso y los diagramas pueden describir. No aplica a proyectos de datos, analítica o
+inteligencia artificial, que giran en torno a la existencia y la calidad de los datos digitales y no a
+procedimientos, por lo que forzar UML en ellos es un error de concepto.
+
+7. NECESIDADES
+
+Línea A. Software piloto para evaluar la viabilidad del SSES
+ 1. La Oficina de Tecnología necesita contar con un software piloto que le permita evaluar si es viable
+    reemplazar las hojas de cálculo compartidas por un sistema nacional para la gestión de las estrategias
+    estudiantiles. Debe poder comprobar, sobre la información de estudiantes, docentes y entidades que
+
+
+                                                 Página 6
+    el Ministerio ya tiene, que las estrategias asociadas a entidades y la participación de los estudiantes
+    se administran con las reglas del programa, en particular que una estrategia no cambie de
+    condiciones una vez tiene estudiantes, y que así se gana el control y la trazabilidad que hoy no
+    existen.
+2. La Oficina de Tecnología necesita evaluar si el modelo de acompañamiento pedagógico funciona en
+   un sistema único: que el Tutor Líder pueda planear y dar cuenta del acompañamiento que hace a
+   cada Tutor Docente, de forma individual o grupal, con una programación mensual y un seguimiento
+   semanal, y que el Tutor Docente pueda constatar el acompañamiento que recibió. Esa evaluación
+   debe hacerse en las condiciones reales de las regiones, donde la conectividad es limitada, sin que el
+   trabajo de campo se pierda ni se duplique.
+3. La Oficina de Tecnología necesita comprobar que un sistema como el SSES le daría al Ministerio
+   capacidad real de seguimiento y de rendición de cuentas: medir el desempeño de los tutores líderes
+   y las actividades realizadas, y atender a los distintos entes de control que la vigilan, como la
+   Contraloría, la Procuraduría o la Fiscalía, cada uno con su propio acceso a los reportes que le
+   corresponden y a los reportes de ley, sin que un funcionario los prepare a mano y con la garantía de
+   que no se alteran después de emitidos.
+4. La Oficina de Tecnología necesita saber, antes de invertir en la escala nacional, si la solución es viable
+   para el país: que cada participante pueda entrar desde cualquier región y vea solo lo que su función
+   le permite, que la información de los estudiantes, en su mayoría menores de edad, esté protegida
+   como exige la ley, y que el sistema siga respondiendo con millones de registros y con muchos usuarios
+   trabajando al mismo tiempo.
+
+Línea B. Ejecución del pilotaje
+5. La Oficina de Tecnología necesita que el pilotaje se ejecute en condiciones reales de uso: que el piloto
+   quede desplegado y disponible, que los tutores líderes y tutores docentes convocados en distintas
+   regiones se conecten y lo usen en sesiones programadas, con convocatoria oportuna y control de su
+   asistencia, de modo que lo observado refleje el uso real del sistema y no las fallas de la organización
+   del ejercicio.
+6. La Oficina de Tecnología necesita que los participantes cuenten con soporte durante todo el pilotaje,
+   con atención inmediata de los inconvenientes que surjan mientras usan el sistema, para que un
+   problema no invalide una sesión y para que cada inconveniente quede registrado como un hallazgo
+   útil para la decisión.
+7. La Oficina de Tecnología necesita saber cómo les fue a los usuarios: conocer la apreciación de los
+   tutores líderes y de los tutores docentes sobre la funcionalidad del sistema, su facilidad de uso y su
+   comportamiento en su región, recogida de manera ordenada y comparable entre regiones.
+8. La Oficina de Tecnología necesita recibir la información que pide el pliego para decidir: el registro de
+   las sesiones realizadas, la información consolidada del uso del sistema, los reportes de su desempeño
+   técnico y funcional, los reportes de ley, los resultados de la percepción de los usuarios y un informe
+
+
+
+
+                                                  Página 7
+     integral que sintetice los hallazgos y recomiende si es viable o no implementar el SSES a mayor escala
+     y en qué condiciones.
+
+8. HISTORIAS DE USUARIO
+
+Línea A. Software piloto para evaluar la viabilidad del SSES
+ID: HU_001
+Nombre: Habilitar a los participantes del piloto y a los entes de control
+Actor: Administrador Funcional del MEN
+Relación: Necesidad 4, Necesidad 5
+Descripción: Yo como Administrador Funcional del MEN, quiero ingresar al aplicativo con mi usuario
+institucional, ir al menú lateral 'Administración', seleccionar 'Participantes del piloto', buscar por región o
+por documento a las personas que ya están en la información oficial del Ministerio, marcar a cada una,
+elegir en la lista 'Rol' su función (Tutor Líder, Tutor Docente, Gestor de Estrategias, Analista o Coordinador
+del Pilotaje) y pulsar 'Habilitar', para que el aplicativo les envíe la invitación de ingreso y me muestre a
+cada participante en estado 'Invitado' y luego 'Habilitado'. Para los entes de control abro la opción 'Entes
+de control', pulso 'Nueva entidad', registro la entidad (por ejemplo, Contraloría General de la República,
+Procuraduría General de la Nación o Fiscalía General de la Nación), creo los usuarios de sus funcionarios
+con la vigencia del acceso y marco los reportes que esa entidad puede generar, de modo que cada ente
+consulte solo lo suyo. Así el Ministerio decide quién participa en el pilotaje y con qué permisos, sin volver
+a cargar ni digitar información que ya tiene.
+
+ID: HU_002
+Nombre: Ingresar al aplicativo según el rol
+Actor: Tutor Líder (el mismo recorrido aplica a Tutor Docente, Gestor de Estrategias, Analista del MEN,
+entes de control y Coordinador del Pilotaje)
+Relación: Necesidad 4
+Descripción: Yo como Tutor Líder, quiero abrir el portal del SSES desde el navegador de mi computador o
+de mi celular, pulsar el botón 'Ingresar', escribir mi correo y mi contraseña y luego el código de seis dígitos
+que me muestra la aplicación de autenticación de mi celular, para que el aplicativo me lleve a la pantalla
+de inicio con solo las opciones de mi rol: 'Acompañamientos', 'Pilotaje' y 'Ayuda'. Si soy funcionario del
+Ministerio, al escribir mi correo institucional el portal me envía a la pantalla de ingreso del Ministerio y
+regreso ya autenticado. En la parte superior veo mi nombre, mi rol y la hora de mi último ingreso, y sé
+
+
+
+
+                                                   Página 8
+que cada consulta o cambio que haga queda registrado a mi nombre, lo que me da tranquilidad sobre el
+manejo de los datos de los estudiantes.
+
+ID: HU_003
+Nombre: Crear y ajustar una estrategia estudiantil
+Actor: Gestor de Estrategias
+Relación: Necesidad 1
+Descripción: Yo como Gestor de Estrategias, quiero ingresar al aplicativo, ir al menú 'Estrategias' y pulsar
+'Nueva estrategia', elegir en la lista la entidad que la ejecuta, diligenciar el nombre, el objetivo, la
+población a la que va dirigida y las fechas de vigencia, y pulsar 'Guardar', para que el aplicativo me muestre
+la ficha de la estrategia en estado 'Editable'. Mientras la estrategia no tenga estudiantes vinculados, puedo
+volver a abrirla desde el listado, pulsar 'Editar', ajustar sus datos y guardar los cambios; cuando ya tiene
+estudiantes, la ficha me muestra el aviso 'Bloqueada para edición' y los campos aparecen deshabilitados,
+de modo que nadie altera las condiciones de una estrategia en ejecución.
+
+ID: HU_004
+Nombre: Asociar estudiantes a una estrategia
+Actor: Gestor de Estrategias
+Relación: Necesidad 1
+Descripción: Yo como Gestor de Estrategias, quiero abrir una estrategia desde el menú 'Estrategias', pulsar
+el botón 'Asociar estudiantes', escribir el tipo y el número de documento del estudiante en el buscador y
+pulsar 'Buscar', para ver sus datos y su sede educativa tal como están en la información oficial, marcarlo
+y pulsar 'Vincular'. Cuando debo asociar a muchos estudiantes a la vez, uso la opción 'Cargar listado' para
+adjuntar el listado de documentos y el aplicativo me avisa por correo y en pantalla cuántos quedaron
+vinculados, cuáles no existen y cuáles ya estaban vinculados. Al final veo en la pestaña 'Estudiantes
+vinculados' la lista completa de la estrategia, sin duplicados.
+
+ID: HU_005
+Nombre: Programar los acompañamientos del mes
+Actor: Tutor Líder
+Relación: Necesidad 2
+Descripción: Yo como Tutor Líder, quiero ingresar al aplicativo, ir al menú 'Acompañamientos',
+seleccionar 'Plan mensual' y elegir el mes, para ver los tutores docentes que acompaño en cada estrategia;
+luego, elegir si el acompañamiento es individual o grupal, marcar los tutores docentes, escribir los temas
+que trabajaré y las semanas del mes en que haré cada encuentro, y pulsar 'Programar', para que el
+
+
+
+
+                                                   Página 9
+aplicativo me muestre el calendario del mes con las semanas programadas y el porcentaje de avance en
+cero. Así tengo claro mi plan de trabajo y el Ministerio sabe qué acompañamientos se comprometieron.
+
+ID: HU_006
+Nombre: Registrar el seguimiento semanal, con o sin señal
+Actor: Tutor Líder
+Relación: Necesidad 2
+Descripción: Yo como Tutor Líder, quiero abrir mi 'Plan mensual', seleccionar la semana que acabo de
+realizar y pulsar 'Registrar seguimiento', marcar qué docentes asistieron, describir las actividades y los
+avances, adjuntar las fotos de evidencia y pulsar 'Guardar', para que la semana aparezca en verde como
+'Registrada' y suba el porcentaje de cumplimiento del mes. Cuando estoy en una vereda sin señal, quiero
+hacer exactamente lo mismo: el aplicativo me muestra el aviso 'Sin conexión: tus registros se guardarán
+en este dispositivo' y, cuando vuelvo a tener señal, envía lo que registré y me muestra 'Sincronizado', sin
+que tenga que digitar nada otra vez.
+
+ID: HU_007
+Nombre: Consultar el desempeño de los tutores
+Actor: Analista del MEN
+Relación: Necesidad 3
+Descripción: Yo como Analista del MEN, quiero ingresar al aplicativo, ir al menú 'Analítica' y seleccionar
+'Desempeño de tutores', elegir en los filtros la región, la entidad, la estrategia y el mes, y pulsar 'Aplicar',
+para ver en un tablero el cumplimiento de la programación mensual, la regularidad del seguimiento
+semanal y los docentes atendidos por cada tutor, con gráficos por región y una clasificación de tutores. Al
+hacer clic sobre un tutor veo el detalle semana a semana y, con el botón 'Exportar', descargo la tabla para
+mis informes de gestión.
+
+ID: HU_008
+Nombre: Generar reportes de ley
+Actor: Ente de Control (Contraloría, Procuraduría, Fiscalía u otro ente habilitado por el Ministerio)
+Relación: Necesidad 3
+Descripción: Yo como funcionario de un Ente de Control, quiero ingresar al aplicativo con el usuario que
+el Ministerio habilitó para mi entidad, ir al menú 'Reportes de Ley', elegir en la lista solo entre los reportes
+autorizados para mi entidad, seleccionar la vigencia o el periodo y pulsar 'Generar', para ver una vista
+previa del reporte y descargarlo con el botón 'Descargar' en el formato oficial. Cada reporte trae un código
+de verificación con el que puedo comprobar después que su contenido no cambió, y en 'Mis reportes' veo
+
+
+
+
+                                                   Página 10
+únicamente los reportes emitidos por mi entidad, no los de otros entes de control; cuando el reporte es
+muy grande, el aplicativo me avisa que lo está preparando y me notifica cuando está listo para descargar.
+
+ID: HU_009
+Nombre: Consultar y confirmar el acompañamiento recibido
+Actor: Tutor Docente
+Relación: Necesidad 2
+Descripción: Yo como Tutor Docente, quiero ingresar al aplicativo desde mi celular o mi computador, ir
+al menú 'Mi acompañamiento' y seleccionar el mes, para ver el plan que mi Tutor Líder programó conmigo:
+los temas, la modalidad individual o grupal y las semanas de cada encuentro. Cuando abro una semana
+que el Tutor Líder ya registró, veo las actividades, los avances y las evidencias; marco la casilla 'Confirmar
+acompañamiento' si el encuentro se realizó como quedó registrado, o escribo una observación si no fue
+así, y pulso 'Enviar', para que la semana aparezca como 'Confirmada por el docente' u 'Observada'. Si estoy
+en la sede educativa sin señal, hago exactamente lo mismo: el aplicativo me muestra el aviso 'Sin conexión'
+y envía mi confirmación cuando vuelve la señal. Así el Ministerio cuenta también con la versión de quien
+recibe el acompañamiento, y no solo con la de quien lo da.
+
+Línea B. Ejecución del pilotaje
+ID: HU_010
+Nombre: Programar sesiones del pilotaje y controlar la asistencia
+Actor: Coordinador del Pilotaje
+Relación: Necesidad 5
+Descripción: Yo como Coordinador del Pilotaje, quiero ir al menú 'Pilotaje', seleccionar 'Sesiones' y pulsar
+'Nueva sesión', definir la fecha, la hora, la región y el objetivo de la sesión, marcar los tutores convocados
+y pulsar 'Programar', para que el aplicativo envíe las convocatorias por correo y me muestre cuántas
+fueron entregadas. El día de la sesión abro la opción 'Asistencia', veo la lista de convocados con la marca
+de quienes ya están conectados, confirmo a los presentes y pulso 'Cerrar asistencia', para obtener el
+porcentaje de asistencia que alimenta el registro de sesiones que entregamos al Ministerio.
+
+ID: HU_011
+Nombre: Reportar un inconveniente durante la sesión
+Actor: Tutor Líder (aplica igual al Tutor Docente)
+Relación: Necesidad 6
+Descripción: Yo como Tutor Líder, quiero pulsar el botón 'Ayuda' que aparece en cualquier pantalla del
+aplicativo cuando algo no funciona, elegir el tipo de inconveniente, describir lo que pasó y pulsar 'Enviar',
+
+
+
+
+                                                  Página 11
+para recibir en pantalla un número de caso y ver en 'Mis casos' cuándo el equipo de soporte lo atiende y
+lo resuelve, sin tener que explicar en qué pantalla estaba, porque el aplicativo lo informa por mí.
+
+ID: HU_012
+Nombre: Responder el instrumento de percepción
+Actor: Tutor Líder (aplica igual al Tutor Docente)
+Relación: Necesidad 7
+Descripción: Yo como Tutor Líder, quiero abrir la notificación que me llega al terminar la sesión o ir al
+menú 'Pilotaje' y seleccionar 'Mis encuestas', abrir el instrumento vigente, responder las preguntas sobre
+la facilidad de uso, la utilidad de cada funcionalidad y el comportamiento del aplicativo en mi región, y
+pulsar 'Enviar', para recibir una constancia de participación y saber que mi opinión cuenta en la decisión
+del Ministerio.
+
+ID: HU_013
+Nombre: Consolidar los resultados del pilotaje
+Actor: Coordinador del Pilotaje
+Relación: Necesidad 8
+Descripción: Yo como Coordinador del Pilotaje, quiero ir al menú 'Pilotaje', seleccionar 'Consolidar
+resultados', elegir el periodo del pilotaje y pulsar 'Generar informe', para ver en una sola pantalla la
+asistencia por sesión y región, los resultados del instrumento de percepción, los incidentes atendidos y
+los indicadores de desempeño técnico y funcional, y descargar con el botón 'Descargar' el informe y sus
+anexos que entregamos al Ministerio como evidencia para su decisión.
+
+9. CASOS DE USO
+
+Línea A. Software piloto para evaluar la viabilidad del SSES
+ID: CU_001
+Nombre: Habilitar participantes del piloto y entes de control
+Actor: Administrador Funcional del MEN
+Relación: HU_001
+Entradas: Sesión activa con rol ADMIN_FUNCIONAL; personas existentes en la base de datos del
+Ministerio (tutores líderes, tutores docentes, gestores y analistas); rol y vigencia del acceso; para cada
+ente de control, nombre de la entidad, funcionarios y reportes autorizados.
+Salidas: Cuentas habilitadas con rol y organización; invitaciones de ingreso encoladas; entes de control
+registrados como organizaciones con sus reportes autorizados; listado de participantes con su estado;
+evento en la bitácora.
+Descripción: El Administrador Funcional del MEN decide quién participa en el piloto y con qué permisos,
+a partir de la información de personas que ya reside en la base de datos del Ministerio; el caso no carga
+ni crea esa información, solo la habilita. Inicia cuando el administrador entra al menú 'Administración' y
+selecciona 'Participantes del piloto'. Como precondición, debe tener sesión activa con su rol y las personas
+
+
+
+                                                 Página 12
+deben existir en la información oficial; en el caso del Tutor Docente, debe estar asociado a un Tutor Líder
+y a una estrategia vigente.
+
+El sistema consulta la información oficial con filtros de región, entidad y rol. El administrador marca a las
+personas, elige su rol y la vigencia del acceso y pulsa 'Habilitar'; el sistema verifica que no tengan ya una
+cuenta activa con ese rol, crea las cuentas en el proveedor de identidad con el rol y la organización, registra
+el evento en la bitácora y encola la invitación de ingreso. Para los entes de control, el administrador
+registra cada entidad como una organización (por ejemplo, Contraloría, Procuraduría o Fiscalía), crea los
+usuarios de sus funcionarios y marca los reportes de ley que esa entidad puede generar; desde entonces,
+cada usuario de ese ente solo ve los reportes autorizados y las emisiones de su propia organización.
+
+Al final el administrador ve el listado de participantes con su rol, su organización y su estado. Este caso de
+uso no tiene un camino de desarrollo alterno: la habilitación se hace con una sola lógica sobre información
+que ya existe.
+
+Flujo Principal
+ #      Actor                                                   Sistema
+ 1      Ingresa al menú 'Administración' y selecciona           Consulta la información oficial existente y muestra el
+        'Participantes del piloto'.                             buscador con filtros de región, entidad y rol.
+ 2      Busca a las personas, las marca y elige su rol y la     Verifica que existan en la información oficial, que no
+        vigencia del acceso.                                    tengan ya una cuenta activa con ese rol y, para el Tutor
+                                                                Docente, que esté asociado a un Tutor Líder.
+ 3      Pulsa 'Habilitar'.                                      Crea las cuentas en el proveedor de identidad con rol y
+                                                                organización, registra el evento en la bitácora y encola
+                                                                las invitaciones de ingreso.
+ 4      Abre 'Entes de control', pulsa 'Nueva entidad' y        Registra la organización de control, crea las cuentas con
+        registra la entidad, sus funcionarios y los reportes    rol ENTE_CONTROL ligadas a ella y asocia las plantillas
+        autorizados.                                            de reporte que puede generar.
+ 5      Visualiza el listado de participantes.                  Muestra cada participante con su rol, su organización y
+                                                                su estado ('Invitado' o 'Habilitado') y el total por región.
+
+
+Flujo Alterno
+ #      Actor                                                   Sistema
+
+
+
+
+                                                         Página 13
+ID: CU_002
+Nombre: Autenticar al usuario y autorizar por rol
+Actor: Tutor Líder, Tutor Docente, Gestor de Estrategias, Analista del MEN, entes de control, Coordinador
+del Pilotaje y Administrador Funcional; directorio institucional del MEN como sistema externo en el flujo
+alterno
+Relación: HU_002
+Entradas: Correo y contraseña registrados; código TOTP de seis dígitos de la aplicación de autenticación
+del usuario; para funcionarios del Ministerio, credenciales institucionales vigentes en el directorio del
+MEN.
+Salidas: Sesión autenticada con token de acceso y rol; menú habilitado según el rol; evento de inicio de
+sesión (exitoso o fallido) en la bitácora; bloqueo temporal de la cuenta tras intentos fallidos consecutivos.
+Descripción: Este caso de uso permite que cualquier usuario del SSES ingrese desde cualquier región y
+acceda solo a las funciones de su rol. Inicia cuando el usuario abre el portal y pulsa 'Ingresar'. Como
+precondición, la cuenta debe existir y estar activa con un rol asignado por el Administrador Funcional y,
+en el caso de cuentas locales, el usuario debe haber enrolado su aplicación de autenticación en el primer
+ingreso.
+
+El portal redirige al proveedor de identidad, que pide el correo. Para cuentas locales (tutores líderes,
+tutores docentes, gestores externos, funcionarios de los entes de control y coordinadores), solicita la
+contraseña, la verifica contra su resumen protegido, pide el código TOTP y, si ambos son correctos, emite
+los tokens con el rol del usuario; el portal construye el menú con las opciones de ese rol y cada servicio
+vuelve a validar el rol en cada petición. Cada intento queda en la bitácora con la dirección de origen y la
+hora, y cinco intentos fallidos consecutivos bloquean la cuenta por quince minutos.
+
+Al final el usuario ve la pantalla de inicio de su rol con su nombre y su último ingreso. Existe un camino de
+desarrollo alterno: cuando el correo pertenece al dominio institucional del Ministerio, el proveedor de
+identidad no autentica localmente, sino que federa la autenticación con el directorio institucional del MEN
+mediante OpenID Connect, recibe la identidad ya verificada y le asigna el rol según el grupo institucional.
+Ese camino se bifurca en el paso 2 y termina en el mismo paso 4, con la sesión emitida.
+
+Flujo Principal
+#      Actor                                                Sistema
+1      Abre el portal del SSES y pulsa 'Ingresar'.          Redirige al proveedor de identidad con un flujo de
+                                                            código de autorización con PKCE y muestra la pantalla
+                                                            de ingreso.
+2      Escribe su correo y su contraseña y pulsa            Identifica la cuenta local, verifica la contraseña contra
+       'Continuar'.                                         su resumen protegido y solicita el segundo factor.
+3      Digita el código TOTP de seis dígitos.               Valida el código, registra el evento de inicio de sesión
+                                                            en la bitácora y emite los tokens con el rol del usuario.
+4      Visualiza la pantalla de inicio.                     Construye el menú según el rol y muestra el nombre, el
+                                                            rol y la fecha del último ingreso.
+
+
+
+
+                                                     Página 14
+Flujo Alterno
+ #      Actor                                                  Sistema
+ 2      Escribe su correo con el dominio institucional del     Detecta el dominio y redirige la autenticación al
+        Ministerio.                                            directorio institucional del MEN mediante federación
+                                                               OpenID Connect.
+ 3      El directorio institucional del MEN autentica al       Valida la firma y las reclamaciones del token federado,
+        funcionario con sus credenciales y políticas propias y enlaza o crea la cuenta federada, asigna el rol según el
+        devuelve la respuesta firmada.                         grupo institucional y registra el evento en la bitácora.
+ 4      Visualiza la pantalla de inicio.                       Emite los tokens del SSES con el rol asignado y
+                                                               construye el menú correspondiente.
+
+
+ID: CU_003
+Nombre: Crear estrategia estudiantil
+Actor: Gestor de Estrategias
+Relación: HU_003
+Entradas: Sesión activa con rol GESTOR_ESTRATEGIAS; entidad ejecutora existente y activa en la
+información oficial; nombre, objetivo, población objetivo y fechas de vigencia.
+Salidas: Estrategia registrada con identificador y estado 'Editable'; evento en la bitácora; estrategia visible
+en el listado del gestor y disponible para vinculación de estudiantes.
+Descripción: El Gestor de Estrategias crea una nueva estrategia estudiantil asociada a una de las entidades
+previamente definidas en la información oficial. El caso inicia cuando el gestor entra al menú 'Estrategias'
+y pulsa 'Nueva estrategia'. Como precondición, el gestor debe tener sesión activa con su rol y la entidad
+ejecutora debe estar cargada y activa.
+
+El sistema consulta las entidades habilitadas para el gestor y las presenta en una lista. El gestor diligencia
+el nombre, el objetivo, la población objetivo y las fechas de inicio y fin; el sistema verifica que la fecha de
+fin sea posterior a la de inicio y esté dentro de la vigencia del programa, que no exista otra estrategia con
+el mismo nombre en la misma entidad y que la entidad siga activa. Al confirmar, registra la estrategia con
+estado 'Editable', guarda el evento en la bitácora con el usuario y la hora, y la deja disponible para la
+vinculación de estudiantes.
+
+Al final el gestor ve la ficha de la estrategia creada con su estado y el contador de estudiantes vinculados
+en cero. Este caso de uso no tiene un camino de desarrollo alterno: la estrategia solo se crea por el portal
+y con una misma lógica.
+
+Flujo Principal
+ #      Actor                                                  Sistema
+ 1      Ingresa al menú 'Estrategias' y pulsa 'Nueva           Consulta las entidades habilitadas para el gestor y
+        estrategia'.                                           muestra el formulario de la estrategia.
+ 2      Selecciona la entidad y diligencia nombre, objetivo,   Verifica coherencia de fechas, unicidad del nombre en
+        población objetivo y fechas de vigencia.               la entidad y estado activo de la entidad.
+
+
+
+
+                                                        Página 15
+#       Actor                                                    Sistema
+3       Pulsa 'Guardar'.                                         Registra la estrategia en estado 'Editable' y el evento en
+                                                                 la bitácora.
+4       Visualiza la ficha de la estrategia.                     Muestra la ficha con su estado, su entidad y el contador
+                                                                 de estudiantes vinculados en cero.
+
+
+Flujo Alterno
+#       Actor                                                    Sistema
+
+
+
+
+ID: CU_004
+Nombre: Editar estrategia sin estudiantes vinculados
+Actor: Gestor de Estrategias
+Relación: HU_003, CU_003
+Entradas: Sesión activa con rol GESTOR_ESTRATEGIAS; estrategia existente en estado 'Editable'; datos
+modificados; versión vigente de la estrategia.
+Salidas: Estrategia actualizada con nueva versión; evento en la bitácora con valores anteriores y nuevos;
+o bien, rechazo de la edición con la estrategia marcada 'Bloqueada para edición' cuando ya tiene
+estudiantes vinculados.
+Descripción: Este caso de uso aplica la regla central del pliego: una estrategia solo puede editarse mientras
+no tenga estudiantes vinculados. Inicia cuando el gestor abre una estrategia desde el listado del menú
+'Estrategias' y pulsa 'Editar'. Como precondición, la estrategia debe existir y pertenecer a una entidad que
+el gestor administra.
+
+Antes de habilitar el formulario, el sistema cuenta los estudiantes vinculados a la estrategia. Si el contador
+es cero, presenta los datos con su versión vigente; el gestor los ajusta y pulsa 'Guardar cambios'. Al
+guardar, el sistema vuelve a verificar dentro de la misma transacción que no se haya vinculado ningún
+estudiante entre la apertura y el guardado (otro gestor pudo hacerlo) y que la versión no haya cambiado;
+si todo coincide, actualiza la estrategia, incrementa su versión y registra en la bitácora los valores
+anteriores y los nuevos. Si el contador es mayor que cero, la ficha muestra el aviso 'Bloqueada para
+edición' y los campos quedan deshabilitados; si el bloqueo ocurre durante la edición, el guardado se
+rechaza con el mismo aviso.
+
+Al final el gestor ve la ficha actualizada o el aviso de bloqueo. Este caso de uso no tiene un camino de
+desarrollo alterno: el bloqueo es una regla de negocio que se resuelve con la misma lógica.
+
+Flujo Principal
+#       Actor                                                    Sistema
+1       Abre la estrategia desde el listado y pulsa 'Editar'.    Cuenta los estudiantes vinculados; al ser cero, habilita
+                                                                 el formulario con los datos y la versión vigente.
+
+
+
+
+                                                          Página 16
+#      Actor                                                 Sistema
+2      Ajusta nombre, objetivo, población o fechas.          Valida coherencia de fechas y unicidad del nombre en la
+                                                             entidad.
+3      Pulsa 'Guardar cambios'.                              Verifica en la misma transacción que siga sin
+                                                             estudiantes vinculados y que la versión no haya
+                                                             cambiado; actualiza la estrategia e incrementa su
+                                                             versión.
+4      Visualiza la ficha actualizada.                       Muestra la estrategia actualizada y registra en la
+                                                             bitácora los valores anteriores y los nuevos.
+
+
+Flujo Alterno
+#      Actor                                                 Sistema
+
+
+
+
+ID: CU_005
+Nombre: Asociar estudiantes a una estrategia
+Actor: Gestor de Estrategias
+Relación: HU_004, CU_004
+Entradas: Sesión activa con rol GESTOR_ESTRATEGIAS; estrategia vigente; tipo y número de documento
+de los estudiantes existentes en la información oficial, o un listado de documentos para la vinculación
+masiva.
+Salidas: Vínculos estudiante-estrategia registrados sin duplicados; estrategia en estado 'Bloqueada para
+edición' desde el primer vínculo; resumen de vinculación (vinculados, inexistentes y ya vinculados);
+notificación por correo en el cargue masivo; eventos en la bitácora.
+Descripción: El Gestor de Estrategias vincula a una estrategia a estudiantes que ya existen en la
+información oficial, sin volver a digitar sus datos. Inicia cuando el gestor abre una estrategia y pulsa
+'Asociar estudiantes'. Como precondición, la estrategia debe estar vigente y los estudiantes deben existir
+en la información oficial del Ministerio.
+
+En el flujo principal el gestor busca cada estudiante por tipo y número de documento. Como el documento
+se guarda protegido, el sistema calcula su huella de búsqueda y localiza al estudiante sin exponer el dato;
+muestra nombre y sede educativa. El gestor marca uno o varios estudiantes y pulsa 'Vincular'; el sistema
+inserta los vínculos en una sola transacción, descarta los que ya existían, cambia la estrategia a 'Bloqueada
+para edición' cuando se crea el primer vínculo (regla de CU_004) y registra la operación en la bitácora. Al
+final el gestor ve la pestaña 'Estudiantes vinculados' actualizada.
+
+Existe un segundo camino de desarrollo para el mismo objetivo: cuando hay que vincular miles de
+estudiantes, el listado de documentos entra por un canal de carga masiva que el sistema procesa de forma
+asíncrona por lotes, con almacenamiento temporal del archivo, cola de mensajes, proceso en segundo
+plano, resumen de resultados y notificación por correo. Ese camino se bifurca en el paso 2 y termina en
+el mismo paso 4, con los vínculos registrados y la estrategia bloqueada.
+
+
+
+                                                      Página 17
+Flujo Principal
+#      Actor                                                      Sistema
+1      Abre la estrategia y pulsa 'Asociar estudiantes'.          Muestra el buscador y la lista de estudiantes ya
+                                                                  vinculados.
+2      Escribe tipo y número de documento y pulsa                 Calcula la huella de búsqueda del documento, localiza al
+       'Buscar'.                                                  estudiante en la información oficial y muestra nombre y
+                                                                  sede educativa.
+3      Marca los estudiantes y pulsa 'Vincular'.                  Inserta los vínculos en una transacción, descarta
+                                                                  duplicados, cambia la estrategia a 'Bloqueada para
+                                                                  edición' y registra el evento en la bitácora.
+4      Revisa la pestaña 'Estudiantes vinculados'.                Muestra la lista actualizada y el contador de estudiantes
+                                                                  de la estrategia.
+
+
+Flujo Alterno
+#      Actor                                                      Sistema
+2      Adjunta el listado de documentos en 'Cargar listado'       Recibe el archivo en el almacenamiento temporal con
+       y pulsa 'Iniciar'.                                         una URL firmada, registra la solicitud y publica un
+                                                                  mensaje en la cola de vinculación; responde de
+                                                                  inmediato con el número de solicitud.
+3      Continúa trabajando mientras el proceso avanza.            El proceso en segundo plano toma el mensaje, valida e
+                                                                  inserta los vínculos por bloques de 5.000 con descarte
+                                                                  de duplicados, bloquea la estrategia y reintenta los
+                                                                  bloques fallidos antes de enviarlos a la cola de errores.
+4      Recibe la notificación por correo y abre el resumen.       Publica el resumen de vinculados, inexistentes y ya
+                                                                  vinculados, con el archivo de detalle, y actualiza la
+                                                                  pestaña 'Estudiantes vinculados'.
+
+
+ID: CU_006
+Nombre: Programar acompañamiento mensual
+Actor: Tutor Líder
+Relación: HU_005
+Entradas: Sesión activa con rol TUTOR_LIDER; mes de programación; tutores docentes asociados al Tutor
+Líder por estrategia; modalidad individual o grupal; temas y semanas del mes.
+Salidas: Plan mensual registrado con sus hitos semanales; calendario del mes; estado de cada semana en
+'Programada'; evento en la bitácora.
+Descripción: El Tutor Líder deja programados los acompañamientos pedagógicos del mes a los tutores
+docentes que acompaña en cada estrategia. Inicia cuando el tutor entra al menú 'Acompañamientos',
+selecciona 'Plan mensual' y elige el mes. Como precondición, el tutor debe tener docentes asociados a
+estrategias vigentes y el mes no debe estar cerrado.
+
+El sistema consulta los docentes y las estrategias del tutor y los muestra agrupados. El tutor elige la
+modalidad: individual, con un docente por acompañamiento, o grupal, con varios docentes de una misma
+
+
+                                                           Página 18
+estrategia; marca los docentes, escribe los temas y selecciona las semanas del mes en que hará cada
+encuentro. Al pulsar 'Programar', el sistema verifica que los docentes pertenezcan a estrategias vigentes
+del tutor, que no haya otro plan del mismo mes para los mismos docentes y que las semanas pertenezcan
+al mes; luego registra el plan con un hito por semana en estado 'Programada' y deja el evento en la
+bitácora. El plan queda disponible también en el dispositivo del tutor para el registro sin conexión.
+
+Al final el tutor ve el calendario del mes con las semanas programadas y el cumplimiento en cero. Este
+caso de uso no tiene un camino de desarrollo alterno: la programación se hace al inicio del mes, en línea,
+con una sola lógica.
+
+Flujo Principal
+#      Actor                                                  Sistema
+1      Ingresa a 'Acompañamientos', selecciona 'Plan          Consulta y muestra los tutores docentes asociados al
+       mensual' y elige el mes.                               Tutor Líder agrupados por estrategia.
+2      Elige la modalidad individual o grupal, marca los      Verifica que los docentes pertenezcan a estrategias
+       docentes, escribe los temas y selecciona las           vigentes del tutor y que no exista otro plan del mismo
+       semanas.                                               mes para ellos.
+3      Pulsa 'Programar'.                                     Registra el plan y un hito por semana en estado
+                                                              'Programada', registra el evento en la bitácora y deja el
+                                                              plan disponible en el dispositivo.
+4      Visualiza el calendario del mes.                       Muestra las semanas programadas y el porcentaje de
+                                                              cumplimiento en cero.
+
+
+Flujo Alterno
+#      Actor                                                  Sistema
+
+
+
+
+ID: CU_007
+Nombre: Registrar seguimiento semanal del acompañamiento
+Actor: Tutor Líder
+Relación: HU_006, CU_006
+Entradas: Sesión activa con rol TUTOR_LIDER; plan mensual con la semana en estado 'Programada';
+asistencia de los docentes, actividades, avances y fotos de evidencia; versión vigente del hito semanal.
+Salidas: Seguimiento semanal registrado; semana en estado 'Registrada'; porcentaje de cumplimiento del
+mes actualizado; evidencias almacenadas; en el camino sin conexión, registros sincronizados con estado
+'Sincronizado'.
+Descripción: El Tutor Líder registra lo que ocurrió en cada semana del acompañamiento, que es el dato
+con el que el Ministerio mide el cumplimiento. Inicia cuando el tutor abre su 'Plan mensual', selecciona la
+
+
+
+
+                                                       Página 19
+semana y pulsa 'Registrar seguimiento'. Como precondición, la semana debe estar programada (CU_006)
+y no cerrada.
+
+Con conexión, el sistema entrega el hito semanal con sus docentes y la versión vigente del registro. El
+tutor marca la asistencia de cada docente, describe actividades y avances y adjunta fotos; el sistema
+reduce las imágenes en el dispositivo antes de enviarlas para ahorrar datos. Al pulsar 'Guardar', el servidor
+comprueba que la versión no haya cambiado desde que el tutor abrió el formulario, registra el
+seguimiento, marca la semana como 'Registrada', recalcula el cumplimiento del mes y deja el evento en
+la bitácora. Al final el tutor ve la semana en verde y el porcentaje actualizado.
+
+Existe un segundo camino de desarrollo, indispensable por la conectividad de las regiones: cuando el
+dispositivo no tiene señal, el aplicativo progresivo guarda el registro en el almacenamiento local cifrado
+del navegador con una clave de idempotencia, y un proceso de sincronización en segundo plano lo envía
+cuando la red regresa, resuelve conflictos de versión y confirma cada registro. Ese camino se bifurca en el
+paso 2 y termina en el mismo paso 4.
+
+Flujo Principal
+#      Actor                                                    Sistema
+1      Abre 'Plan mensual', selecciona la semana y pulsa        Entrega el hito semanal con sus docentes y la versión
+       'Registrar seguimiento'.                                 vigente del registro.
+2      Marca la asistencia, describe actividades y avances y    Reduce las imágenes en el dispositivo y valida los
+       adjunta las fotos de evidencia.                          campos obligatorios del seguimiento.
+3      Pulsa 'Guardar'.                                         Comprueba la versión, registra el seguimiento y las
+                                                                evidencias, marca la semana como 'Registrada' y
+                                                                registra el evento en la bitácora.
+4      Visualiza la semana registrada.                          Recalcula y muestra el porcentaje de cumplimiento del
+                                                                mes.
+
+
+Flujo Alterno
+#      Actor                                                    Sistema
+2      Diligencia el seguimiento sin señal y ve el aviso 'Sin   El trabajador de servicio del aplicativo progresivo
+       conexión: tus registros se guardarán en este             detecta la ausencia de red y habilita el formulario con el
+       dispositivo'.                                            plan guardado en el almacenamiento local.
+3      Pulsa 'Guardar'.                                         Cifra y guarda el registro en el almacenamiento local
+                                                                con una clave de idempotencia y lo deja en la cola de
+                                                                sincronización con estado 'Pendiente'.
+4      Recupera la señal y observa el estado 'Sincronizado'.    La sincronización en segundo plano envía los
+                                                                pendientes en orden; el servidor descarta duplicados
+                                                                por la clave de idempotencia, aplica los registros,
+                                                                devuelve conflicto si la versión cambió y el aplicativo
+                                                                presenta ambas versiones para que el tutor decida;
+                                                                luego recalcula el cumplimiento.
+
+
+
+
+                                                         Página 20
+ID: CU_008
+Nombre: Consultar tablero de desempeño de tutores
+Actor: Analista del MEN
+Relación: HU_007
+Entradas: Sesión activa con rol ANALISTA_MEN; filtros de región, entidad, estrategia y mes; indicadores
+agregados actualizados.
+Salidas: Tablero con cumplimiento mensual, regularidad del seguimiento semanal y docentes atendidos
+por tutor; detalle semanal de un tutor; archivo exportado; evento de consulta en la bitácora.
+Descripción: El Analista del MEN mide el desempeño de los tutores y las actividades realizadas. Inicia
+cuando el analista entra al menú 'Analítica' y selecciona 'Desempeño de tutores'. Como precondición,
+deben existir planes y seguimientos registrados en el periodo consultado.
+
+El analista elige región, entidad, estrategia y mes y pulsa 'Aplicar'. El sistema consulta indicadores
+preagregados que se recalculan cada quince minutos sobre una copia de solo lectura de la información,
+para no afectar la operación de los tutores; calcula por tutor el porcentaje de semanas registradas frente
+a las programadas, la regularidad del seguimiento y el número de docentes atendidos, y los presenta en
+gráficos por región y en una clasificación. Al hacer clic sobre un tutor, muestra su detalle semana a
+semana; con 'Exportar', genera la tabla filtrada. Cada consulta queda en la bitácora.
+
+Al final el analista cuenta con la vista del desempeño y el archivo exportado. Este caso de uso no tiene un
+camino de desarrollo alterno: todas las consultas usan la misma lógica sobre los indicadores preagregados.
+
+Flujo Principal
+#      Actor                                                    Sistema
+1      Ingresa a 'Analítica' y selecciona 'Desempeño de         Muestra el tablero con los filtros y los indicadores del
+       tutores'.                                                mes en curso.
+2      Elige región, entidad, estrategia y mes y pulsa          Consulta los indicadores preagregados en la copia de
+       'Aplicar'.                                               solo lectura y presenta gráficos y clasificación de
+                                                                tutores.
+3      Hace clic sobre un tutor.                                Muestra el detalle semanal: semanas programadas y
+                                                                registradas, docentes atendidos y cumplimiento.
+4      Pulsa 'Exportar'.                                        Genera la tabla filtrada, la entrega para descarga y
+                                                                registra la consulta en la bitácora.
+
+
+Flujo Alterno
+#      Actor                                                    Sistema
+
+
+
+
+                                                         Página 21
+ID: CU_009
+Nombre: Generar reporte de ley
+Actor: Ente de Control (cada entidad habilitada, por ejemplo Contraloría, Procuraduría o Fiscalía)
+Relación: HU_008, CU_001
+Entradas: Sesión activa con rol ENTE_CONTROL y organización de control asignada (CU_001); tipo de
+reporte de ley autorizado para esa organización; vigencia o periodo.
+Salidas: Reporte en formato PDF/A y hoja de cálculo; huella de integridad del reporte; registro de emisión
+con usuario, fecha y huella; en gran volumen, notificación y enlace temporal de descarga.
+Descripción: Cada ente de control habilitado genera por sí mismo los reportes sobre la información del
+SSES y los reportes de ley que le corresponden, sin depender de un funcionario del Ministerio. Pueden ser
+varios entes (Contraloría, Procuraduría, Fiscalía u otros que el Ministerio habilite), y cada uno solo ve los
+reportes autorizados y las emisiones de su propia organización. Inicia cuando el usuario entra al menú
+'Reportes de Ley'. Como precondición, el usuario debe pertenecer a una organización de control habilitada
+(CU_001) y el Ministerio debe haber parametrizado la plantilla del reporte.
+
+El usuario elige el reporte y la vigencia y pulsa 'Generar'. El sistema estima el volumen de filas; cuando
+está dentro del límite de generación en línea, consulta la copia de solo lectura según la plantilla, genera
+el reporte en PDF/A y en hoja de cálculo, calcula su huella de integridad, registra la emisión con usuario,
+fecha y huella y muestra una vista previa con el botón 'Descargar'. La huella permite comprobar después
+que el contenido no cambió.
+
+Existe un segundo camino de desarrollo para el mismo objetivo: cuando el reporte supera el límite de
+generación en línea, por ejemplo una vigencia completa con millones de registros, el sistema encola la
+solicitud y un proceso en segundo plano lo genera por partes, lo deja en el almacenamiento de archivos
+con un enlace temporal y notifica al usuario. Ese camino se bifurca en el paso 2 y termina en el mismo
+paso 4, con el reporte, su huella y su registro de emisión.
+
+Flujo Principal
+#      Actor                                                      Sistema
+1      Ingresa a 'Reportes de Ley'.                               Muestra los reportes habilitados para su rol con sus
+                                                                  parámetros.
+2      Elige el reporte y la vigencia y pulsa 'Generar'.          Estima el volumen; al estar dentro del límite en línea,
+                                                                  consulta la copia de solo lectura según la plantilla.
+3      Espera la generación.                                      Genera PDF/A y hoja de cálculo, calcula la huella de
+                                                                  integridad y registra la emisión con usuario, fecha y
+                                                                  huella.
+4      Revisa la vista previa y pulsa 'Descargar'.                Entrega los archivos con la huella y el código de
+                                                                  verificación.
+
+
+
+
+                                                           Página 22
+Flujo Alterno
+#      Actor                                                  Sistema
+2      Elige un reporte de gran volumen y pulsa 'Generar'.    Detecta que supera el límite en línea, registra la
+                                                              solicitud en estado 'En preparación' y publica un
+                                                              mensaje en la cola de reportes.
+3      Ve el aviso 'Tu reporte se está preparando' y          El proceso en segundo plano consulta la copia de solo
+       continúa trabajando.                                   lectura por bloques, escribe los archivos por partes en
+                                                              el almacenamiento, calcula la huella y registra la
+                                                              emisión.
+4      Recibe la notificación y descarga el reporte desde     Genera un enlace firmado con vigencia de 72 horas y
+       'Mis reportes'.                                        registra la descarga en la bitácora.
+
+
+ID: CU_010
+Nombre: Confirmar acompañamiento recibido
+Actor: Tutor Docente; aplicativo progresivo en el dispositivo del docente en el flujo alterno
+Relación: HU_009, CU_007
+Entradas: Sesión activa con rol TUTOR_DOCENTE; asociación vigente con un Tutor Líder; semana del plan
+en estado 'Registrada' por el Tutor Líder (CU_007); confirmación y observación opcional.
+Salidas: Semana en estado 'Confirmada por el docente' u 'Observada'; observación almacenada;
+indicador de confirmación del Tutor Líder actualizado para el tablero de desempeño; evento en la
+bitácora; en el camino sin conexión, confirmación sincronizada.
+Descripción: El Tutor Docente, que es quien da la clase y recibe el acompañamiento pedagógico, constata
+en el aplicativo el acompañamiento que registró su Tutor Líder. Inicia cuando entra al menú 'Mi
+acompañamiento' y elige el mes. Como precondición, debe tener cuenta habilitada (CU_001), estar
+asociado a un Tutor Líder y tener semanas registradas (CU_007).
+
+El sistema consulta los planes del mes en los que participa el docente, individuales o grupales, y muestra
+las semanas con su estado. El docente abre una semana registrada, revisa actividades, avances y
+evidencias, y marca si el encuentro se realizó como quedó registrado o escribe una observación. Al pulsar
+'Enviar', el sistema comprueba que la semana esté registrada y que ese docente no la haya confirmado
+antes, guarda la confirmación, cambia el estado a 'Confirmada por el docente' u 'Observada', actualiza el
+indicador de confirmación que usa el tablero de desempeño (CU_008) y deja el evento en la bitácora. Al
+final el docente ve la semana confirmada.
+
+Existe un segundo camino de desarrollo, por la misma razón de conectividad que en CU_007: cuando el
+dispositivo no tiene señal, el aplicativo progresivo guarda la confirmación cifrada en el almacenamiento
+local con una clave de idempotencia, y la sincronización en segundo plano la envía automáticamente
+cuando la red regresa. Ese camino se bifurca en el paso 2 y termina en el mismo paso 4.
+
+
+
+
+                                                       Página 23
+Flujo Principal
+#      Actor                                                    Sistema
+1      Ingresa a 'Mi acompañamiento' y elige el mes.            Consulta los planes del mes en los que participa el
+                                                                docente y muestra las semanas con su estado.
+2      Abre una semana 'Registrada' y revisa actividades,       Entrega el registro semanal del Tutor Líder con sus
+       avances y evidencias.                                    evidencias y la versión vigente.
+3      Marca 'Confirmar acompañamiento' o escribe una           Verifica que no exista confirmación previa del docente,
+       observación y pulsa 'Enviar'.                            guarda la confirmación y cambia el estado a
+                                                                'Confirmada por el docente' u 'Observada'.
+4      Visualiza la semana confirmada.                          Actualiza el indicador de confirmación del Tutor Líder y
+                                                                registra el evento en la bitácora.
+
+
+Flujo Alterno
+#      Actor                                                    Sistema
+2      Abre la semana sin señal y ve el aviso 'Sin conexión'.   El trabajador de servicio del aplicativo progresivo
+                                                                entrega el registro semanal guardado en el
+                                                                almacenamiento local del dispositivo.
+3      Marca la confirmación y pulsa 'Enviar'.                  Cifra y guarda la confirmación en el almacenamiento
+                                                                local con una clave de idempotencia y la deja en la cola
+                                                                de sincronización como 'Pendiente'.
+4      Recupera la señal y observa el estado 'Sincronizado'.    La sincronización en segundo plano envía la
+                                                                confirmación; el servidor descarta duplicados por la
+                                                                clave, la aplica y actualiza el indicador del Tutor Líder.
+
+
+
+Línea B. Ejecución del pilotaje
+ID: CU_011
+Nombre: Programar sesión del pilotaje
+Actor: Coordinador del Pilotaje
+Relación: HU_010
+Entradas: Sesión activa con rol COORDINADOR_PILOTO; fecha, hora, duración, región y objetivo de la
+sesión; tutores convocados.
+Salidas: Sesión registrada con su lista de convocados; convocatorias por correo encoladas y su estado de
+entrega; enlace de acceso a la sesión; evento en la bitácora.
+Descripción: El Coordinador del Pilotaje organiza las sesiones controladas con los tutores en las que se
+evalúa el sistema en condiciones reales. Inicia cuando el coordinador entra al menú 'Pilotaje', selecciona
+'Sesiones' y pulsa 'Nueva sesión'. Como precondición, los tutores líderes y tutores docentes participantes
+deben estar habilitados (CU_001).
+
+El coordinador define fecha, hora, duración, región y objetivo y marca los tutores convocados, que el
+sistema filtra por región. Al pulsar 'Programar', el sistema verifica que no haya otra sesión que se cruce
+para los mismos tutores y que el número de convocados no supere la capacidad certificada por sesión;
+
+
+                                                       Página 24
+registra la sesión y su lista de convocados, encola las convocatorias por correo con el enlace de acceso y
+deja el evento en la bitácora. El estado de entrega de cada correo se actualiza en la pantalla de la sesión.
+
+Al final el coordinador ve la sesión programada y el número de convocatorias entregadas. Este caso de
+uso no tiene un camino de desarrollo alterno: las sesiones se programan con una sola lógica.
+
+Flujo Principal
+#      Actor                                                    Sistema
+1      Ingresa a 'Pilotaje', selecciona 'Sesiones' y pulsa      Muestra el formulario de la sesión y la lista de tutores
+       'Nueva sesión'.                                          filtrable por región.
+2      Define fecha, hora, duración, región y objetivo y        Verifica cruces de horario de los tutores y la capacidad
+       marca los tutores convocados.                            certificada por sesión.
+3      Pulsa 'Programar'.                                       Registra la sesión y los convocados, encola las
+                                                                convocatorias por correo con el enlace de acceso y
+                                                                registra el evento en la bitácora.
+4      Visualiza la sesión programada.                          Muestra la sesión con el estado de entrega de cada
+                                                                convocatoria.
+
+
+Flujo Alterno
+#      Actor                                                    Sistema
+
+
+
+
+ID: CU_012
+Nombre: Registrar asistencia a la sesión
+Actor: Coordinador del Pilotaje; aplicativo del tutor como emisor de telemetría en el flujo alterno
+Relación: HU_010, CU_011
+Entradas: Sesión programada (CU_011) en curso o recién terminada; lista de convocados; en el flujo
+alterno, señales periódicas de conexión emitidas por el aplicativo de cada tutor durante la ventana de la
+sesión.
+Salidas: Asistencia por tutor (Presente, Parcial o Ausente); porcentaje de asistencia de la sesión; registro
+de sesión para el entregable 4 del pliego; evento en la bitácora.
+Descripción: Este caso de uso deja constancia de quién participó en cada sesión, que es parte del registro
+de sesiones exigido por el pliego. Inicia cuando el coordinador abre la sesión del día y selecciona
+'Asistencia'. Como precondición, la sesión debe estar programada y dentro de su ventana horaria o recién
+terminada.
+
+En el flujo principal el sistema muestra la lista de convocados; el coordinador marca a los presentes y pulsa
+'Cerrar asistencia'. El sistema registra la asistencia de cada tutor, calcula el porcentaje de la sesión, la
+marca como cerrada y deja el evento en la bitácora. Al final el coordinador ve la asistencia consolidada,
+que alimenta el informe del pilotaje.
+
+
+
+
+                                                         Página 25
+Existe un segundo camino de desarrollo para el mismo objetivo: cuando la sesión tiene cientos de tutores
+conectados desde distintas regiones, la asistencia se calcula automáticamente a partir de la telemetría de
+la sesión. El aplicativo de cada tutor envía una señal de conexión cada 60 segundos mientras está en la
+sesión, el sistema acumula esas señales y, al cierre, clasifica a cada tutor como Presente (conectado al
+menos el 70 % de la duración), Parcial o Ausente. Ese camino se bifurca en el paso 1 y termina en el mismo
+paso 4, con la asistencia registrada y el coordinador solo validando el resultado.
+
+Flujo Principal
+#      Actor                                                      Sistema
+1      Abre la sesión del día y selecciona 'Asistencia'.          Muestra la lista de tutores convocados con su región.
+2      Marca a los tutores presentes.                             Registra provisionalmente la marca de cada tutor.
+3      Pulsa 'Cerrar asistencia'.                                 Registra la asistencia definitiva, calcula el porcentaje y
+                                                                  marca la sesión como cerrada.
+4      Visualiza la asistencia consolidada.                       Muestra el resumen de la sesión y registra el evento en
+                                                                  la bitácora.
+
+
+Flujo Alterno
+#      Actor                                                      Sistema
+1      El aplicativo de cada tutor conectado a la sesión          Recibe las señales autenticadas, las asocia a la sesión y
+       envía una señal de conexión cada 60 segundos.              al tutor y las acumula por minuto de conexión.
+3      La ventana de la sesión termina.                           Un proceso programado calcula el tiempo conectado de
+                                                                  cada tutor, lo clasifica como Presente, Parcial o Ausente
+                                                                  y registra la asistencia con origen 'Automático'.
+4      El coordinador abre 'Asistencia' y valida el resultado.    Muestra la asistencia calculada con el tiempo de
+                                                                  conexión de cada tutor, el porcentaje de la sesión y
+                                                                  registra la validación en la bitácora.
+
+
+
+
+                                                           Página 26
+ID: CU_013
+Nombre: Registrar incidente
+Actor: Tutor Líder o Tutor Docente; plataforma de monitoreo como sistema externo en el flujo alterno
+Relación: HU_011
+Entradas: Sesión activa del usuario; tipo y descripción del inconveniente; contexto técnico capturado por
+el aplicativo (pantalla, navegador, identificador de correlación). En el flujo alterno, alerta técnica emitida
+por la plataforma de monitoreo.
+Salidas: Incidente registrado con número de caso, severidad y estado; notificación al Coordinador del
+Pilotaje y al soporte; trazabilidad de atención en 'Mis casos'.
+Descripción: Este caso de uso materializa el soporte técnico continuo y el acompañamiento en tiempo
+real que exige el pliego durante las sesiones. Inicia cuando el usuario pulsa el botón 'Ayuda', disponible
+en todas las pantallas. Como precondición, el usuario debe tener sesión activa.
+
+El sistema muestra el formulario de incidente con el contexto técnico ya capturado. El usuario elige el tipo
+de inconveniente y lo describe; al pulsar 'Enviar', el sistema registra el incidente con número de caso,
+severidad inicial según el tipo y estado 'Abierto', notifica al Coordinador del Pilotaje y al soporte y muestra
+el número de caso. El avance de la atención queda visible en 'Mis casos'.
+
+Existe un segundo camino de desarrollo para el mismo objetivo: muchos incidentes se detectan antes de
+que un tutor los reporte. Cuando la plataforma de monitoreo detecta que la tasa de errores o el tiempo
+de respuesta superan los umbrales definidos, dispara una alerta que invoca automáticamente al servicio
+de incidentes, el cual crea el caso con severidad Alta, adjunta las métricas de la alerta y notifica al soporte.
+Ese camino se bifurca en el paso 1 y termina en el mismo paso 3, con el incidente registrado y notificado.
+
+Flujo Principal
+ #      Actor                                                    Sistema
+ 1      Pulsa el botón 'Ayuda'.                                  Muestra el formulario de incidente con la pantalla, el
+                                                                 navegador y el identificador de correlación ya
+                                                                 capturados.
+ 2      Elige el tipo de inconveniente, lo describe y pulsa      Registra el incidente con número de caso, severidad
+        'Enviar'.                                                inicial y estado 'Abierto'.
+ 3      Visualiza el número de caso.                             Notifica al Coordinador del Pilotaje y al soporte y
+                                                                 muestra el caso en 'Mis casos'.
+
+
+Flujo Alterno
+ #      Actor                                                    Sistema
+ 1      La plataforma de monitoreo detecta que la tasa de        Recibe la invocación firmada de la alerta y valida su
+        errores supera el 2 % durante 5 minutos o que el         origen.
+        tiempo de respuesta supera el umbral.
+ 2      La plataforma envía la alerta con sus métricas.          Crea el incidente con severidad Alta, adjunta las
+                                                                 métricas y evita duplicados mientras la alerta siga
+                                                                 activa.
+
+
+
+                                                          Página 27
+#      Actor                                                      Sistema
+3      El Coordinador del Pilotaje y el soporte reciben la        Notifica por correo y en el panel de la mesa de ayuda y
+       notificación.                                              deja el caso en estado 'Abierto'.
+
+
+ID: CU_014
+Nombre: Responder instrumento de percepción
+Actor: Tutor Líder o Tutor Docente
+Relación: HU_012
+Entradas: Sesión activa con rol TUTOR_LIDER o TUTOR_DOCENTE; instrumento vigente asociado a la
+sesión en la que participó; respuestas a las preguntas de usabilidad, funcionalidad y comportamiento.
+Salidas: Respuestas registradas de forma seudonimizada; constancia de participación; puntaje de
+usabilidad calculado para el informe; evento en la bitácora.
+Descripción: El Tutor Líder expresa su percepción sobre la funcionalidad, la facilidad de uso y el
+comportamiento del sistema, insumo central del entregable 5 del pliego. Inicia cuando el tutor abre la
+notificación posterior a la sesión o entra al menú 'Pilotaje' y selecciona 'Mis encuestas'. Como
+precondición, el tutor debe haber participado en una sesión con instrumento vigente.
+
+El sistema verifica que el tutor no haya respondido antes ese instrumento y muestra las preguntas: la
+escala de usabilidad de sistemas (SUS) de diez ítems, preguntas sobre la utilidad de cada funcionalidad y
+preguntas abiertas sobre el comportamiento en su región. Al pulsar 'Enviar', el sistema valida que las
+preguntas obligatorias estén respondidas, guarda las respuestas separadas de la identidad del tutor
+mediante un seudónimo, calcula el puntaje de usabilidad y entrega la constancia de participación.
+
+Al final el tutor ve su constancia. Este caso de uso no tiene un camino de desarrollo alterno: el instrumento
+se responde en el aplicativo con una sola lógica.
+
+Flujo Principal
+#      Actor                                                      Sistema
+1      Abre la notificación o ingresa a 'Pilotaje' y selecciona   Verifica que el instrumento esté vigente y no haya sido
+       'Mis encuestas'.                                           respondido y lo muestra.
+2      Responde las preguntas de usabilidad, funcionalidad        Valida que las preguntas obligatorias tengan respuesta.
+       y comportamiento.
+3      Pulsa 'Enviar'.                                            Guarda las respuestas con seudónimo, calcula el
+                                                                  puntaje de usabilidad y registra el evento en la bitácora.
+4      Visualiza la constancia.                                   Muestra la constancia de participación con su número.
+
+
+Flujo Alterno
+#      Actor                                                      Sistema
+
+
+
+
+                                                         Página 28
+ID: CU_015
+Nombre: Consolidar resultados y generar informe del pilotaje
+Actor: Coordinador del Pilotaje
+Relación: HU_013, CU_012, CU_014
+Entradas: Sesión activa con rol COORDINADOR_PILOTO; periodo del pilotaje; asistencia de las sesiones,
+respuestas de los instrumentos, incidentes y registros funcionales del periodo; métricas técnicas de la
+plataforma de monitoreo.
+Salidas: Informe del pilotaje versionado en DOCX y PDF con anexos en hoja de cálculo; indicadores de
+asistencia, percepción, incidentes y desempeño técnico y funcional; evento en la bitácora.
+Descripción: El Coordinador del Pilotaje consolida la evidencia del pilotaje que sustenta los entregables 4,
+5 y 6 del pliego. Inicia cuando entra al menú 'Pilotaje' y selecciona 'Consolidar resultados'. Como
+precondición, deben existir sesiones cerradas y respuestas de los instrumentos en el periodo elegido.
+
+El coordinador elige el periodo y pulsa 'Generar informe'. El sistema reúne la asistencia por sesión y región,
+los puntajes de usabilidad y las respuestas abiertas agrupadas por funcionalidad, los incidentes con su
+tiempo de atención y los registros funcionales creados (estrategias, vínculos, planes y seguimientos);
+consulta a la plataforma de monitoreo el tiempo de respuesta en el percentil 95, la tasa de errores y la
+disponibilidad del periodo; calcula los indicadores, genera el informe con sus anexos y guarda una versión
+con fecha y usuario.
+
+Al final el coordinador ve los indicadores en pantalla y descarga el informe. Este caso de uso no tiene un
+camino de desarrollo alterno: el informe se genera con una sola lógica sobre las mismas fuentes.
+
+Flujo Principal
+#       Actor                                                  Sistema
+1       Ingresa a 'Pilotaje' y selecciona 'Consolidar          Muestra los periodos con sesiones cerradas.
+        resultados'.
+2       Elige el periodo y pulsa 'Generar informe'.            Reúne asistencia, respuestas de instrumentos,
+                                                               incidentes y registros funcionales del periodo.
+3       Espera la consolidación.                               Consulta las métricas técnicas de la plataforma de
+                                                               monitoreo, calcula los indicadores y genera el informe
+                                                               con sus anexos.
+4       Revisa los indicadores y pulsa 'Descargar'.            Registra la versión del informe y entrega los archivos
+                                                               DOCX, PDF y la hoja de cálculo de anexos.
+
+
+Flujo Alterno
+#       Actor                                                  Sistema
+
+
+
+
+                                                        Página 29
+10. REQUERIMIENTOS
+Arquitectura de referencia común a todos los requerimientos: Front-End en React 19.2 con TypeScript 5.9
+y Vite 7, empaquetado como aplicación web progresiva con Workbox 7; servicios en ASP.NET Core 10 (C#
+14) expuestos como API REST JSON versionada en /api/v1 y documentada en OpenAPI 3.1, con errores en
+formato Problem Details (RFC 9457); procesos en segundo plano en un Worker .NET 10 que consume
+Azure Service Bus mediante AMQP 1.0; proveedor de identidad Keycloak 26.8.1; base de datos PostgreSQL
+17.11 en Azure Database for PostgreSQL Flexible Server con las extensiones pgcrypto, pg_partman y
+pg_cron; secretos en Azure Key Vault con acceso por identidad administrada.
+
+Línea A. Software piloto para evaluar la viabilidad del SSES
+ID: RQ_001
+Nombre: Habilitación de cuentas y asignación de roles por organización
+Actor: Administrador Funcional del MEN; Keycloak 26.8.1
+Relación: CU_001, RQ_005
+Tipo: Funcional
+Prioridad: Media
+Entradas: Token JWT con rol ADMIN_FUNCIONAL; POST /api/v1/participantes con [{personaId, rol,
+organizacionId, vigenciaHasta}]; POST /api/v1/organizaciones-control con {nombre, nit,
+plantillasAutorizadas[]}; cliente confidencial de Keycloak con secreto en Key Vault; variable de entorno
+KC_ADMIN_URL.
+Salidas: HTTP 201 Created con la lista de cuentas; usuarios en Keycloak con rol de realm y atributo
+organizacion_id;      filas    en     seguridad.participante,       seguridad.organizacion_control        y
+reportes.plantilla_organizacion; mensajes de invitación en sb-notificaciones; fila en auditoria.bitacora.
+Descripción: La API consulta la persona por su identificador en las tablas maestras existentes del
+Ministerio (maestros.tutor, maestros.docente), que el piloto solo lee: responde 404 si no existe y 409 si
+ya tiene una cuenta activa con el mismo rol. Roles de realm: ADMIN_FUNCIONAL, GESTOR_ESTRATEGIAS,
+TUTOR_LIDER, TUTOR_DOCENTE, ANALISTA_MEN, ENTE_CONTROL, COORDINADOR_PILOTO y SOPORTE.
+Para TUTOR_DOCENTE verifica la asociación vigente con un Tutor Líder en acompanamiento.asignacion
+(422 si no existe). Las cuentas se crean por la Admin REST API de Keycloak sobre HTTPS/TLS 1.3 con las
+acciones requeridas CONFIGURE_TOTP y UPDATE_PASSWORD, y la invitación lleva un enlace de un solo
+uso válido por 72 horas. Cada ente de control es una organización con sus plantillas de reporte
+autorizadas; el atributo organizacion_id viaja como reclamación del token y la API filtra por ese valor las
+plantillas y las emisiones (política RLS de PostgreSQL 17.11 sobre reportes.emision), de modo que un
+usuario de la Contraloría no ve los reportes emitidos por la Procuraduría o la Fiscalía. Vigencia máxima del
+
+
+
+
+                                                 Página 30
+acceso de entes de control: 90 días, renovable. Meta: habilitación de 500 participantes por selección
+múltiple en 60 segundos o menos.
+
+ID: RQ_002
+Nombre: Modelo de datos particionado e indexado para millones de registros
+Actor: Arquitecto de Soluciones
+Relación: CU_005, CU_008
+Tipo: No Funcional
+Prioridad: Alta
+Entradas: Volumetría de diseño de la información existente del Ministerio: 10.000.000 de estudiantes,
+500.000 docentes, 20.000 tutores, 15.000 entidades; conexión TCP 5432 con TLS a PostgreSQL 17.11.
+Salidas: Esquema versionado con migraciones de Entity Framework Core 10; particiones e índices creados;
+plan de ejecución verificado.
+Descripción: Esquemas maestros, estrategias, acompanamiento, pilotaje y auditoria. La tabla
+maestros.estudiante        se       particiona     por       HASH(id)       en      16      particiones;
+acompanamiento.seguimiento_semanal y auditoria.bitacora se particionan por RANGE mensual con
+pg_partman 5, con creación automática de particiones mediante pg_cron. Índices B-tree únicos sobre
+huella_documento (bytea de 32 bytes) e índices compuestos (estrategia_id, estudiante_id) y (tutor_id,
+mes). Claves primarias bigint generadas con identidad; identificadores públicos UUID v7 para la API.
+Conexiones mediante Npgsql 10 con pool máximo de 100 por réplica y PgBouncer integrado del servicio
+en el puerto 6432 para la API. Metas: búsqueda por documento con p95 de 300 ms o menos sobre
+10.000.000 de filas; consulta de vinculados de una estrategia con 50.000 estudiantes en 800 ms o menos
+con paginación por llave (keyset) de 50 filas.
+
+ID: RQ_003
+Nombre: Autenticación OpenID Connect con segundo factor TOTP
+Actor: Usuarios del SSES; Keycloak 26.8.1
+Relación: CU_002
+Tipo: Funcional
+Prioridad: Alta
+Entradas: Correo, contraseña y código TOTP (RFC 6238, 6 dígitos, ventana de 30 segundos); cliente público
+sses-web con PKCE S256.
+Salidas: Access token JWT firmado RS256 con vigencia de 10 minutos; refresh token de 8 horas; evento
+LOGIN en Keycloak y en auditoria.bitacora; HTTP 302 de redirección al portal.
+Descripción: Realm sses en Keycloak 26.8.1 con flujo Authorization Code + PKCE (S256); el Front-End usa
+oidc-client-ts 3 y guarda los tokens solo en memoria. Política de contraseñas: mínimo 12 caracteres,
+historial de 5, resumen Argon2id. Autenticación de dos factores TOTP obligatoria para todos los roles, con
+enrolamiento en el primer ingreso. Protección contra fuerza bruta: 5 intentos fallidos bloquean la cuenta
+15 minutos (HTTP 401 con evento LOGIN_ERROR). Los roles ADMIN_FUNCIONAL, GESTOR_ESTRATEGIAS,
+TUTOR_LIDER, ANALISTA_MEN, ENTE_CONTROL, COORDINADOR_PILOTO y SOPORTE viajan en la
+
+
+
+                                                Página 31
+reclamación realm_access.roles. La API valida firma, emisor, audiencia y expiración con
+Microsoft.AspNetCore.Authentication.JwtBearer 10 y la clave pública JWKS en caché de 10 minutos.
+Keycloak persiste en una base de datos propia (keycloak) del mismo servidor PostgreSQL, con credenciales
+en Key Vault.
+
+ID: RQ_004
+Nombre: Federación con el directorio institucional del MEN
+Actor: Funcionario del MEN; Microsoft Entra ID del MEN; Keycloak 26.8.1
+Relación: CU_002, RQ_003
+Tipo: Funcional
+Prioridad: Media
+Entradas: Correo con dominio institucional del Ministerio; registro de aplicación del SSES en el Entra ID
+del MEN (client id, secreto en Key Vault, tenant id); mapeo de grupos institucionales a roles.
+Salidas: Cuenta federada enlazada en Keycloak; token del SSES con el rol mapeado; evento
+IDENTITY_PROVIDER_LOGIN en la bitácora.
+Descripción: Proveedor de identidad OpenID Connect configurado en Keycloak como Identity Brokering
+hacia el Entra ID del MEN, con descubrimiento por dominio (Home IdP Discovery) para que el correo
+institucional redirija sin intervención del usuario. Se validan firma RS256, emisor, audiencia y nonce del
+id_token; el mapper de grupos asigna ANALISTA_MEN, GESTOR_ESTRATEGIAS o ADMIN_FUNCIONAL
+según el grupo de seguridad institucional. Primer ingreso: creación automática de la cuenta federada sin
+contraseña local. Si el directorio no responde en 10 segundos, Keycloak retorna HTTP 502 con mensaje al
+usuario y registra el evento; las cuentas locales no se ven afectadas. En QA se usa un realm de Keycloak
+que simula el directorio con los mismos grupos.
+
+ID: RQ_005
+Nombre: Autorización por roles y bitácora de auditoría inmutable
+Actor: API SSES; Arquitecto de Soluciones
+Relación: CU_002, RQ_003
+Tipo: No Funcional
+Prioridad: Alta
+Entradas: Token JWT válido; políticas de autorización por endpoint; identificador de correlación en el
+encabezado traceparent (W3C Trace Context).
+Salidas: HTTP 403 Forbidden ante rol no autorizado; fila en auditoria.bitacora por cada operación de
+escritura, consulta de datos personales o reporte emitido.
+Descripción: Autorización con políticas de ASP.NET Core 10 ([Authorize(Policy = ...)]) por endpoint y filtros
+de alcance por fila: el gestor solo ve estrategias de sus entidades y el tutor solo sus docentes. La bitácora
+registra fecha UTC, usuario, rol, IP de origen, acción, entidad afectada, identificador, valores anteriores y
+nuevos en JSONB y el traceparent. Es de solo inserción: el rol de base de datos de la API tiene únicamente
+
+
+
+
+                                                  Página 32
+INSERT y SELECT sobre auditoria.bitacora, y cada fila guarda la huella SHA-256 de la fila anterior (cadena
+de integridad) verificada a diario por un trabajo de pg_cron. Retención: 5 años en particiones mensuales.
+
+ID: RQ_006
+Nombre: Creación de estrategia estudiantil
+Actor: Gestor de Estrategias
+Relación: CU_003
+Tipo: Funcional
+Prioridad: Alta
+Entradas: Token con rol GESTOR_ESTRATEGIAS; cuerpo JSON {entidadId, nombre (máx. 150), objetivo
+(máx. 2.000), poblacion, fechaInicio, fechaFin}.
+Salidas: HTTP 201 Created con encabezado Location y la estrategia en estado EDITABLE; fila en
+estrategias.estrategia; evento en la bitácora.
+Descripción: Endpoint POST /api/v1/estrategias. Validación con FluentValidation 12: fechaFin posterior a
+fechaInicio y dentro de la vigencia del programa parametrizada, entidad activa y administrada por el
+gestor. Restricción UNIQUE (entidad_id, lower(nombre)); en caso de duplicado responde HTTP 409
+Conflict. Persistencia con Entity Framework Core 10, columna version de tipo xmin para control de
+concurrencia optimista y estado inicial EDITABLE. Códigos: 201, 400, 403, 409, 422 (entidad inactiva).
+
+ID: RQ_007
+Nombre: Bloqueo de edición de estrategias con estudiantes vinculados
+Actor: Gestor de Estrategias; API SSES
+Relación: CU_004, CU_005
+Tipo: Funcional
+Prioridad: Alta
+Entradas: Token con rol GESTOR_ESTRATEGIAS; PUT /api/v1/estrategias/{id} con encabezado If-Match
+(ETag de versión).
+Salidas: HTTP 200 OK con la estrategia actualizada; o HTTP 409 Conflict con código
+ESTRATEGIA_BLOQUEADA; o HTTP 412 Precondition Failed si la versión cambió.
+Descripción: La regla se garantiza en dos niveles. En la API, el comando de edición se ejecuta en una
+transacción READ COMMITTED que bloquea la fila con SELECT ... FOR UPDATE y verifica el contador de
+vínculos. En la base de datos, un trigger BEFORE UPDATE en estrategias.estrategia rechaza con SQLSTATE
+P0001 cualquier cambio de campos funcionales cuando existe al menos un registro en
+estrategias.estrategia_estudiante, de modo que la regla se cumple aunque se acceda por otro canal. El
+
+
+
+
+                                                 Página 33
+primer vínculo (RQ_008 y RQ_009) cambia el estado a BLOQUEADA en la misma transacción. El Front-End
+consulta GET /api/v1/estrategias/{id}, que expone editable: false para deshabilitar los campos.
+
+ID: RQ_008
+Nombre: Vinculación individual de estudiantes existentes
+Actor: Gestor de Estrategias
+Relación: CU_005
+Tipo: Funcional
+Prioridad: Alta
+Entradas: Token con rol GESTOR_ESTRATEGIAS; GET /api/v1/estudiantes?tipoDoc=&numDoc=; POST
+/api/v1/estrategias/{id}/estudiantes con {estudianteIds: [UUID], máx. 200}.
+Salidas: HTTP 200 con los datos mínimos del estudiante; HTTP 201 Created con {vinculados,
+yaVinculados}; filas en estrategias.estrategia_estudiante; evento en la bitácora.
+Descripción: La búsqueda calcula en la API la huella HMAC-SHA-256 de tipo y número de documento con
+la clave de Key Vault (RQ_026) y consulta el índice único; retorna solo nombre, sede y municipio
+(minimización de datos). La vinculación inserta con INSERT ... ON CONFLICT (estrategia_id, estudiante_id)
+DO NOTHING en una sola transacción y cambia la estrategia a BLOQUEADA si es el primer vínculo. Códigos:
+200, 201, 404 (estudiante inexistente), 403, 422 (estrategia fuera de vigencia).
+
+ID: RQ_009
+Nombre: Vinculación masiva asíncrona por archivo
+Actor: Gestor de Estrategias; Worker SSES
+Relación: CU_005, RQ_008
+Tipo: Funcional
+Prioridad: Media
+Entradas: Archivo CSV UTF-8 con columnas tipo_documento;numero_documento, máximo 200.000 filas
+y 20 MB; URL SAS de escritura de 30 minutos; cola sb-vinculacion.
+Salidas: HTTP 202 Accepted con {solicitudId}; vínculos insertados; archivo resumen_{solicitudId}.csv;
+correo de finalización vía Azure Communication Services.
+Descripción: POST /api/v1/estrategias/{id}/vinculaciones-masivas registra la solicitud y publica el mensaje
+en sb-vinculacion con sesión por estrategia (garantiza orden). El Worker procesa bloques de 5.000
+documentos: calcula huellas, resuelve estudiantes con un JOIN contra una tabla temporal y ejecuta
+INSERT ... ON CONFLICT DO NOTHING; clasifica cada fila como vinculado, inexistente o ya vinculado.
+Reintentos: 3 con espera exponencial (2, 4, 8 s); luego cola de mensajes fallidos y estado FALLIDA visible
+
+
+
+
+                                                 Página 34
+al gestor. Meta: 50.000 documentos en 5 minutos o menos. Estado consultable en GET
+/api/v1/vinculaciones-masivas/{solicitudId}.
+
+ID: RQ_010
+Nombre: Programación mensual de acompañamientos individuales y grupales
+Actor: Tutor Líder
+Relación: CU_006
+Tipo: Funcional
+Prioridad: Alta
+Entradas: Token con rol TUTOR_LIDER; POST /api/v1/acompanamientos con {mes (AAAA-MM),
+modalidad (INDIVIDUAL | GRUPAL), estrategiaId, docenteIds, temas, semanas [1..5]}.
+Salidas: HTTP 201 Created con el plan y sus hitos semanales en estado PROGRAMADA; evento en la
+bitácora.
+Descripción: Validaciones: los docentes deben estar asociados a la estrategia y al tutor en
+acompanamiento.asignacion; en modalidad INDIVIDUAL se crea un plan por docente y en GRUPAL un plan
+con varios docentes (máximo 30); las semanas se calculan con ISO 8601 dentro del mes. Restricción
+UNIQUE (tutor_id, docente_id, mes) para evitar doble programación (HTTP 409). Se crea un registro por
+semana en acompanamiento.hito_semanal. El endpoint GET /api/v1/tutores/me/plan?mes= retorna el
+plan con ETag para que el Front-End lo guarde en IndexedDB y quede disponible sin conexión (RQ_012).
+
+ID: RQ_011
+Nombre: Registro en línea del seguimiento semanal con evidencias
+Actor: Tutor Líder
+Relación: CU_007
+Tipo: Funcional
+Prioridad: Alta
+Entradas: Token con rol TUTOR_LIDER; PUT /api/v1/hitos/{id}/seguimiento con If-Match; cuerpo con
+asistencia por docente, actividades (máx. 4.000), avances; hasta 5 imágenes JPEG o WebP de máximo 1
+MB cada una.
+Salidas: HTTP 200 OK con el porcentaje de cumplimiento del mes; semana en estado REGISTRADA;
+imágenes en Blob Storage; evento en la bitácora.
+Descripción: Las imágenes se redimensionan en el navegador a 1.280 px de lado mayor con calidad 0,7
+antes de subirlas con URL SAS de 15 minutos. La API valida el ETag (HTTP 412 si la versión cambió), inserta
+en acompanamiento.seguimiento_semanal, actualiza el estado del hito y recalcula el cumplimiento como
+
+
+
+
+                                                 Página 35
+semanas registradas sobre semanas programadas. Todo en una transacción; la referencia de las imágenes
+se guarda como URI del blob. Códigos: 200, 400, 403, 409 (semana cerrada), 412.
+
+ID: RQ_012
+Nombre: Captura sin conexión y sincronización diferida del seguimiento
+Actor: Tutor Líder; aplicación web progresiva
+Relación: CU_007, RQ_011
+Tipo: Funcional
+Prioridad: Alta
+Entradas: Plan mensual en IndexedDB; registros creados sin red; clave de idempotencia UUID v7 por
+registro; token vigente o renovado al recuperar la red.
+Salidas: Registros sincronizados (HTTP 200 o 201) o en conflicto (HTTP 409 con ambas versiones); estado
+local Pendiente, Sincronizado o En conflicto.
+Descripción: Trabajador de servicio con Workbox 7: almacenamiento previo del shell de la aplicación y
+caché de datos con estrategia NetworkFirst para el plan. Almacenamiento local con Dexie.js 4 sobre
+IndexedDB, cifrado con AES-GCM de 256 bits mediante Web Crypto API, con una clave derivada por sesión
+que no se persiste en claro. Cola de salida con Background Sync y, donde el navegador no lo soporte,
+reintento al evento online. Endpoint POST /api/v1/sincronizacion/seguimientos con encabezado
+Idempotency-Key: el servidor guarda la clave 7 días en acompanamiento.idempotencia y responde igual
+ante reenvíos; si la versión del hito cambió, responde 409 con la versión del servidor y el Front-End
+muestra ambas para que el tutor decida. Límite de 50 registros por petición y 30 días de antigüedad. Meta:
+sincronizar 20 registros pendientes en 60 segundos o menos con una red 3G de 1,6 Mbps.
+
+ID: RQ_013
+Nombre: Tablero de desempeño de tutores con indicadores preagregados
+Actor: Analista del MEN
+Relación: CU_008
+Tipo: Funcional
+Prioridad: Media
+Entradas:             Token            con            rol          ANALISTA_MEN;                GET
+/api/v1/analitica/tutores?region=&entidadId=&estrategiaId=&mes=; réplica de lectura de PostgreSQL.
+Salidas: HTTP 200 con JSON de indicadores; exportación en XLSX generada con ClosedXML 0.105; evento
+de consulta en la bitácora.
+Descripción: Vistas materializadas analitica.mv_cumplimiento_tutor y analitica.mv_docentes_atendidos
+refrescadas con REFRESH MATERIALIZED VIEW CONCURRENTLY cada 15 minutos mediante pg_cron. La
+API usa una cadena de conexión dedicada a la réplica de lectura (variable PG_READ_REPLICA) con
+
+
+
+
+                                                Página 36
+default_transaction_read_only activo. Visualización con Apache ECharts 5.6. Meta: respuesta del tablero
+en 3 segundos o menos en el percentil 95 con 20.000 tutores.
+
+ID: RQ_014
+Nombre: Generación en línea de reportes de ley con huella de integridad
+Actor: Ente de Control
+Relación: CU_009, RQ_001
+Tipo: Funcional
+Prioridad: Alta
+Entradas: Token con rol ENTE_CONTROL; POST /api/v1/reportes-ley con {plantillaId, vigencia, periodo};
+plantillas parametrizadas en reportes.plantilla (consulta SQL parametrizada y diseño).
+Salidas: HTTP 200 OK con enlaces a PDF/A-2b (QuestPDF 2025) y XLSX (ClosedXML); huella SHA-256; fila
+en reportes.emision; evento en la bitácora.
+Descripción: La API toma la reclamación organizacion_id del token (RQ_001) y solo admite plantillas
+autorizadas para esa organización de control (HTTP 403 en caso contrario); cada emisión queda marcada
+con su organización y la política RLS impide que un ente consulte las emisiones de otro. La API estima el
+número de filas con EXPLAIN; si es de 50.000 o menos, ejecuta la consulta en la réplica de lectura con
+statement_timeout de 30 segundos, genera los archivos, calcula SHA-256 sobre cada archivo y los firma
+con una clave RSA de 3.072 bits custodiada en Key Vault; la huella y el código de verificación se imprimen
+en el pie del PDF. Los archivos quedan en Blob Storage inmutable (política WORM de 1 año) y se entregan
+por URL SAS de 15 minutos. Endpoint público de verificación GET /api/v1/reportes-ley/verificar/{codigo}.
+Si supera 50.000 filas, deriva al procesamiento asíncrono (RQ_015). Meta: 10 segundos o menos para
+50.000 filas.
+
+ID: RQ_015
+Nombre: Generación asíncrona de reportes de gran volumen
+Actor: Ente de Control; Worker SSES
+Relación: CU_009, RQ_014
+Tipo: Funcional
+Prioridad: Media
+Entradas: Solicitud con estimación superior a 50.000 filas; cola sb-reportes; réplica de lectura.
+Salidas: HTTP 202 Accepted con {solicitudId}; archivos por partes de 500.000 filas en Blob Storage; correo
+con enlace SAS de 72 horas; fila en reportes.emision.
+Descripción: El Worker consume sb-reportes con concurrencia máxima de 2 por réplica, lee la réplica con
+cursor del lado del servidor por bloques de 10.000 filas, escribe XLSX por partes y un CSV comprimido en
+ZIP, calcula SHA-256 por archivo y un manifiesto firmado. Estado consultable en GET /api/v1/reportes-
+
+
+
+
+                                                  Página 37
+ley/solicitudes/{id} (EN_PREPARACION, LISTO, FALLIDO). Reintentos 3 veces; luego cola de mensajes
+fallidos y notificación al soporte. Meta: 2.000.000 de filas en 15 minutos o menos.
+
+ID: RQ_016
+Nombre: Confirmación del acompañamiento por el Tutor Docente con soporte sin conexión
+Actor: Tutor Docente; aplicación web progresiva
+Relación: CU_010, RQ_012
+Tipo: Funcional
+Prioridad: Media
+Entradas:     Token con rol TUTOR_DOCENTE y reclamación docente_id; GET /api/v1/mi-
+acompanamiento?mes=AAAA-MM; POST /api/v1/seguimientos/{id}/confirmaciones con {confirmado,
+observacion} y encabezado Idempotency-Key (UUID v4).
+Salidas:    HTTP 201 Created (200 si la Idempotency-Key ya fue aplicada); fila en
+acompanamiento.confirmacion_docente; estado del hito CONFIRMADO u OBSERVADO; indicador de
+confirmación recalculado en la vista materializada del tablero (RQ_013); fila en auditoria.bitacora.
+Descripción: La API filtra los planes por el docente_id del token mediante una política de seguridad a nivel
+de fila de PostgreSQL 17.11 sobre acompanamiento.plan_docente, de modo que el docente solo ve los
+acompañamientos en que participa. Restricción UNIQUE (seguimiento_id, docente_id) que evita la doble
+confirmación (HTTP 409); observación de máximo 500 caracteres (HTTP 422 si excede); HTTP 404 si la
+semana no está en estado REGISTRADA. En modo sin conexión reutiliza el mecanismo de RQ_012: la
+confirmación se cifra con AES-256-GCM en IndexedDB mediante Dexie.js 4 y la cola de Workbox
+Background Sync la reenvía con la misma Idempotency-Key al recuperar la red; el servidor no crea filas
+nuevas si la clave ya fue aplicada. Meta: p95 de 500 ms o menos por confirmación con 2.000 usuarios
+concurrentes.
+
+Línea B. Ejecución del pilotaje
+ID: RQ_017
+Nombre: Programación de sesiones del pilotaje y convocatoria por correo
+Actor: Coordinador del Pilotaje
+Relación: CU_011
+Tipo: Funcional
+Prioridad: Alta
+Entradas: Token con rol COORDINADOR_PILOTO; POST /api/v1/sesiones con {fecha, horaInicio,
+duracionMin, region, objetivo, tutorIds}; plantilla de correo.
+Salidas: HTTP 201 Created; filas en pilotaje.sesion y pilotaje.convocado; mensajes en sb-notificaciones;
+estado de entrega por convocado.
+Descripción: Validaciones: sin cruce de horario por tutor (restricción de exclusión con btree_gist sobre
+tstzrange) y máximo 500 convocados por sesión, que es la capacidad certificada en la prueba de carga
+(RQ_024). El Worker envía los correos con Azure Communication Services Email (SDK
+Azure.Communication.Email 1.x), a razón de 100 por minuto, y actualiza el estado de entrega consultando
+
+
+
+                                                 Página 38
+el resultado de cada operación de envío con el mismo SDK. El correo incluye un enlace de acceso con el
+identificador de la sesión. Códigos: 201, 400, 403, 409 (cruce de horario), 422 (capacidad excedida).
+
+ID: RQ_018
+Nombre: Registro manual de asistencia por sesión
+Actor: Coordinador del Pilotaje
+Relación: CU_012
+Tipo: Funcional
+Prioridad: Media
+Entradas: Token con rol COORDINADOR_PILOTO; PUT /api/v1/sesiones/{id}/asistencia con [{tutorId,
+estado}].
+Salidas: HTTP 200 OK con el porcentaje de asistencia; filas en pilotaje.asistencia con origen MANUAL;
+sesión en estado CERRADA.
+Descripción: UPSERT por (sesion_id, tutor_id) con INSERT ... ON CONFLICT DO UPDATE; el cierre fija el
+estado CERRADA y bloquea cambios posteriores salvo con rol SOPORTE y justificación registrada en la
+bitácora. Porcentaje = presentes / convocados con dos decimales.
+
+ID: RQ_019
+Nombre: Cálculo automático de asistencia por telemetría de sesión
+Actor: Aplicación web progresiva del tutor; Worker SSES
+Relación: CU_012, RQ_018
+Tipo: Funcional
+Prioridad: Media
+Entradas: Latidos POST /api/v1/sesiones/{id}/latidos cada 60 segundos con token de TUTOR_LIDER o
+TUTOR_DOCENTE; ventana horaria de la sesión.
+Salidas: HTTP 204 No Content por latido; filas en pilotaje.latido (particionada por día); asistencia con
+origen AUTOMATICO.
+Descripción: El Front-End emite el latido solo mientras la pestaña está visible (Page Visibility API) y la
+sesión está en su ventana. La API inserta en lote cada 5 segundos en una tabla particionada por día. Al
+vencer la ventana, un trabajo programado del Worker calcula los minutos con latido por tutor: Presente
+
+
+
+
+                                                Página 39
+si cubre el 70 % o más de la duración, Parcial entre 30 % y 69 %, Ausente por debajo. Meta: 500 tutores
+simultáneos (aprox. 8,3 latidos por segundo) sin afectar el p95 del resto de la API.
+
+ID: RQ_020
+Nombre: Registro de incidentes desde el aplicativo
+Actor: Usuarios del SSES; Soporte
+Relación: CU_013
+Tipo: Funcional
+Prioridad: Alta
+Entradas: Token de cualquier rol; POST /api/v1/incidentes con {tipo, descripcion, pantalla, navegador,
+traceparent}.
+Salidas: HTTP 201 Created con número de caso INC-AAAA-NNNNNN; fila en mesa.incidente; notificación
+por correo y en el panel de la mesa de ayuda.
+Descripción: Severidad inicial por tipo (Bloqueante = Alta, Funcional = Media, Consulta = Baja); acuerdo
+de servicio durante las sesiones: atención de severidad Alta en 15 minutos o menos y solución temporal
+en 2 horas o menos. Estados: ABIERTO, EN_ATENCION, RESUELTO, CERRADO, con marcas de tiempo para
+medir tiempos de atención en el informe (RQ_023). Consulta del usuario en GET /api/v1/incidentes/mios.
+
+ID: RQ_021
+Nombre: Creación automática de incidentes desde alertas de monitoreo
+Actor: Azure Monitor; API SSES
+Relación: CU_013, RQ_028
+Tipo: Funcional
+Prioridad: Media
+Entradas: Webhook de Action Group de Azure Monitor con esquema común de alertas, autenticado con
+token secreto en encabezado y validado contra Key Vault.
+Salidas: HTTP 202 Accepted; incidente con severidad Alta y origen MONITOREO; notificación al soporte.
+Descripción: Endpoint POST /api/v1/incidentes/alertas. Reglas de alerta: tasa de respuestas 5xx superior
+al 2 % durante 5 minutos, p95 de la API superior a 3 segundos durante 10 minutos, réplicas del contenedor
+reiniciadas más de 3 veces en 10 minutos, uso de CPU de PostgreSQL superior al 85 % durante 15 minutos.
+
+
+
+
+                                                Página 40
+Deduplicación por alertRule e identificador de alerta mientras su estado sea Fired; al recibir Resolved se
+agrega la nota y se propone el cierre.
+
+ID: RQ_022
+Nombre: Instrumento de percepción con escala SUS
+Actor: Tutor Líder; Tutor Docente
+Relación: CU_014
+Tipo: Funcional
+Prioridad: Alta
+Entradas: Token con rol TUTOR_LIDER o TUTOR_DOCENTE; GET /api/v1/instrumentos/vigentes; POST
+/api/v1/instrumentos/{id}/respuestas.
+Salidas: HTTP 201 Created con número de constancia; respuestas en pilotaje.respuesta con seudónimo;
+puntaje SUS calculado.
+Descripción: El seudónimo es HMAC-SHA-256 del identificador del tutor con una clave exclusiva del
+módulo en Key Vault; las respuestas no guardan la identidad directa. Restricción UNIQUE (instrumento_id,
+seudonimo) que evita doble respuesta (HTTP 409). Puntaje SUS: suma de (respuesta - 1) en ítems impares
+y (5 - respuesta) en ítems pares, multiplicada por 2,5, en escala de 0 a 100. Preguntas abiertas de máximo
+1.000 caracteres.
+
+ID: RQ_023
+Nombre: Consolidación de resultados y generación del informe del pilotaje
+Actor: Coordinador del Pilotaje
+Relación: CU_015
+Tipo: Funcional
+Prioridad: Alta
+Entradas: Token con rol COORDINADOR_PILOTO; POST /api/v1/informes-pilotaje con {desde, hasta};
+acceso de lectura a Log Analytics mediante identidad administrada.
+Salidas: HTTP 201 Created con enlaces al informe en DOCX (DocumentFormat.OpenXml 3) y PDF
+(QuestPDF) y anexos en XLSX; fila versionada en pilotaje.informe.
+Descripción: Integra asistencia, puntaje SUS promedio y por región, respuestas abiertas agrupadas por
+funcionalidad, incidentes con tiempos de atención y conteos funcionales; consulta a Log Analytics con KQL
+(Azure.Monitor.Query 1.x) el p95 de la API, la tasa de errores y la disponibilidad del periodo. Cada
+
+
+
+
+                                                 Página 41
+generación crea una versión nueva con fecha, usuario y huella SHA-256. Meta: generación en 60 segundos
+o menos para el periodo completo del pilotaje.
+
+Requerimientos transversales de calidad
+ID: RQ_024
+Nombre: Rendimiento, concurrencia y escalado automático
+Actor: Arquitecto de Soluciones
+Relación: CU_005, CU_007, CU_009, RQ_002
+Tipo: No Funcional
+Prioridad: Alta
+Entradas: Perfil de carga: 2.000 usuarios concurrentes, 120 peticiones por segundo sostenidas, picos de
+300; datos de 10.000.000 de estudiantes.
+Salidas: Resultados de k6 con p95, tasa de error y réplicas activas; métricas en Application Insights.
+Descripción: Metas: p95 de 2 segundos o menos en operaciones transaccionales y tasa de error menor al
+1 % con 2.000 usuarios concurrentes durante 30 minutos. Escalado de Azure Container Apps con regla
+HTTP de 50 peticiones concurrentes por réplica: API con mínimo 2 y máximo 10 réplicas de 1 vCPU y 2
+GiB; Worker con regla KEDA por longitud de cola de Service Bus (1 réplica por cada 100 mensajes, máximo
+4). Respuestas comprimidas con Brotli, paginación máxima de 50 elementos y caché HTTP de catálogos
+(Cache-Control max-age 3600).
+
+ID: RQ_025
+Nombre: Disponibilidad y continuidad durante el pilotaje
+Actor: Arquitecto de Soluciones
+Relación: CU_002, CU_007, RQ_024
+Tipo: No Funcional
+Prioridad: Alta
+Entradas: Configuración de alta disponibilidad de PostgreSQL redundante en zona; Container Apps con
+redundancia de zona; respaldos automáticos.
+Salidas: Disponibilidad medida mensualmente; registros de conmutación; pruebas de restauración
+documentadas.
+Descripción: Meta de disponibilidad de 99,5 % mensual durante el pilotaje (máximo 3,6 horas de
+indisponibilidad al mes). PostgreSQL Flexible Server con alta disponibilidad redundante en zona (standby
+síncrono en otra zona, conmutación automática con RTO de 120 segundos o menos y RPO cero en falla de
+zona), respaldos automáticos con retención de 14 días, restauración a un punto en el tiempo y respaldo
+geo-redundante (RPO de 1 hora o menos y RTO de 4 horas o menos ante pérdida de región). Container
+Apps desplegado en un entorno con redundancia de zona en 3 zonas. Sondas de salud /health/live y
+
+
+
+
+                                                 Página 42
+/health/ready en ASP.NET Core 10. Ventana de mantenimiento: domingos de 01:00 a 03:00, fuera de las
+sesiones.
+
+ID: RQ_026
+Nombre: Protección de datos personales y cifrado
+Actor: Arquitecto de Soluciones
+Relación: CU_001, CU_002, CU_005
+Tipo: No Funcional
+Prioridad: Alta
+Entradas: Claves en Azure Key Vault (HMAC de 256 bits y claves de cifrado AES de 256 bits); certificados
+TLS administrados por Front Door; política de tratamiento de datos del Ministerio.
+Salidas: Datos personales cifrados en reposo y en tránsito; registros de acceso a datos personales en la
+bitácora; inventario de datos personales.
+Descripción: Cumplimiento de la Ley 1581 de 2012 y el Decreto 1377 de 2013, con tratamiento reforzado
+de datos de niños, niñas y adolescentes. En tránsito: TLS 1.3 preferente y TLS 1.2 como mínimo en Front
+Door, con HSTS de 1 año; conexiones a PostgreSQL con sslmode=verify-full. En reposo: cifrado de servicio
+AES-256 de PostgreSQL y Blob Storage; además, número de documento, nombres y fecha de nacimiento
+del estudiante se cifran a nivel de columna con AES-256-GCM en la API (nonce de 96 bits por registro) y la
+búsqueda se hace por huella HMAC-SHA-256 (RQ_008). Ningún secreto en el código ni en variables en
+claro: acceso a Key Vault por identidad administrada y rotación de claves cada 90 días. Los ambientes de
+desarrollo y pruebas solo usan datos sintéticos o anonimizados.
+
+ID: RQ_027
+Nombre: Optimización para conectividad limitada
+Actor: Desarrollador Front-End
+Relación: CU_007, RQ_012
+Tipo: No Funcional
+Prioridad: Media
+Entradas: Perfil de red de referencia: 3G de 1,6 Mbps con 300 ms de latencia; dispositivos Android de
+gama media.
+Salidas: Paquete inicial comprimido de 300 KB o menos; métricas de carga medidas con Playwright y
+Lighthouse.
+Descripción: División de código por ruta con import() dinámico de Vite 7, compresión Brotli y caché en el
+borde de Azure Front Door para los recursos estáticos con nombres versionados por huella (Cache-Control
+immutable de 1 año). Imágenes en WebP y fuentes del sistema. Metas: primera carga en 5 segundos o
+
+
+
+
+                                                Página 43
+menos y cargas siguientes en 2 segundos o menos con el perfil 3G; la aplicación abre desde la caché sin
+red.
+
+ID: RQ_028
+Nombre: Observabilidad y monitoreo continuo
+Actor: Arquitecto de Soluciones; Soporte
+Relación: CU_013, RQ_025
+Tipo: No Funcional
+Prioridad: Media
+Entradas: SDK OpenTelemetry .NET 1.x con exportador Azure Monitor; trazas del navegador con
+Application Insights JavaScript SDK 3.
+Salidas: Trazas distribuidas, métricas y registros en Log Analytics; tablero operativo en Azure Monitor;
+alertas que alimentan RQ_021.
+Descripción: Instrumentación de API y Worker con OpenTelemetry (trazas, métricas y registros)
+correlacionada por traceparent desde el navegador hasta PostgreSQL. Retención de 90 días en Log
+Analytics. Tablero operativo con p95, tasa de error, réplicas activas, longitud de colas, CPU y conexiones
+de PostgreSQL. Muestreo adaptativo al 20 % en producción y 100 % para peticiones con error. Monitoreo
+sintético cada 5 minutos desde Azure Monitor a /health/ready.
+
+ID: RQ_029
+Nombre: Seguridad perimetral con WAF y aislamiento de red
+Actor: Arquitecto de Soluciones
+Relación: CU_002, RQ_026
+Tipo: No Funcional
+Prioridad: Alta
+Entradas: Azure Front Door Premium con política WAF; red virtual con subredes y NSG; endpoints
+privados.
+Salidas: HTTP 403 ante peticiones maliciosas; HTTP 429 ante exceso de tasa; registros del WAF en Log
+Analytics.
+Descripción: Política WAF en modo Prevención con el conjunto administrado Default Rule Set 2.1
+(OWASP) y Bot Manager; regla de tasa de 300 peticiones por minuto por IP en /realms/sses/ y
+/api/v1/sincronizacion. Front Door se conecta al origen por Private Link; el ingreso de Container Apps solo
+acepta el encabezado X-Azure-FDID de la instancia propia. PostgreSQL, Blob Storage y Key Vault sin acceso
+público, solo por endpoints privados en la red virtual; NSG que deniega todo tráfico entrante que no
+provenga de Front Door. Escaneo DAST con OWASP ZAP en cada liberación a QA sin hallazgos de severidad
+Alta.
+
+11. DIAGRAMAS DE SECUENCIA
+Cada diagrama representa el flujo principal de una funcionalidad principal de cada actor, con cuatro
+columnas (Actor, Front-End, Lógica o Servicio y Base de Datos), líneas de vida, cajas de activación, llamadas
+
+
+                                                  Página 44
+en línea continua y retornos en línea punteada. Se organizan por actor y se basan en los casos de uso y en
+los requerimientos funcionales; los flujos alternos y los requerimientos no funcionales no se diagraman.
+
+Administrador Funcional del MEN
+ID: SEQ_001
+Nombre: Habilitar participantes del piloto
+Actor: Administrador Funcional del MEN
+Relación: CU_001, RQ_001
+Descripción: El administrador busca personas en la información oficial existente y elige su rol; el servicio
+de participantes verifica que no tengan cuenta activa con ese rol, crea las cuentas en Keycloak con rol y
+organización, registra a los participantes y el evento en PostgreSQL y devuelve 201 Created con las
+invitaciones encoladas.
+
+
+
+
+                                                 Página 45
+Gestor de Estrategias
+ID: SEQ_002
+Nombre: Crear estrategia estudiantil
+Actor: Gestor de Estrategias
+Relación: CU_003, RQ_006
+Descripción: El gestor abre el formulario, el servicio de estrategias consulta las entidades habilitadas y, al
+guardar, inserta la estrategia en estado Editable con su evento de bitácora y responde 201 Created con la
+ficha.
+
+
+
+
+                                                  Página 46
+ID: SEQ_003
+Nombre: Asociar estudiantes a una estrategia
+Actor: Gestor de Estrategias
+Relación: CU_005, RQ_008, RQ_007
+Descripción: El gestor busca por documento; el servicio de vinculación localiza al estudiante por la huella
+del documento, inserta los vínculos en una transacción, bloquea la estrategia para edición y responde 201
+Created con la lista actualizada.
+
+
+
+
+                                                 Página 47
+Tutor Líder
+ID: SEQ_004
+Nombre: Ingresar al aplicativo según el rol
+Actor: Tutor Líder
+Relación: CU_002, RQ_003
+Descripción: El portal redirige a Keycloak con código de autorización y PKCE; Keycloak verifica la
+contraseña y el código TOTP contra su base de datos, registra el evento y emite los tokens con el rol
+TUTOR_LIDER, con los que el portal construye el menú.
+
+
+
+
+                                              Página 48
+ID: SEQ_005
+Nombre: Programar acompañamiento mensual
+Actor: Tutor Líder
+Relación: CU_006, RQ_010
+Descripción: El Tutor Líder elige el mes; el servicio de acompañamientos consulta sus tutores docentes
+por estrategia y, al programar, inserta el plan con sus hitos semanales y responde 201 Created con el
+calendario del mes.
+
+
+
+
+                                               Página 49
+ID: SEQ_006
+Nombre: Registrar seguimiento semanal
+Actor: Tutor Líder
+Relación: CU_007, RQ_011
+Descripción: El Tutor Líder abre la semana; el servicio entrega el hito con su ETag y, al guardar con If-
+Match, inserta el seguimiento, marca la semana como Registrada y responde 200 OK con el cumplimiento
+del mes.
+
+
+
+
+                                                Página 50
+ID: SEQ_007
+Nombre: Responder instrumento de percepción
+Actor: Tutor Líder
+Relación: CU_014, RQ_022
+Descripción: El Tutor Líder abre el instrumento vigente; el servicio de instrumentos verifica que no haya
+respondido, recibe las respuestas, las guarda con seudónimo y responde 201 Created con la constancia.
+
+
+
+
+                                                Página 51
+Tutor Docente
+ID: SEQ_008
+Nombre: Confirmar acompañamiento recibido
+Actor: Tutor Docente
+Relación: CU_010, RQ_016
+Descripción: El Tutor Docente elige el mes; el servicio de acompañamiento consulta en PostgreSQL solo
+los planes del docente y, al confirmar una semana con su clave de idempotencia, inserta la confirmación,
+cambia el estado de la semana y devuelve 201 Created con el estado 'Confirmada por el docente'.
+
+
+
+
+                                                Página 52
+Analista del MEN
+ID: SEQ_009
+Nombre: Consultar tablero de desempeño de tutores
+Actor: Analista del MEN
+Relación: CU_008, RQ_013
+Descripción: El analista aplica filtros; el servicio de analítica consulta las vistas materializadas en la réplica
+de lectura y retorna los indicadores agregados; al seleccionar un tutor, retorna su detalle semanal.
+
+
+
+
+                                                    Página 53
+Ente de Control
+ID: SEQ_010
+Nombre: Generar reporte de ley
+Actor: Ente de Control
+Relación: CU_009, RQ_014
+Descripción: El ente de control elige reporte y vigencia; el servicio de reportes consulta la réplica según la
+plantilla, genera PDF/A y XLSX, calcula la huella SHA-256, registra la emisión y retorna el enlace de
+descarga.
+
+
+
+
+                                                  Página 54
+Coordinador del Pilotaje
+ID: SEQ_011
+Nombre: Programar sesión y registrar asistencia
+Actor: Coordinador del Pilotaje
+Relación: CU_011, CU_012, RQ_017, RQ_018
+Descripción: El coordinador programa la sesión; el servicio de pilotaje registra la sesión y los convocados
+y encola las convocatorias; el día de la sesión recibe la asistencia marcada y retorna el porcentaje
+consolidado.
+
+
+
+
+                                                  Página 55
+ID: SEQ_012
+Nombre: Consolidar resultados del pilotaje
+Actor: Coordinador del Pilotaje
+Relación: CU_015, RQ_023
+Descripción: El coordinador elige el periodo; el servicio de informes reúne asistencia, encuestas,
+incidentes y registros funcionales, consulta las métricas técnicas en Application Insights, registra la versión
+del informe y retorna su enlace.
+
+
+
+
+                                                   Página 56
+12. DIAGRAMA DE CLASES
+Vista única de la arquitectura lógica del SSES por módulos funcionales, construida desde las historias de usuario y los requerimientos. Cada caja
+contiene solo el nombre del módulo y cada flecha indica qué datos envía un módulo y qué recibe de vuelta. Todos los módulos se conectan con al
+menos otro.
+
+
+
+
+                                                                    Página 57
+13. DIAGRAMAS DE DESPLIEGUE
+Se presentan tres diagramas independientes, uno por ambiente. Ningún nodo de Desarrollo o de Pruebas
+se conecta con recursos de Producción: cada ambiente tiene su propia red, sus propias claves en su Key
+Vault, su propio registro de imágenes y su propia base de datos, y las imágenes se promueven entre
+ambientes mediante etapas separadas del pipeline. Todo lo dibujado está costeado en la sección 15.3.
+
+ID: DEP_001_DEV
+Nombre: Arquitectura de Despliegue - Ambiente de Desarrollo
+Relación: RQ_002, RQ_003, RQ_026
+Descripción: Ambiente híbrido: estaciones de desarrollo On-Premise del contratista con .NET SDK 10.0,
+Node.js 24 LTS y Podman 5 para pruebas unitarias locales, conectadas por Git sobre HTTPS a Azure DevOps
+Services (Repos y Pipelines). Cada commit dispara la integración continua, que ejecuta las pruebas
+unitarias, el análisis estático en SonarQube Community Build y publica las imágenes en el registro de DEV.
+El ambiente de ejecución es un Azure Container Apps de consumo con el portal, la API, el Worker y
+
+
+
+
+                                                 Página 58
+Keycloak, más PostgreSQL 17.11 en un Flexible Server B2s con datos sintéticos, Service Bus Basic, Blob
+Storage y Key Vault propios del ambiente.
+
+
+
+
+ID: DEP_002_QA
+Nombre: Arquitectura de Despliegue - Ambiente de Pruebas (QA)
+Relación: RQ_004, RQ_021, RQ_024, RQ_026, RQ_029
+Descripción: Ambiente controlado en la nube, administrado por el equipo de QA, que replica la topología
+de producción en menor escala: Front Door Premium con la misma política WAF, Static Web Apps,
+Container Apps con API, Worker y Keycloak, un realm de Keycloak que simula el directorio institucional
+del MEN, y los jobs de Grafana k6 y OWASP ZAP para carga y seguridad. PostgreSQL 17.11 en D2ds_v5,
+escalable a D4ds_v5 durante las semanas de carga, con 10 millones de registros sintéticos y anonimizados.
+
+
+
+
+                                                Página 59
+Service Bus, Blob Storage, Key Vault, Application Insights, Communication Services Email y registro de
+imágenes propios. Es el ambiente descrito en la sección 14.3.
+
+
+
+
+ID: DEP_003_PROD
+Nombre: Arquitectura de Despliegue - Ambiente de Producción
+Relación: RQ_004, RQ_012, RQ_024, RQ_025, RQ_026, RQ_027, RQ_028, RQ_029
+Descripción: Infraestructura de alta disponibilidad en la nube. Los usuarios de las regiones entran por
+Azure Front Door Premium (WAF DRS 2.1, protección de bots, límite de tasa y caché en el borde para
+conectividad limitada), que sirve el portal desde Static Web Apps y llega a los servicios por Private Link.
+Dentro de la red virtual, protegida por NSG, Container Apps redundante en tres zonas ejecuta la API (2 a
+10 réplicas), el Worker y Keycloak; PostgreSQL 17.11 opera con standby síncrono en otra zona y réplica
+de lectura para reportes; Blob Storage ZRS y Key Vault solo son accesibles por endpoints privados. Service
+Bus, Application Insights con Azure Monitor y Communication Services completan la operación, y Keycloak
+
+
+
+
+                                                 Página 60
+federa con el Entra ID existente del Ministerio. Las imágenes llegan solo por la etapa de producción del
+pipeline con aprobación del Comité.
+
+
+
+
+14. CONTROL Y ASEGURAMIENTO DE CALIDAD (QA)
+
+14.1 Tipos de pruebas
+La planeación de QA de Sinapsis Andina inicia en la semana 1, durante el análisis y el diseño, apenas se
+definen las Necesidades, las HU, los CU y los RQ: el Ingeniero de QA revisa cada artefacto, deriva de cada
+RQ sus casos de prueba y construye la Matriz de Pruebas en paralelo con los sprints, sin esperar a que el
+desarrollo termine. Cada sprint entrega incrementos que pasan por pruebas integrales en el ambiente de
+QA antes de su revisión con el Product Owner. Esta sección es la planeación de pruebas del software: no
+
+
+
+
+                                                Página 61
+contiene resultados de pruebas, porque aún no hay código, ni se confunde con la ejecución del pilotaje
+con usuarios, que es un frente distinto del contrato descrito en la sección 15.1.
+
+  • Pruebas unitarias: las únicas que planea y ejecuta el desarrollador sobre su propio código, con xUnit
+    2 para .NET 10 y Vitest 3 para React, con cobertura mínima del 70 % verificada en SonarQube en
+    cada integración continua. No forman parte de la matriz.
+  • Pruebas integrales: verifican la interacción entre módulos (por ejemplo, vinculación y bloqueo de
+    estrategias) y con sistemas externos (directorio del MEN simulado, Service Bus, Blob Storage,
+    correo). Las planea y ejecuta el equipo de QA de forma independiente.
+  • Pruebas de certificación: comprueban, en las semanas 14 y 15, el cumplimiento de todos los RQ y
+    de las metas pactadas antes del paso a producción; su aprobación es requisito del Comité para
+    liberar la etapa de producción del pipeline.
+  • Manuales: para funcionalidades y flujos de interfaz (formularios, tableros, reportes, recorrido sin
+    conexión en dispositivos reales).
+  • Automatizadas: obligatorias para volumen, concurrencia, carga, estrés y regresión: Grafana k6 1.x
+    para carga y estrés, Playwright 1.5x para regresión de interfaz y API y para mediciones de red
+    limitada, y OWASP ZAP 2.16 para seguridad dinámica.
+  • Especialidades del caso: seguridad (RQ_003, RQ_005, RQ_026, RQ_029), aislamiento entre entes
+    de control (RQ_001, RQ_014), rendimiento y concurrencia (RQ_002, RQ_024, RQ_019), continuidad
+    (RQ_025), conectividad limitada y trabajo sin conexión (RQ_012, RQ_016, RQ_027) y usabilidad,
+    verificada con pruebas de recorrido por rol en QA. La percepción de los usuarios no se mide aquí:
+    se recoge durante la ejecución del pilotaje.
+
+14.2 Alcance de la calidad
+  • Código ejecutable: revisión por pares obligatoria en cada pull request y análisis estático en
+    SonarQube con umbral de calidad sin vulnerabilidades ni defectos críticos; lo revisan el Arquitecto
+    de Soluciones y el Ingeniero de QA.
+  • Artefactos de análisis y diseño: Necesidades, HU, CU, RQ y diagramas se revisan contra una lista de
+    verificación de trazabilidad (toda necesidad con HU, toda HU con CU, todo CU con RQ) y de formato;
+    los revisa el Ingeniero de QA y los aprueba el Product Owner en la semana 3.
+  • Calidad de datos: antes del Sprint 1 se perfila la información existente en la base de datos del
+    Ministerio que usa el piloto (asociaciones Tutor Líder–Tutor Docente–estrategia completas,
+    documentos únicos, entidades activas), con un reporte de hallazgos que se entrega a la Oficina de
+    Tecnología; lo revisa el Analista Funcional y de Datos. El piloto no corrige ni recarga esa información.
+  • Documentación técnica: especificación OpenAPI, guía de despliegue y manual de operación se
+    revisan contra el sistema desplegado en QA; los revisa el Arquitecto de Soluciones.
+  • Manuales de usuario y material de capacitación: se validan con una prueba de recorrido por cada
+    rol con usuarios de prueba antes de la semana 16; los revisa el Coordinador del Pilotaje.
+
+
+
+
+                                                 Página 62
+   • Informes del pilotaje: se verifica en QA, con datos de prueba, que el módulo que genera el informe
+     (RQ_023) calcule los indicadores igual que las consultas de control; lo revisa el Ingeniero de QA. El
+     contenido real del informe pertenece a la ejecución del pilotaje y no a QA.
+
+14.3 Ambiente de pruebas
+El ambiente de pruebas es independiente de desarrollo y de producción y corresponde exactamente al
+diagrama DEP_002_QA. Vive en la nube de Azure, en una suscripción y un grupo de recursos propios, y lo
+administra el Ingeniero de QA con apoyo del Arquitecto de Soluciones. Replica en menor escala todos los
+componentes de producción: Front Door Premium con la misma política WAF, Static Web Apps, Container
+Apps con la API, el Worker y Keycloak, Service Bus, Blob Storage, Key Vault, Application Insights y
+Communication Services Email; incorpora además el realm de Keycloak que simula el directorio
+institucional del MEN y los jobs de Grafana k6 y OWASP ZAP. Usa PostgreSQL 17.11 con 10 millones de
+registros sintéticos generados por script y, cuando se requieran muestras reales del Ministerio, solo datos
+anonimizados de forma irreversible; nunca datos personales reales sin anonimizar. Recibe únicamente
+imágenes promovidas desde la etapa de liberación de QA del pipeline y su base de datos se escala a
+D4ds_v5 durante las semanas de carga y certificación.
+
+
+
+
+                                                 Página 63
+14.4 Matriz de Pruebas
+        Relación                                Precondición /                                                                                       Fecha de
+ID                 Descripción del caso                                   Resultado esperado               Tipo           Responsable    Evidencia
+        (RQ)                                    Entradas                                                                                             ejecución
+CP_001 RQ_001      Habilitación de 50           Sesión de                 HTTP 201 con 49 cuentas en       Manual         Ingeniero de
+                   participantes (tutores       ADMIN_FUNCIONAL;          estado Invitado y roles                         Pruebas (QA)
+                   líderes y docentes) y        50 personas existentes    correctos en Keycloak; el
+                   registro de dos entes de     en la base de QA; un      docente sin asociación
+                   control con sus plantillas   Tutor Docente sin         responde HTTP 422; dos
+                   autorizadas.                 Tutor Líder asociado.     organizaciones de control
+                                                                          creadas con sus plantillas.
+CP_002 RQ_001,     Aislamiento entre entes      Dos organizaciones de     Plantilla no autorizada        Automatizada     Arquitecto
+       RQ_014      de control: un usuario de    control con plantillas    responde HTTP 403; la consulta                  de
+                   la Contraloría intenta       distintas y 5 emisiones   de emisiones devuelve solo las                  Soluciones
+                   generar y consultar          cada una; tokens de un    5 de su organización; evento                    (DevSecOps)
+                   reportes de la               usuario por               ACCESO_DENEGADO en la                           con QA
+                   Procuraduría (colección      organización.             bitácora.
+                   Playwright).
+CP_003 RQ_002      Búsqueda por documento       Base QA con               p95 de 300 ms o menos; 0         Automatizada   Ingeniero de
+                   sobre 10.000.000 de          10.000.000 de             errores; plan de ejecución con                  Pruebas (QA)
+                   estudiantes con k6 (1.000    registros sintéticos;     Index Scan sobre
+                   consultas aleatorias).       token válido de           huella_documento.
+                                                GESTOR_ESTRATEGIAS
+                                                .
+CP_004 RQ_003,     Inicio de sesión con         Usuario TUTOR_LIDER       Redirección 302 al portal con    Manual         Ingeniero de
+       RQ_005      contraseña y TOTP y          enrolado con TOTP;        token RS256 de 10 min; menú                     Pruebas (QA)
+                   registro del evento en la    navegador Chrome y        solo con opciones de
+                   bitácora.                    Android.                  TUTOR_LIDER; evento LOGIN
+                                                                          con IP y hora en la bitácora.
+CP_005 RQ_003      Bloqueo por fuerza bruta     Usuario de prueba      Sexto intento rechazado con   Manual               Arquitecto
+                   tras intentos fallidos.      activo; 5 contraseñas  HTTP 401 y mensaje de cuenta                       de
+                                                erróneas consecutivas. bloqueada por 15 min; eventos                      Soluciones
+                                                                       LOGIN_ERROR registrados.                           (DevSecOps)
+                                                                                                                          con QA
+
+
+
+
+                                                                           Página 64
+       Relación                                 Precondición /                                                                                        Fecha de
+ID                Descripción del caso                                   Resultado esperado                 Tipo           Responsable    Evidencia
+       (RQ)                                     Entradas                                                                                              ejecución
+CP_006 RQ_004     Flujo alterno CU_002:         Realm simulador con      Redirección automática sin         Manual         Ingeniero de
+                  ingreso con correo            usuario del grupo        pedir contraseña local; cuenta                    Pruebas (QA)
+                  institucional federado con    ANALISTA_MEN.            federada creada; token SSES
+                  el simulador del directorio                            con rol ANALISTA_MEN;
+                  MEN.                                                   evento
+                                                                         IDENTITY_PROVIDER_LOGIN.
+CP_007 RQ_005     Acceso con rol no             Token TUTOR_LIDER;       HTTP 403 en los 40 endpoints;      Automatizada   Arquitecto
+                  autorizado a endpoints        colección Playwright     evento ACCESO_DENEGADO                            de
+                  restringidos (regresión de    de endpoints de          por cada intento; ninguna fila                    Soluciones
+                  40 endpoints).                reportes, habilitación   de datos retornada.                               (DevSecOps)
+                                                de participantes y                                                         con QA
+                                                analítica.
+CP_008 RQ_006     Creación de estrategia        GESTOR_ESTRATEGIAS       HTTP 201 con estado EDITABLE       Manual         Ingeniero de
+                  estudiantil y control de      con entidad activa       y ficha visible; segundo intento                  Pruebas (QA)
+                  nombre duplicado.             asignada.                con el mismo nombre en la
+                                                                         entidad responde HTTP 409.
+CP_009 RQ_007     Intento de edición de         Estrategia con 1         Portal muestra Bloqueada para      Manual         Ingeniero de
+                  estrategia con estudiantes    estudiante vinculado.    edición con campos                                Pruebas (QA)
+                  vinculados, por portal y                               deshabilitados; PUT responde
+                  por actualización directa                              HTTP 409
+                  en base de datos.                                      ESTRATEGIA_BLOQUEADA;
+                                                                         UPDATE directo rechazado por
+                                                                         trigger con SQLSTATE P0001.
+CP_010 RQ_008,    Vinculación individual de 3 Estrategia EDITABLE        HTTP 201 con 3 vinculados;     Manual             Ingeniero de
+       RQ_007     estudiantes y reintento     sin vínculos; 3            estrategia pasa a BLOQUEADA;                      Pruebas (QA)
+                  del mismo estudiante.       estudiantes existentes     reintento retorna yaVinculados
+                                              en la base de QA.          = 1 sin crear filas nuevas.
+CP_011 RQ_009     Flujo alterno CU_005:         Archivo CSV de 50.000    HTTP 202 con solicitudId;          Automatizada   Ingeniero de
+                  vinculación masiva            documentos (49.000       proceso terminado en 5 min o                      Pruebas (QA)
+                  asíncrona de 50.000           existentes, 500          menos; resumen 49.000
+                  documentos.                   inexistentes, 500        vinculados, 500 inexistentes,
+                                                repetidos).              500 ya vinculados; correo de
+                                                                         finalización recibido.
+
+
+
+                                                                          Página 65
+       Relación                                Precondición /                                                                                  Fecha de
+ID                Descripción del caso                                   Resultado esperado                Tipo     Responsable    Evidencia
+       (RQ)                                    Entradas                                                                                        ejecución
+CP_012 RQ_010     Programación mensual         TUTOR_LIDER con 8         HTTP 201 con plan y 4 hitos en    Manual   Ingeniero de
+                  grupal con 8 docentes y 4    tutores docentes          estado PROGRAMADA;                         Pruebas (QA)
+                  semanas, y doble             asociados en una          segundo plan del mismo mes
+                  programación.                estrategia vigente.       para esos docentes responde
+                                                                         HTTP 409.
+CP_013 RQ_011     Registro en línea del        Hito PROGRAMADA; 3        Imágenes reducidas a 1 MB o       Manual   Ingeniero de
+                  seguimiento semanal con      imágenes JPEG de 4        menos; HTTP 200; semana                    Pruebas (QA)
+                  3 fotos y control de         MB.                       REGISTRADA y cumplimiento
+                  versión.                                               recalculado; guardado con
+                                                                         ETag desactualizado responde
+                                                                         HTTP 412.
+CP_014 RQ_012,    Flujo alterno CU_007:        Android de gama           Aviso Sin conexión visible; 3     Manual   Ingeniero de
+       RQ_027     registro de 3 seguimientos   media; plan del mes       registros Pendiente cifrados en            Pruebas (QA)
+                  en modo avión y              en caché; perfil de red   IndexedDB; al reconectar,
+                  sincronización al            3G de 1,6 Mbps al         Sincronizado en 60 s o menos;
+                  recuperar la red.            reconectar.               reenvío con la misma
+                                                                         Idempotency-Key no crea
+                                                                         duplicados.
+CP_015 RQ_012     Conflicto de                 Hito modificado en        Servidor responde HTTP 409        Manual   Ingeniero de
+                  sincronización: mismo hito   línea por otra sesión     con su versión; el portal                  Pruebas (QA)
+                  editado en línea y sin       mientras el tutor está    muestra ambas versiones y
+                  conexión.                    sin red.                  conserva la que elige el tutor.
+CP_016 RQ_013     Tablero de desempeño         Base de QA con 20.000     Indicadores idénticos a la        Manual   Analista
+                  con filtros de región y      tutores sintéticos (en    consulta SQL de control;                   Funcional y
+                  mes, contrastado con         QA la cadena de           respuesta p95 de 3 s o menos;              de Datos
+                  consulta de control.         lectura apunta al         exportación XLSX con las
+                                               servidor de QA); vistas   mismas cifras.
+                                               materializadas
+                                               refrescadas.
+
+
+
+
+                                                                          Página 66
+       Relación                                Precondición /                                                                                      Fecha de
+ID                Descripción del caso                                 Resultado esperado                Tipo           Responsable    Evidencia
+       (RQ)                                    Entradas                                                                                            ejecución
+CP_017 RQ_014     Reporte de ley de 50.000     ENTE_CONTROL;           PDF/A-2b y XLSX generados en      Manual         Ingeniero de
+                  filas con verificación de    plantilla de reporte    10 s o menos; huella SHA-256                     Pruebas (QA)
+                  huella.                      parametrizada.          impresa; verificación por
+                                                                       código retorna válido; registro
+                                                                       en reportes.emision.
+CP_018 RQ_015     Flujo alterno CU_009:        ENTE_CONTROL;           HTTP 202; archivos por partes y Automatizada     Ingeniero de
+                  reporte de 2.000.000 de      vigencia completa con manifiesto firmado en 15 min o                     Pruebas (QA)
+                  filas generado en segundo    2.000.000 de registros. menos; correo con enlace SAS
+                  plano.                                               que expira a las 72 h.
+CP_019 RQ_016     Confirmación del             TUTOR_DOCENTE           HTTP 201 y semana               Manual           Ingeniero de
+                  acompañamiento por el        asociado a un Tutor     CONFIRMADO; la confirmación                      Pruebas (QA)
+                  Tutor Docente, en línea y    Líder; 2 semanas en     hecha sin red queda Pendiente
+                  en modo avión, con           estado REGISTRADA;      y se sincroniza en 60 s o menos
+                  reenvío de la misma clave.   Android de gama         al reconectar; reenvío con la
+                                               media con perfil 3G.    misma Idempotency-Key no
+                                                                       crea filas; segunda
+                                                                       confirmación responde HTTP
+                                                                       409.
+CP_020 RQ_017     Programación de sesión       COORDINADOR_PILOT       HTTP 201; 300 convocatorias       Manual         Ingeniero de
+                  con 300 tutores y            O; 300 tutores de       enviadas y con estado                            Pruebas (QA)
+                  verificación de              prueba con buzones      entregado; programación de
+                  convocatorias.               del dominio de          otra sesión cruzada para un
+                                               pruebas.                tutor responde HTTP 409.
+CP_021 RQ_018     Registro manual de           Sesión con 20           Porcentaje calculado con dos      Manual         Ingeniero de
+                  asistencia y cierre de la    convocados en su        decimales; sesión CERRADA;                       Pruebas (QA)
+                  sesión.                      ventana.                cambio posterior sin rol
+                                                                       SOPORTE responde HTTP 403.
+CP_022 RQ_019     Flujo alterno CU_012:        Sesión de 90 min; 350   350 Presente, 100 Parcial, 50     Automatizada   Ingeniero de
+                  asistencia automática con    tutores conectados      Ausente con origen                               Pruebas (QA)
+                  500 tutores simulados        100 %, 100 al 50 % y    AUTOMATICO; p95 de la API
+                  enviando latidos durante     50 sin conexión.        sin degradación superior al
+                  90 min (k6).                                         10 %.
+
+
+
+
+                                                                        Página 67
+       Relación                               Precondición /                                                                                        Fecha de
+ID                Descripción del caso                                 Resultado esperado                 Tipo           Responsable    Evidencia
+       (RQ)                                   Entradas                                                                                              ejecución
+CP_023 RQ_020     Registro de incidente       TUTOR_LIDER con          HTTP 201 con número INC-      Manual              Ingeniero de
+                  desde el botón Ayuda con    sesión activa en la      AAAA-NNNNNN; pantalla,                            Pruebas (QA)
+                  captura de contexto.        pantalla de              navegador y traceparent
+                                              seguimiento.             capturados; notificación al
+                                                                       coordinador en 1 min o menos.
+CP_024 RQ_021,    Flujo alterno CU_013:       Endpoint de prueba       Alerta disparada; incidente        Automatizada   Arquitecto
+       RQ_028     inducción de errores 5xx    que fuerza errores en    creado automáticamente con                        de
+                  superiores al 2 % durante   QA; regla de alerta y    severidad Alta y origen                           Soluciones
+                  5 min.                      Action Group activos.    MONITOREO; un solo caso                           (DevSecOps)
+                                                                       mientras la alerta siga activa.                   con QA
+CP_025 RQ_022     Respuesta del               TUTOR_LIDER              HTTP 201 con constancia;           Manual         Ingeniero de
+                  instrumento SUS y doble     participante de una      puntaje SUS calculado                             Pruebas (QA)
+                  respuesta.                  sesión cerrada;          correctamente para un caso de
+                                              instrumento vigente.     control (85,0); segunda
+                                                                       respuesta HTTP 409; sin
+                                                                       identidad directa en
+                                                                       pilotaje.respuesta.
+CP_026 RQ_023     Generación del informe      Periodo con 4 sesiones   DOCX, PDF y XLSX generados         Manual         Analista
+                  consolidado del pilotaje.   cerradas, 120            en 60 s o menos; asistencia,                      Funcional y
+                                              respuestas y 15          SUS e incidentes idénticos a las                  de Datos
+                                              incidentes de prueba.    consultas de control; métricas
+                                                                       técnicas incluidas.
+CP_027 RQ_024     Prueba de carga con k6:     QA escalado a            p95 de 2 s o menos; errores      Automatizada     Ingeniero de
+                  2.000 usuarios              D4ds_v5; 10.000.000      menores al 1 %; la API escala a                   Pruebas (QA)
+                  concurrentes durante 30     de registros; guion de   4 réplicas o más; sin pérdida de
+                  min con mezcla de           mezcla 60 % consultas,   mensajes en colas.
+                  operaciones.                40 % escrituras.
+CP_028 RQ_024     Prueba de estrés con k6     Mismo escenario de       Degradación controlada con         Automatizada   Ingeniero de
+                  hasta 4.000 usuarios        CP_027 con rampa de      HTTP 429 o 503, sin corrupción                    Pruebas (QA)
+                  concurrentes.               20 min.                  de datos; recuperación de p95
+                                                                       de 2 s o menos en 5 min tras
+                                                                       bajar la carga.
+
+
+
+
+                                                                        Página 68
+       Relación                                Precondición /                                                                                      Fecha de
+ID                Descripción del caso                                   Resultado esperado              Tipo           Responsable    Evidencia
+       (RQ)                                    Entradas                                                                                            ejecución
+CP_029 RQ_025     Reinicio forzado de          Carga de 500 usuarios;    Tasa de error menor al 1 %     Automatizada    Arquitecto
+                  réplicas de la API y del     reinicio de 2 réplicas    durante el evento; mensajes de                 de
+                  Worker durante carga         de API y 1 de Worker.     Service Bus reprocesados sin                   Soluciones
+                  sostenida.                                             pérdida ni duplicados de                       (DevSecOps)
+                                                                         negocio.                                       con QA
+CP_030 RQ_025     Restauración a un punto      Respaldo automático       Servidor restaurado con datos   Manual         Arquitecto
+                  en el tiempo de              activo; marca de          íntegros hasta la marca de                     de
+                  PostgreSQL.                  tiempo de 15 min          tiempo; restauración completa                  Soluciones
+                                               antes.                    en 1 h o menos y                               (DevSecOps)
+                                                                         documentada.                                   con QA
+CP_031 RQ_026     Verificación de cifrado en   Escaneo con OWASP         Conexiones con TLS inferior a Automatizada     Arquitecto
+                  tránsito y en reposo.        ZAP; consulta directa a   1.2 rechazadas; columnas de                    de
+                                               la tabla de               documento y nombres ilegibles                  Soluciones
+                                               estudiantes;              en consulta directa (AES-256-                  (DevSecOps)
+                                               repositorio de código.    GCM); 0 secretos en el                         con QA
+                                                                         repositorio según SonarQube.
+CP_032 RQ_029     Escaneo DAST con OWASP Front Door Premium              Inyecciones SQL y XSS           Automatizada   Arquitecto
+                  ZAP y prueba de límite de QA con WAF en modo           bloqueadas con HTTP 403; 0                     de
+                  tasa.                     Prevención.                  hallazgos de severidad Alta;                   Soluciones
+                                                                         más de 300 peticiones por                      (DevSecOps)
+                                                                         minuto a /realms/sses/                         con QA
+                                                                         responden HTTP 429.
+CP_033 RQ_027     Primera carga y cargas       Perfil 1,6 Mbps y 300     Paquete inicial de 300 KB o     Automatizada   Ingeniero de
+                  siguientes del portal con    ms de latencia; caché     menos; primera carga en 5 s o                  Pruebas (QA)
+                  red 3G simulada en           vacía y luego con         menos; siguientes en 2 s o
+                  Playwright.                  caché.                    menos; la aplicación abre sin
+                                                                         red desde la caché.
+CP_034 RQ_028     Traza distribuida de         Petición de registro de   Traza completa navegador-API- Manual           Arquitecto
+                  extremo a extremo con        seguimiento con           PostgreSQL visible en                          de
+                  identificador de             traceparent conocido.     Application Insights con el                    Soluciones
+                  correlación.                                           mismo identificador; registros                 (DevSecOps)
+                                                                         de error correlacionados.                      con QA
+
+
+
+
+                                                                          Página 69
+La matriz contiene 34 casos de prueba: 21 manuales y 13 automatizados. Las columnas Evidencia y Fecha de ejecución se diligencian cuando se
+ejecuten las pruebas del software, a partir de la semana 4; no incluyen resultados del pilotaje con usuarios.
+
+
+
+
+                                                                 Página 70
+15. GERENCIA DE PROYECTOS DE SOFTWARE
+
+15.1 Metodología
+Sinapsis Andina ejecutará el proyecto con una metodología Híbrida (PMP + Scrum). La elección se sustenta
+en los criterios del caso: la duración es de cinco meses, muy inferior al año que justificaría un enfoque
+tradicional puro; el equipo es compacto, de ocho profesionales más el Product Owner del Ministerio; el
+alcance contractual y la fecha final son fijos y perentorios porque se trata de una contratación pública,
+pero el detalle funcional se va a ajustar cuando el Ministerio vea el MVP; y la complejidad es media-alta,
+con dos líneas de trabajo (operación del SSES y gestión del pilotaje), ocho tipos de usuario (entre ellos el
+Tutor Líder, el Tutor Docente y varios entes de control), federación con el directorio institucional del
+Ministerio y una fase de operación con usuarios reales. Un esquema solo ágil no daría al Ministerio el
+control contractual que exige el pliego, y uno solo predictivo retrasaría hasta el final la validación con los
+usuarios.
+
+   • Qué gobierna PMP: el acta de inicio y el plan de gestión en la semana 1; la aprobación formal de la
+     línea base en el Comité de Seguimiento del jueves de la semana 3; el control integrado de cambios,
+     por el cual toda solicitud que afecte un RQ de la línea base se tramita con análisis de impacto en
+     costo y tiempo en máximo tres días hábiles y se decide en el Comité; la gestión de riesgos con
+     revisión semanal del mapa de calor; los entregables contractuales 1 a 6; la ejecución del pilotaje
+     como frente propio, con su plan operativo aprobado en la semana 6, y el cierre con su acta. El
+     Comité de Seguimiento con la Oficina de Tecnología se reúne todos los jueves a las 3:00 p. m., con
+     informe de avance contra la línea base, riesgos y decisiones; el jueves permite mostrar la semana
+     consolidada y deja el viernes de margen para corregir.
+   • Qué ejecuta Scrum: la construcción en cinco sprints de dos semanas (semanas 4 a 13), cada uno
+     con un incremento probado en QA. Ceremonias: Sprint Planning el lunes de inicio de cada sprint a
+     las 10:00 a. m.; Daily de 15 minutos todos los días hábiles a las 9:00 a. m.; refinamiento del backlog
+     el miércoles de la primera semana; Sprint Review con el Product Owner el jueves de la segunda
+     semana a las 10:00 a. m. y Retrospectiva ese mismo día a las 11:30 a. m.
+   • Roles: el Product Owner es un funcionario de la Oficina de Tecnología designado por el Ministerio,
+     que prioriza el backlog y acepta los incrementos; el Gerente de Proyecto, certificado PMP y PSM I,
+     actúa como Scrum Master; el equipo de desarrollo lo integran el Arquitecto, los desarrolladores, el
+     Ingeniero de QA y el Analista Funcional.
+   • MVP: al cierre del Sprint 3 (semana 9) la Oficina de Tecnología tendrá en funcionamiento, en el
+     ambiente de QA, el acceso con segundo factor, la creación de estrategias con su bloqueo, la
+     vinculación de estudiantes sobre la información existente y el plan mensual del Tutor Líder con el
+     seguimiento semanal, incluido el registro sin conexión. Es el núcleo que resuelve las necesidades 1,
+     2 y 4, se demuestra en vivo en la Sprint Review y es la base de la presentación comercial de esta
+     propuesta.
+   • Estrategia de ejecución del pilotaje:
+
+
+
+                                                  Página 71
+  • Alistamiento (semanas 6 a 13): con la Oficina de Tecnología se define la muestra: seis regiones
+    (Caribe, Pacífico, Andina, Orinoquía, Amazonía y Bogotá D. C.) con zonas urbanas y rurales, unos
+    1.200 tutores líderes y tutores docentes y los entes de control que participarán. Se aprueba el plan
+    operativo en la semana 6, el Ministerio expide la convocatoria oficial en la semana 12, se validan el
+    instrumento de percepción (escala SUS de diez ítems, utilidad por funcionalidad y preguntas
+    abiertas) y la guía de los grupos focales, y se fijan los criterios de viabilidad: SUS de 68 o más,
+    disponibilidad del 99,5 % o más, p95 de 2 segundos o menos, asistencia del 80 % o más y el 95 % o
+    más de los registros sin conexión sincronizados sin pérdida.
+  • Despliegue y capacitación (semana 16): paso del piloto certificado a producción, habilitación de los
+    participantes (RQ_001) y capacitación virtual de 60 minutos por región, con manual de usuario y
+    videos cortos para tutores líderes, tutores docentes y entes de control.
+  • Operación y soporte (semanas 17 a 20): dieciséis sesiones de 90 minutos (cuatro por semana,
+    máximo 500 convocados cada una) y una sesión nacional de concurrencia con hasta 2.000 usuarios
+    en la semana 19. Durante cada sesión hay mesa de ayuda en línea: primer nivel con el Coordinador
+    del Pilotaje y el Analista de Mesa de Ayuda, segundo nivel con los desarrolladores y tercer nivel con
+    el Arquitecto, con atención de severidad Alta en 15 minutos o menos (RQ_020) y monitoreo en
+    tiempo real (RQ_028). Se controla la asistencia (RQ_018 y RQ_019) y los entes de control generan
+    sus reportes de ley en el piloto. Al cierre de cada sesión los participantes responden el instrumento
+    (RQ_022) y en la semana 20 se realiza un grupo focal virtual por región.
+  • Análisis e informes (semanas 21 y 22): el Analista Funcional y de Datos consolida asistencia, uso
+    por funcionalidad, incidentes, métricas técnicas y percepción (RQ_023). En la semana 21 se
+    entregan el entregable 4 (registro de sesiones, información consolidada, reportes de desempeño
+    técnico y funcional y reportes de ley) y el entregable 5 (resultados y análisis de la percepción); en la
+    semana 22, el entregable 6: informe integral con los hallazgos frente a los criterios de viabilidad y
+    la recomendación de implementar o no el SSES a escala nacional, con los ajustes, costos y riesgos
+    que esa escala implicaría.
+
+15.2 Recursos Humanos
+Tarifas por hora de mercado en Colombia para 2026, facturables (incluyen prestaciones sociales,
+seguridad social y margen de la firma), con jornada de 42 horas semanales y un plazo de 22 semanas.
+
+  • Gerente de Proyecto Senior (PMP, PSM I), 1 persona: 280 horas a $105.000 por hora = $29.400.000.
+    Lidera el gobierno PMP, actúa como Scrum Master, conduce el Comité de Seguimiento, administra
+    la línea base, el control de cambios y los riesgos, y responde por los entregables contractuales.
+  • Arquitecto de Soluciones Cloud Senior (Azure Solutions Architect Expert) con funciones
+    DevSecOps, 1 persona: 220 horas a $110.000 por hora = $24.200.000. Define la arquitectura y los
+    diagramas, construye la infraestructura como código y los pipelines, asegura la configuración de
+    seguridad y observabilidad y presta soporte de tercer nivel durante el pilotaje.
+
+
+
+
+                                                 Página 72
+  • Desarrollador Back-End Senior (.NET), 1 persona: 480 horas a $90.000 por hora = $43.200.000.
+    Construye la API, el Worker, el modelo de datos, la habilitación de participantes, la sincronización
+    del lado del servidor, los reportes y las integraciones.
+  • Desarrollador Front-End Mid (React y aplicaciones web progresivas), 1 persona: 400 horas a
+    $65.000 por hora = $26.000.000. Construye el portal, el trabajo sin conexión, el tablero y la
+    optimización para conectividad limitada.
+  • Ingeniero de QA Senior (ISTQB), 1 persona: 260 horas a $75.000 por hora = $19.500.000. Participa
+    desde la semana 1: revisa los artefactos, construye la Matriz de Pruebas, administra el ambiente de
+    QA, automatiza las pruebas de regresión, carga y seguridad y lidera la certificación de las semanas
+    14 y 15.
+  • Analista Funcional y de Datos Mid, 1 persona: 200 horas a $60.000 por hora = $12.000.000.
+    Levanta necesidades, HU y CU con el Ministerio, perfila la información existente que usa el piloto,
+    diseña los instrumentos de percepción y analiza los resultados del pilotaje y redacta los
+    entregables 4, 5 y 6.
+  • Coordinador del Pilotaje y Mesa de Ayuda Mid, 1 persona: 200 horas a $45.000 por hora =
+    $9.000.000. Responde por el frente de ejecución del pilotaje: plan operativo, muestra,
+    convocatoria y logística de las sesiones, control de la asistencia, capacitación de tutores líderes,
+    tutores docentes y entes de control, y soporte de primer nivel en tiempo real.
+  • Analista de Mesa de Ayuda Junior, 1 persona: 160 horas a $35.000 por hora = $5.600.000. Atiende
+    en línea, junto con el Coordinador, el soporte de primer nivel durante las dieciséis sesiones y la
+    sesión nacional de concurrencia (semanas 16 a 20), registra los incidentes y escala los de severidad
+    Alta.
+  • Total recurso humano: $168.900.000. El Product Owner es un funcionario del Ministerio: aporte
+    de la entidad, no incrementa el presupuesto.
+
+15.3 Recursos Tecnológicos
+Precios de lista de Microsoft Azure con pago por uso en la región East US 2, convertidos a pesos con la
+TRM declarada en los supuestos. Cada servicio dibujado en los diagramas de despliegue aparece aquí con
+su ambiente y su periodo imputado.
+
+Software de base y herramientas
+  • Lenguajes, frameworks y librerías: React 19.2, TypeScript 5.9, Vite 7, Workbox 7, Dexie.js 4, Apache
+    ECharts 5.6, oidc-client-ts 3, ASP.NET Core 10 y C# 14, Entity Framework Core 10, Npgsql 10,
+    FluentValidation 12, ClosedXML 0.105, DocumentFormat.OpenXml 3, OpenTelemetry .NET 1.x,
+    NGINX 1.28: Open Source. QuestPDF 2025 bajo su licencia Community: Open Source.
+  • Motor de base de datos y proveedor de identidad: PostgreSQL 17.11 con pgcrypto, pg_partman y
+    pg_cron, y Keycloak 26.8.1: Open Source; su infraestructura se costea en cada ambiente.
+
+
+
+
+                                               Página 73
+  • Herramientas de las estaciones de desarrollo (DEP_001_DEV, On-Premise): Visual Studio
+    Code, .NET SDK 10.0, Node.js 24 LTS y Podman 5: Open Source. Los equipos de cómputo de cada
+    profesional no son un recurso del proyecto.
+  • Calidad, automatización y seguridad: SonarQube Community Build, Grafana k6 1.x, Playwright 1.5x,
+    Lighthouse, OWASP ZAP 2.16, xUnit 2 y Vitest 3: Open Source; se ejecutan sobre la infraestructura
+    de DEV y QA costeada abajo. Infraestructura como código con Bicep: Open Source.
+  • Directorio institucional del MEN (Microsoft Entra ID): licenciamiento existente de la entidad, no
+    incrementa el presupuesto.
+
+Ambiente de Desarrollo (DEP_001_DEV)
+  • Azure DevOps Services Basic: 5 usuarios incluidos en el plan y 2 usuarios adicionales a USD 6 por
+    usuario al mes durante 5 meses = USD 60,0 ($196.193).
+  • Azure Container Apps DEV, plan de consumo (portal, API, Worker, Keycloak y SonarQube): USD 80
+    al mes durante 3 meses = USD 240,0 ($784.771).
+  • Azure Database for PostgreSQL Flexible Server B2s con 64 GB: USD 57 al mes durante 3 meses =
+    USD 171,0 ($559.149).
+  • Azure Container Registry Basic DEV: USD 5 al mes durante 5 meses = USD 25,0 ($81.747).
+  • Azure Service Bus Basic DEV: USD 0,05 por millón de operaciones, estimado en USD 1 al mes durante
+    3 meses = USD 3,0 ($9.810).
+  • Azure Blob Storage LRS DEV: USD 2 al mes durante 3 meses = USD 6,0 ($19.619).
+  • Azure Key Vault Standard DEV: USD 0,03 por 10.000 operaciones, estimado en USD 0,7 al mes
+    durante 3 meses = USD 2,1 ($6.867).
+  • Subtotal Desarrollo: USD 507,1 ($1.658.156).
+
+Ambiente de Pruebas (DEP_002_QA)
+  • Azure Front Door Premium QA con WAF: tarifa base de USD 330 más tráfico, USD 334 al mes durante
+    3,5 meses = USD 1.169,0 ($3.822.490).
+  • Azure Static Web Apps Standard QA: USD 9 al mes durante 3,5 meses = USD 31,5 ($103.001).
+  • Azure Container Apps QA, plan de consumo (API, Worker, Keycloak, simulador del directorio, jobs
+    de k6 y OWASP ZAP): USD 107 al mes durante 3,5 meses = USD 374,5 ($1.224.570).
+  • Azure Database for PostgreSQL Flexible Server D2ds_v5 con 256 GB, escalado a D4ds_v5 en las
+    semanas de carga: USD 178,5 al mes durante 3,5 meses = USD 624,8 ($2.042.858).
+  • Azure Service Bus Standard QA: USD 10 al mes durante 3,5 meses = USD 35,0 ($114.446).
+  • Azure Blob Storage LRS QA: USD 5 al mes durante 3,5 meses = USD 17,5 ($57.223).
+  • Azure Key Vault Standard QA: USD 0,6 al mes durante 3,5 meses = USD 2,1 ($6.867).
+
+
+
+
+                                              Página 74
+  • Application Insights y Log Analytics QA, 5 GB al mes a USD 2,30 por GB: USD 11,5 al mes durante 3,5
+    meses = USD 40,2 ($131.613).
+  • Azure Communication Services Email QA: USD 0,00025 por correo, estimado en USD 0,6 al mes
+    durante 3,5 meses = USD 2,1 ($6.867).
+  • Azure Container Registry Basic QA: USD 5 al mes durante 3,5 meses = USD 17,5 ($57.223).
+  • Azure Pipelines, etapa de liberación QA: incluida en la suscripción de Azure DevOps Services
+    costeada en el ambiente de Desarrollo, que ejecuta las etapas de cada ambiente con conexiones de
+    servicio separadas.
+  • Subtotal Pruebas: USD 2.314,2 ($7.567.156).
+
+Ambiente de Producción (DEP_003_PROD)
+  • Azure Front Door Premium PROD con WAF, protección de bots y caché en el borde: tarifa base de
+    USD 330 más tráfico y peticiones, USD 352 al mes durante 2,5 meses = USD 880,0 ($2.877.494).
+  • Azure Static Web Apps Standard PROD: USD 9 al mes durante 2,5 meses = USD 22,5 ($73.572).
+  • Azure Container Apps PROD con redundancia de zona (API de 2 a 10 réplicas, Worker de 1 a 4 y
+    Keycloak con 2): USD 450 al mes durante 2,5 meses = USD 1.125,0 ($3.678.615).
+  • Azure Database for PostgreSQL Flexible Server D4ds_v5 con alta disponibilidad redundante en zona
+    (primario y standby), réplica de lectura D2ds_v5, 512 GB por nodo y respaldo geo-redundante: USD
+    877 al mes durante 2,5 meses = USD 2.192,5 ($7.169.212).
+  • Azure Service Bus Standard PROD: USD 12 al mes durante 2,5 meses = USD 30,0 ($98.096).
+  • Azure Blob Storage ZRS PROD con política de inmutabilidad: USD 15 al mes durante 2,5 meses = USD
+    37,5 ($122.620).
+  • Azure Key Vault Standard PROD: USD 2 al mes durante 2,5 meses = USD 5,0 ($16.349).
+  • Red virtual, NSG y 4 endpoints privados (PostgreSQL primario, réplica, Blob Storage y Key Vault) a
+    USD 0,01 por hora cada uno; la red virtual y los NSG se facturan a través de esos endpoints y su
+    tráfico: USD 29,2 al mes durante 2,5 meses = USD 73,0 ($238.701).
+  • Application Insights, Log Analytics y Azure Monitor PROD, 30 GB al mes a USD 2,30 por GB, con
+    reglas de alerta y pruebas de disponibilidad: USD 70 al mes durante 2,5 meses = USD 175,0
+    ($572.229).
+  • Azure Communication Services Email PROD: estimado de 16.000 correos al mes, USD 4 al mes
+    durante 2,5 meses = USD 10,0 ($32.699).
+  • Azure Container Registry Basic PROD: USD 5 al mes durante 2,5 meses = USD 12,5 ($40.874).
+  • Azure Pipelines, etapa de producción con aprobación del Comité: incluida en la suscripción de Azure
+    DevOps Services costeada en el ambiente de Desarrollo.
+  • Microsoft Entra ID del MEN: licenciamiento existente de la entidad, no incrementa el presupuesto.
+  • Subtotal Producción: USD 4.563,0 ($14.920.462).
+
+
+
+                                               Página 75
+   • Total recurso tecnológico: USD 7.384,3 equivalentes a $24.145.775.
+Consolidado presupuestal: recurso humano $168.900.000 más recurso tecnológico $24.145.775 suman
+$193.045.775, frente al presupuesto oficial de $200.000.000. La diferencia de $6.954.225 (3,5 % del
+presupuesto) queda como reserva de contingencia, administrada por el Gerente de Proyecto y liberada
+solo con aprobación del Comité para materializar planes de mitigación (sección 15.5).
+
+Supuestos declarados: tarifas horarias de mercado de 2026 para Colombia, facturables; jornada de 42
+horas semanales según la Ley 2101 de 2021 y plazo de 22 semanas desde el acta de inicio; TRM de
+$3.269,88 por dólar del 10 de noviembre de 2026, certificada por la Superintendencia Financiera; precios
+de lista de Azure con pago por uso de noviembre de 2026, sin descuentos por reserva; periodos imputados
+de 5 meses para Azure DevOps y el registro de DEV, 3 meses para el resto de DEV, 3,5 meses para QA
+(semanas 2 a 16) y 2,5 meses para producción (semanas 12 a 22, incluido el aprovisionamiento previo);
+alojamiento en la región East US 2, admitida para la transferencia internacional de datos conforme a la
+Circular Externa 005 de 2017 de la Superintendencia de Industria y Comercio, y si el Ministerio exige otra
+región se recotiza; licenciamiento de Microsoft Entra ID del Ministerio existente, por confirmar en la
+semana 1.
+
+
+
+
+                                                Página 76
+15.4 Cronograma
+
+
+
+
+                  Página 77
+Línea Base (Ruta Crítica): RQ_003, RQ_005, RQ_026, RQ_002 (Sprint 1), RQ_006, RQ_007, RQ_008 (Sprint 2), RQ_010, RQ_011, RQ_012 (Sprint
+3), RQ_014, RQ_020 (Sprint 4), RQ_017, RQ_022, RQ_023 (Sprint 5), RQ_024 (certificación, semanas 14 y 15), RQ_029, RQ_025 (despliegue,
+semana 16).
+
+La ruta crítica recorre el proyecto sin interrupción: acta de inicio y análisis en las semanas 1 y 2; diseño y aprobación de la línea base en la
+semana 3; Sprint 1 de seguridad, protección de datos y modelo de datos en las semanas 4 y 5; Sprint 2 de estrategias y vinculación en las
+semanas 6 y 7; Sprint 3 del acompañamiento del Tutor Líder y el trabajo sin conexión en las semanas 8 y 9, con el MVP; Sprint 4 de reportes de
+ley por ente de control y mesa de ayuda en las semanas 10 y 11; Sprint 5 de sesiones, instrumento de percepción e informe en las semanas 12 y
+13; QA integral, carga, seguridad y certificación del software en las semanas 14 y 15; despliegue a producción y capacitación en la semana 16;
+ejecución del pilotaje con sus dieciséis sesiones y soporte en tiempo real en las semanas 17 a 20; análisis y entregables 4 y 5 en la semana 21, e
+informe integral (entregable 6) y acta de cierre en la semana 22. Avanzan en paralelo y con holgura la planeación de QA y la Matriz de Pruebas
+(semanas 1 a 13), el aprovisionamiento de DEV y QA (semanas 2 y 3), la habilitación de participantes y entes de control RQ_001 (semanas 4 y 5),
+la federación con el directorio del MEN RQ_004 (semanas 4 a 7), la vinculación masiva RQ_009 (semanas 6 a 9), la confirmación del Tutor
+Docente RQ_016 y la optimización para baja conectividad RQ_027 (semanas 8 a 11), el tablero y los reportes asíncronos RQ_013 y RQ_015
+(semanas 10 a 13), la asistencia automática y las alertas RQ_018, RQ_019 y RQ_021 (semanas 12 y 13), la observabilidad y el aprovisionamiento
+de producción RQ_028 (semanas 10 a 13), el alistamiento del pilotaje (semanas 6 a 13) y la recolección de percepción con grupos focales
+(semanas 17 a 20).
+
+
+
+
+                                                                     Página 78
+15.5 Riesgos
+ID    Nombre                       Categoría     Probabilidad   Impacto   Plan de Mitigación
+R01   Cambio en los formatos o Entorno           Media          Alto      Plantillas de reporte parametrizables
+      criterios de los reportes                                           (consulta y diseño en tablas, sin
+      de ley exigidos por los                                             recompilar); acta con los formatos
+      entes de control durante                                            vigentes acordados antes de la
+      la ejecución                                                        semana 9; cambios posteriores por
+                                                                          control de cambios ante el Comité.
+R02   Demora en la expedición      Entorno       Alta           Alto      Plan operativo aprobado en la semana
+      de la convocatoria oficial                                          6 con la fecha límite de la
+      o en la autorización de                                             convocatoria (semana 12) pactada en
+      las secretarías de                                                  el acta; borrador de la convocatoria
+      educación para que los                                              entregado por Sinapsis Andina en la
+      tutores líderes y                                                   semana 8; calendario de sesiones
+      docentes participen en                                              acordado con las regiones; lista de
+      las sesiones                                                        participantes suplentes por región.
+R03   Baja participación de los    Entorno       Media          Alto      Convocatoria oficial firmada por el
+      tutores convocados a las                                            Ministerio con dos semanas de
+      sesiones del pilotaje                                               anticipación; recordatorios a 48 y a 2
+                                                                          horas; franjas horarias acordadas con
+                                                                          las regiones; sobreconvocatoria del
+                                                                          20 %; capacitación previa corta.
+R04   Solicitudes de cambio de     Entorno       Alta           Medio     Línea base aprobada en la semana 3;
+      requerimientos del                                                  MVP temprano en la semana 9 para
+      Ministerio después de la                                            incorporar ajustes con sprints
+      demostración del MVP                                                disponibles; intercambio en el backlog
+                                                                          por esfuerzo equivalente; cambios a la
+                                                                          línea base solo con solicitud formal
+                                                                          ante el Comité.
+R05   Cambio de directivos de    Entorno         Baja           Alto      Patrocinio formal en el acta de inicio;
+      la Oficina de Tecnología o                                          línea base y actas de comité firmadas;
+      repriorización                                                      informe semanal de decisiones que
+      institucional por ajustes                                           facilite el empalme con nuevos
+      del gobierno                                                        directivos.
+R06   Alza de la TRM o de las      Entorno       Media          Medio     Reserva de contingencia del 3,5 %;
+      tarifas del proveedor de                                            presupuestos y alertas de costo al
+      nube que encarezca la                                               80 % en Azure Cost Management;
+      infraestructura                                                     escalado a cero de DEV y QA fuera del
+                                                                          horario laboral.
+R07   Conectividad                 Tecnológico   Alta           Alto      Trabajo sin conexión con
+      intermitente o de bajo                                              sincronización diferida (RQ_012);
+      ancho de banda en las                                               optimización de carga y caché en el
+      regiones de los tutores                                             borde (RQ_027); pruebas con perfil 3G
+                                                                          (CP_014 y CP_033); guía de uso para
+                                                                          tutores en zonas rurales.
+
+
+
+
+                                                    Página 79
+ID     Nombre                     Categoría     Probabilidad   Impacto   Plan de Mitigación
+R08    Indisponibilidad o         Tecnológico   Baja           Alto      Redundancia de zona en Container
+       degradación del                                                   Apps y PostgreSQL, respaldo geo-
+       proveedor de nube en la                                           redundante y restauración probada
+       región                                                            (CP_030); monitoreo sintético; el
+                                                                         trabajo sin conexión del tutor sirve
+                                                                         como contingencia operativa.
+R09    Errores o                  Tecnológico   Media          Medio     Versiones fijadas; actualización
+       incompatibilidades                                                controlada primero en DEV y QA con
+       introducidos por nuevas                                           la regresión automatizada;
+       versiones de                                                      congelamiento de versiones desde la
+       dependencias                                                      semana 14, salvo parches de
+       (Keycloak, .NET, React,                                           seguridad certificados en QA.
+       extensiones de
+       PostgreSQL)
+R10    Curva de aprendizaje del Tecnológico     Media          Medio     Prueba de concepto de ambas
+       equipo en sincronización                                          capacidades a cargo del Arquitecto en
+       sin conexión y federación                                         las semanas 2 y 3; programación en
+       de identidad                                                      pareja en los sprints 1 y 3; guía técnica
+                                                                         interna.
+R11    Falla o demora en la       Tecnológico   Media          Medio     Solicitud del registro de la aplicación
+       integración con el                                                en la semana 1; simulador del
+       directorio institucional                                          directorio en QA; cuentas locales con
+       del MEN                                                           TOTP como alternativa operativa;
+                                                                         actividad fuera de la ruta crítica.
+
+
+
+
+Antes de mitigar, R02 y R07 están en zona crítica; R01, R03 y R04 en zona alta, y R05, R06, R08, R09, R10
+y R11 en zona moderada. Con los planes de mitigación, R02 baja a moderado porque la fecha límite
+pactada en el plan operativo y los suplentes por región reducen tanto la probabilidad de la demora como
+
+
+
+                                                  Página 80
+su efecto sobre las sesiones; R07 conserva una probabilidad alta, porque la conectividad de las regiones
+no depende del proyecto, pero su impacto baja a bajo gracias al trabajo sin conexión, por lo que queda
+en moderado. R01 pasa a moderado con las plantillas parametrizables; R03, R04, R05 y R08 quedan en
+zona baja, al igual que R06, R09, R10 y R11. Ningún riesgo residual permanece en zona alta o crítica, y los
+tres moderados (R01, R02 y R07) se revisan cada jueves en el Comité de Seguimiento.
+
+16. REFERENCIAS
+Brooke, J. (1996). SUS: A quick and dirty usability scale. En P. W. Jordan, B. Thomas, B. A. Weerdmeester
+        y I. L. McClelland (Eds.), Usability evaluation in industry (pp. 189-194). Taylor & Francis.
+Congreso de la República de Colombia. (2012). Ley Estatutaria 1581 de 2012, por la cual se dictan
+       disposiciones generales para la protección de datos personales. Diario Oficial No. 48.587.
+Congreso de la República de Colombia. (2021). Ley 2101 de 2021, por medio de la cual se reduce la
+       jornada laboral semanal de manera gradual. Diario Oficial No. 51.731.
+International Organization for Standardization. (2023). ISO/IEC 25010:2023. Systems and software
+        engineering — Systems and software Quality Requirements and Evaluation (SQuaRE) — Product
+        quality model. ISO.
+Keycloak. (2026, 13 de octubre). Keycloak 26.8.1 released. https://www.keycloak.org/2026/10/keycloak-
+       2681-released
+Microsoft. (2026). Azure Container Apps pricing. https://azure.microsoft.com/pricing/details/container-
+       apps/
+Microsoft. (2026). Azure Front Door pricing. https://azure.microsoft.com/pricing/details/frontdoor/
+Microsoft. (2026). Compute options in Azure Database for PostgreSQL flexible server.
+       https://learn.microsoft.com/azure/postgresql/flexible-server/concepts-compute
+Object Management Group. (2017). OMG Unified Modeling Language (OMG UML), version 2.5.1.
+       https://www.omg.org/spec/UML/2.5.1
+OWASP Foundation. (2021). OWASP Top 10: 2021. https://owasp.org/Top10/
+PostgreSQL Global Development Group. (2026). PostgreSQL 17.11 release notes.
+       https://www.postgresql.org/docs/17/release-17-11.html
+Presidencia de la República de Colombia. (2013). Decreto 1377 de 2013, por el cual se reglamenta
+        parcialmente la Ley 1581 de 2012. Diario Oficial No. 48.834.
+Project Management Institute. (2021). A guide to the project management body of knowledge (PMBOK
+        guide) (7.ª ed.). Project Management Institute.
+Schwaber, K. y Sutherland, J. (2020). The Scrum guide. https://scrumguides.org/scrum-guide.html
+Sommerville, I. (2016). Software engineering (10.ª ed.). Pearson.
+
+
+
+
+                                                 Página 81
+Superintendencia de Industria y Comercio. (2017). Circular Externa 005 de 2017: transferencia
+        internacional de datos personales.
+Superintendencia Financiera de Colombia. (2026). Tasa Representativa del Mercado (TRM) del 10 de
+        noviembre de 2026. https://www.superfinanciera.gov.co
+
+
+
+
+                                               Página 82
+
