@@ -1,4 +1,6 @@
+using FluentValidation;
 using Npgsql;
+using Sses.Api.Maestros;
 using Sses.Api.Auditoria;
 using Sses.Api.Comun;
 using Sses.Api.Estrategias;
@@ -14,6 +16,9 @@ builder.Services.AddSingleton<IProteccionDatos>(_ => ProteccionDatos.DesdeConfig
 builder.Services.AddScoped<IUsuarioActual, UsuarioActual>();
 builder.Services.AddScoped<IBitacora, Bitacora>();
 builder.Services.AddProblemDetails();
+builder.Services.AddSingleton<IValidator<EstrategiaCrear>, EstrategiaCrearValidator>();
+builder.Services.AddSingleton<IValidator<EstrategiaEditar>, EstrategiaEditarValidator>();
+builder.Services.AddSingleton<Vigencia>();
 builder.AgregarAuth();
 builder.Services.AddCors(o => o.AddDefaultPolicy(p => p
     .WithOrigins((builder.Configuration["Cors:Origins"] ?? "http://localhost:5173").Split(',', StringSplitOptions.RemoveEmptyEntries))
@@ -23,6 +28,8 @@ var app = builder.Build();
 app.Use(async (ctx, next) => { ctx.Response.Headers["X-Content-Type-Options"] = "nosniff"; await next(); });
 app.UseExceptionHandler(e => e.Run(async ctx =>
 {
+    var ex = ctx.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerFeature>()?.Error;
+    if (ex != null) ctx.RequestServices.GetRequiredService<ILoggerFactory>().CreateLogger("Sses.Api").LogError(ex, "Error no controlado en {Metodo} {Ruta}", ctx.Request.Method, ctx.Request.Path);
     ctx.Response.StatusCode = 500; ctx.Response.ContentType = "application/problem+json";
     await ctx.Response.WriteAsJsonAsync(new { title = "Ocurrió un error inesperado.", status = 500, code = "ERROR_INTERNO" });
 }));
@@ -47,7 +54,9 @@ app.MapGet("/health/ready", async (IConfiguration cfg, IHttpClientFactory http, 
 });
 
 app.MapSesion();
+app.MapMaestros();
 app.MapEstrategias();
+app.MapBusquedaEstudiantes();
 app.MapAuditoria();
 app.Run();
 

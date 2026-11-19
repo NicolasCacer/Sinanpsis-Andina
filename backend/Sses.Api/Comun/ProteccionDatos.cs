@@ -24,8 +24,8 @@ public sealed class ProteccionDatos : IProteccionDatos
     }
 
     public static ProteccionDatos DesdeConfiguracion(IConfiguration cfg) =>
-        new(Convert.FromBase64String(cfg["SSES__CLAVE_AES"] ?? throw new InvalidOperationException("Falta SSES__CLAVE_AES")),
-            Convert.FromBase64String(cfg["SSES__CLAVE_HMAC"] ?? throw new InvalidOperationException("Falta SSES__CLAVE_HMAC")));
+        new(Convert.FromBase64String(cfg["SSES:CLAVE_AES"] ?? cfg["SSES__CLAVE_AES"] ?? throw new InvalidOperationException("Falta SSES__CLAVE_AES")),
+            Convert.FromBase64String(cfg["SSES:CLAVE_HMAC"] ?? cfg["SSES__CLAVE_HMAC"] ?? throw new InvalidOperationException("Falta SSES__CLAVE_HMAC")));
 
     /// <summary>Formato: nonce(12) || ciphertext || tag(16). Nonce aleatorio por valor.</summary>
     public byte[] Cifrar(string texto)

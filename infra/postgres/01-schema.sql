@@ -37,6 +37,7 @@ create table maestros.estudiante_huella (
   huella bytea primary key check (octet_length(huella) = 32),
   estudiante_id bigint not null,
   public_id uuid not null unique);
+create index ix_huella_estudiante on maestros.estudiante_huella (estudiante_id);
 create table maestros.tutor (
   id bigint generated always as identity primary key,
   public_id uuid not null unique default gen_random_uuid(),
