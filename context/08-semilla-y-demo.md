@@ -48,18 +48,20 @@ Hilo narrativo: *"Andrés es tutor líder en Tumaco. Hoy el Ministerio no sabe s
 | 5 | 1:00 | Andrés (celular o vista móvil) entra → 'Acompañamientos' → 'Plan mensual' → grupal, 3 docentes, semanas 1-3 → 'Programar'. Calendario con 0 %. | El Ministerio sabe qué acompañamientos se comprometieron. | N2, RQ_010 |
 | 6 | 1:30 | **Modo avión / Offline.** Recargar: la app abre. Aviso 'Sin conexión…'. Registrar la semana 1 con asistencia y una foto → 'Pendiente'. **Volver la red** → 'Sincronizado', cumplimiento 33 %. | "En una vereda sin señal el trabajo no se pierde ni se duplica." El pliego lo valora especialmente. | N2, RQ_011, RQ_012 |
 | 7 | 0:30 | (Si hay tiempo) Conflicto: otra ventana registra la misma semana online; la offline sincroniza → 'En conflicto', elegir. | Integridad aun con dos dispositivos. | RQ_012 |
+| 7b | 0:30 | Desde el formulario de seguimiento, 'Ayuda' → "No carga la foto" → 'Enviar' → caso `INC-2026-…` sin explicar la pantalla. Abrir 'Mis casos'. | "Además de construir el software, operamos el pilotaje: cada inconveniente en campo queda registrado como hallazgo para la decisión." | N6, Línea B, RQ_020 |
 | 8 | 0:30 | Bitácora: últimos eventos y "Cadena íntegra ✓". | Trazabilidad que las hojas de cálculo no dan. | N4, RQ_005 |
 
-Cierre: "Esto es el Sprint 3 de nuestro cronograma — semana 9 de 22 — y es exactamente la ruta crítica de la línea base. Lo que falta (reportes de ley, pilotaje, analítica) se construye sobre esta base."
+Cierre: "El Ministerio no nos compra un software: necesita decidir con evidencia si el SSES es viable a escala nacional. Por eso el MVP muestra las dos cosas que necesita: (1) un piloto que ya cumple las reglas del programa en las condiciones del país —sin señal, con 500.000 estudiantes, con datos de menores protegidos— y (2) la capacidad de operar el pilotaje en campo: cada inconveniente de un tutor queda registrado y atendido, y cada registro sin conexión se mide (cero perdidos, cero duplicados). Esto es el Sprint 3 de nuestro cronograma —semana 9 de 22—, la ruta crítica de la línea base; lo que falta (reportes de ley, sesiones, percepción, informe) se construye sobre esta base."
 
 ### Plan B (si algo falla en vivo)
 
-- Video grabado del recorrido completo (grabarlo con la versión final; 1080p, sin audio, con subtítulos de cada paso).
+- **Nunca video**: el profesor lo considera "no es un MVP" y reprueba la sustentación. El respaldo es siempre software funcionando.
+- Si falla el despliegue público: el mismo stack corre en el portátil con `docker compose up -d` (arrancado y con `reset-demo.sh` aplicado antes de entrar al salón).
 - Si falla Keycloak/TOTP: usuarios ya autenticados en pestañas abiertas antes de empezar.
 - Si falla la red del salón: todo corre local en el portátil (`docker compose`), y el modo offline se demuestra con DevTools.
 
 ### Logística de la demo
 
 - Portátil con Docker; build de producción del front servido por nginx (no `vite dev`).
-- Para usar el celular: URL HTTPS (Cloudflare Tunnel o despliegue) → actualizar redirect URIs del cliente `sses-web` y `KC_HOSTNAME`. Instalar la PWA en el celular antes ("Agregar a pantalla de inicio").
+- Despliegue con enlace web accesible (obligatorio según el profesor): definir `PUBLIC_WEB_URL` y `PUBLIC_KC_URL` (HTTPS) en `.env`; compose ajusta `KC_HOSTNAME`, el emisor de la API, CORS, el build del front y la redirect URI de `sses-web` (el realm se importa con `${SSES_WEB_URL}`; si el realm ya existía, borrarlo o agregar la URI en la consola). Instalar la PWA en el celular antes ("Agregar a pantalla de inicio").
 - Ensayo completo con `reset-demo.sh` entre corridas; medir que quepa en el tiempo asignado.

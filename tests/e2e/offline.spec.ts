@@ -1,8 +1,7 @@
 import { test, expect } from '@playwright/test'
-import { login, programarPlanDemo, tokenDe, API, sql, mesActual, registrarSemana } from './helpers'
-import { execSync } from 'node:child_process'
+import { login, programarPlanDemo, tokenDe, API, sql, mesActual, registrarSemana, resetDemo } from './helpers'
 
-test.beforeAll(() => { execSync('./scripts/reset-demo.sh', { cwd: '../..' }) })
+test.beforeAll(() => { resetDemo() })
 
 test('F7 · sin conexión: abre desde caché, guarda Pendiente, sincroniza, no duplica y resuelve conflictos en ambos sentidos', async ({ page, context, request }) => {
   test.setTimeout(240_000)

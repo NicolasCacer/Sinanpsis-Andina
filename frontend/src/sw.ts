@@ -12,6 +12,8 @@ registerRoute(new NavigationRoute(createHandlerBoundToURL('/index.html'), { deny
 self.addEventListener('message', (e) => {
   if (e.data?.type === 'SKIP_WAITING') void self.skipWaiting()
 })
+// Versión nueva publicada: se activa de inmediato en vez de esperar a que se cierren todas las pestañas
+self.addEventListener('install', () => void self.skipWaiting())
 self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()))
 
 // Background Sync (solo Chromium): disparador adicional; la cola y su estado viven en la app (D05)

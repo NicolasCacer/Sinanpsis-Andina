@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test'
-import { login, programarPlanDemo, adjuntarFotoPesada } from './helpers'
+import { login, programarPlanDemo, adjuntarFotoPesada, resetDemo } from './helpers'
 import { execSync } from 'node:child_process'
 
-test.beforeAll(() => { execSync('./scripts/reset-demo.sh', { cwd: '../..' }) })
+test.beforeAll(() => { resetDemo() })
 
 test('F6 · registrar la semana 1 en línea con una foto pesada que se reduce a ≤ 1 MB', async ({ page }) => {
   await login(page, 'tutor.lider@sinapsis.co')

@@ -50,7 +50,8 @@ public static class VinculacionEndpoints
                 return Problemas.De(422, "ESTRATEGIA_FUERA_DE_VIGENCIA", "La estrategia ya terminó su vigencia.");
             var res = (await cn.QueryAsync<(long estudiante_id, Guid public_id)>(
                 "select estudiante_id, public_id from maestros.estudiante_huella where public_id = any(@ids)", new { ids }, tx)).ToList();
-            if (res.Count != ids.Length) return Problemas.De(422, "ESTUDIANTE_NO_ENCONTRADO", "Alguno de los estudiantes no existe.");
+            // RQ_008: estudiante inexistente → 404
+            if (res.Count != ids.Length) return Problemas.NoEncontrado("ESTUDIANTE_NO_ENCONTRADO", "Alguno de los estudiantes no existe en la información oficial.");
             var nuevos = (await cn.QueryAsync<long>(
                 @"insert into estrategias.estrategia_estudiante (estrategia_id, estudiante_id, vinculado_por)
                   select @e, x, @por from unnest(@ests) x on conflict do nothing returning estudiante_id",
