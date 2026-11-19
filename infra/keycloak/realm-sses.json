@@ -2,7 +2,7 @@
  "realm": "sses",
  "enabled": true,
  "displayName": "SSES · Sinapsis Andina",
- "sslRequired": "none",
+ "sslRequired": "external",
  "internationalizationEnabled": true,
  "supportedLocales": [
   "es"
@@ -129,7 +129,8 @@
    "protocol": "openid-connect",
    "redirectUris": [
     "http://localhost:5173/*",
-    "http://localhost:5174/*"
+    "http://localhost:5174/*",
+    "${SSES_WEB_URL}/*"
    ],
    "webOrigins": [
     "+"

@@ -14,7 +14,7 @@ public static class SesionEndpoints
         Roles.Gestor => [new("estrategias", "Estrategias", "/estrategias", true, null)],
         Roles.TutorLider => [new("acompanamientos", "Acompañamientos", "/acompanamientos", true, null),
                              new("pilotaje", "Pilotaje", "/pilotaje", false, "Próximo sprint"),
-                             new("ayuda", "Ayuda", "/ayuda", false, "Próximo sprint")],
+                             new("ayuda", "Ayuda", "/ayuda", true, null)], // RQ_020: mesa de ayuda del pilotaje (Línea B)
         Roles.TutorDocente => [new("mi-acompanamiento", "Mi acompañamiento", "/mi-acompanamiento", false, "Próximo sprint")],
         _ => []
     };

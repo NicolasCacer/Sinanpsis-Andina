@@ -119,7 +119,7 @@ Todas exigen `Authorization: Bearer`. Errores en Problem Details con `code`.
 | PUT | `/estrategias/{id}` | `If-Match` obligatorio. `200`, `409 ESTRATEGIA_BLOQUEADA`, `412 VERSION_CAMBIADA`, `428` sin If-Match |
 | GET | `/estudiantes?tipoDoc=&numDoc=` | `200 {id, nombre, sede, municipio}` o `404`. Incluye cabecera `Server-Timing: db;dur=…` para mostrar velocidad |
 | GET | `/estrategias/{id}/estudiantes?despuesDe=` | Vinculados, keyset 50 |
-| POST | `/estrategias/{id}/estudiantes` | `{estudianteIds: uuid[] (máx 200)}` → `201 {vinculados, yaVinculados}`. Usa `INSERT ... ON CONFLICT DO NOTHING`. `422 ESTRATEGIA_FUERA_DE_VIGENCIA` |
+| POST | `/estrategias/{id}/estudiantes` | `{estudianteIds: uuid[] (máx 200)}` → `201 {vinculados, yaVinculados}`. Usa `INSERT ... ON CONFLICT DO NOTHING`. `404 ESTUDIANTE_NO_ENCONTRADO`, `422 ESTRATEGIA_FUERA_DE_VIGENCIA` |
 
 Transacción de edición (RQ_007): `READ COMMITTED`, `SELECT ... FROM estrategia WHERE id=@id FOR UPDATE`, comparar xmin con If-Match, comparar `estudiantes_vinculados = 0`, `UPDATE`, bitácora, commit. Si el trigger dispara P0001 → mapear a 409.
 
@@ -139,3 +139,9 @@ Transacción de edición (RQ_007): `READ COMMITTED`, `SELECT ... FROM estrategia
 | POST | `/sincronizacion/seguimientos` | Lote ≤ 50. Cada ítem: `{idempotencyKey, hitoId, versionBase, capturadoEn, asistencia, actividades, avances, evidencias:[{nombre, base64}]}`. Respuesta por ítem: `{idempotencyKey, estado: APLICADO|DUPLICADO|CONFLICTO|RECHAZADO, cumplimientoMes?, versionServidor?, registroServidor?}`. Ítems con más de 30 días → `RECHAZADO` |
 
 Detalle de reglas en `06-offline-sync.md`.
+
+### Mesa de ayuda (RQ_020, D20)
+| Método | Ruta | Detalle |
+|---|---|---|
+| POST | `/incidentes` | Cualquier rol. `{tipo: BLOQUEANTE|FUNCIONAL|CONSULTA, descripcion (máx 2.000), pantalla, navegador, traceparent}` → `201 {numero: INC-AAAA-NNNNNN, severidad, estado: ABIERTO}`. Severidad: Bloqueante = Alta, Funcional = Media, Consulta = Baja. Tabla `mesa.incidente` (`03-mesa.sql`) |
+| GET | `/incidentes/mios` | 'Mis casos': solo los del usuario, últimos 50 |

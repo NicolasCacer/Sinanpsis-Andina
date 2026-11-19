@@ -3,6 +3,8 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 PSQL="docker compose exec -T postgres psql -U postgres -d sses -v ON_ERROR_STOP=1 -q"
+# Cambios de esquema posteriores al primer arranque (idempotentes): mesa de ayuda y permisos (D21)
+docker compose exec -T postgres psql -U postgres -d sses -v ON_ERROR_STOP=1 -q -f /docker-entrypoint-initdb.d/03-mesa.sql
 $PSQL <<'SQL'
 -- Transaccional del Tutor Líder demo (tutor_id = 1)
 create temp table _planes as select id from acompanamiento.plan where tutor_id = 1;
@@ -15,6 +17,8 @@ delete from acompanamiento.hito_semanal where id in (select id from _hitos);
 delete from acompanamiento.plan_docente where plan_id in (select id from _planes);
 delete from acompanamiento.plan where id in (select id from _planes);
 delete from acompanamiento.idempotencia;
+-- Casos de la mesa de ayuda abiertos durante la demo
+delete from mesa.incidente;
 -- Estrategias creadas durante la demo (las precargadas son las 60 primeras)
 delete from acompanamiento.asignacion where estrategia_id > 60;
 delete from estrategias.estrategia_estudiante where estrategia_id > 60;

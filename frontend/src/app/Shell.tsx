@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 import { usePendientes, useEnConflicto } from '../offline/outbox'
 import { iniciarSincronizacion } from '../offline/sync'
 import { precargarPlanes } from '../offline/planLocal'
+import BotonAyuda from '../features/ayuda/BotonAyuda'
 
 const fmt = (iso: string | null) => (iso ? new Date(iso).toLocaleString('es-CO', { dateStyle: 'medium', timeStyle: 'short' }) : 'primer ingreso')
 
@@ -39,6 +40,7 @@ export default function Shell() {
             {pendientes} pendientes
           </span>
           {enConflicto > 0 && <span data-testid="indicador-conflictos" className="text-xs rounded-full px-2.5 py-1 bg-red-100 text-red-800">{enConflicto} en conflicto</span>}
+          <BotonAyuda />
           <Link to="/auditoria" className="text-sm text-andino-700 underline">Bitácora</Link>
           <button onClick={salir} className="text-sm text-andino-700 underline">Salir</button>
         </header>

@@ -45,7 +45,7 @@ public sealed class SsesFixture : IAsyncLifetime
     public async Task InitializeAsync()
     {
         Environment.SetEnvironmentVariable("TESTCONTAINERS_RYUK_DISABLED", "true"); // sin pull de Ryuk; el fixture elimina el contenedor
-        _pg = new PostgreSqlBuilder("postgres:17").WithPassword("pg").WithBindMount(RutaInfra(), "/docker-entrypoint-initdb.d").Build();
+        _pg = new PostgreSqlBuilder("postgres:17.11").WithPassword("pg").WithBindMount(RutaInfra(), "/docker-entrypoint-initdb.d").Build();
         await _pg.StartAsync();
         var host = _pg.Hostname; var port = _pg.GetMappedPublicPort(5432);
         ConnSuper = $"Host={host};Port={port};Database=sses;Username=postgres;Password=pg;Pooling=false";

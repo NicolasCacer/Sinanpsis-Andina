@@ -67,11 +67,11 @@ public class VinculacionTests(SsesFixtureInicial fx)
         Assert.Contains("00000000-0000-7000-8000-000000000054", fila); Assert.DoesNotContain("1000000004", fila);
     }
 
-    [Fact] public async Task Vincular_estrategia_ajena_da_404_y_estudiante_inexistente_da_422()
+    [Fact] public async Task Vincular_estrategia_ajena_da_404_y_estudiante_inexistente_da_404()
     {
         var id = await NuevaEstrategia();
         Assert.Equal(HttpStatusCode.NotFound, (await F.Gestor("gestorC").PostAsJsonAsync($"/api/v1/estrategias/{id}/estudiantes", new { estudianteIds = new[] { Est(1) } })).StatusCode);
-        Assert.Equal(HttpStatusCode.UnprocessableEntity, (await F.Gestor().PostAsJsonAsync($"/api/v1/estrategias/{id}/estudiantes", new { estudianteIds = new[] { Guid.NewGuid() } })).StatusCode);
+        Assert.Equal(HttpStatusCode.NotFound, (await F.Gestor().PostAsJsonAsync($"/api/v1/estrategias/{id}/estudiantes", new { estudianteIds = new[] { Guid.NewGuid() } })).StatusCode);
         Assert.Equal(HttpStatusCode.BadRequest, (await F.Gestor().PostAsJsonAsync($"/api/v1/estrategias/{id}/estudiantes", new { estudianteIds = Array.Empty<string>() })).StatusCode);
     }
 

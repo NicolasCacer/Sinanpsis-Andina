@@ -31,10 +31,20 @@ Glosario: el **Tutor Docente** es quien da la clase; el **Tutor Líder** acompa�
 
 Menús:
 - Gestor: **'Estrategias'**.
-- Tutor Líder: **'Acompañamientos'**, **'Pilotaje'** (deshabilitado, "Próximo sprint"), **'Ayuda'** (deshabilitado).
+- Tutor Líder: **'Acompañamientos'**, **'Pilotaje'** (deshabilitado, "Próximo sprint"), **'Ayuda'** (lleva a 'Mis casos', D20).
 - Tutor Docente (stretch): **'Mi acompañamiento'**.
 
 Mensaje de confianza en el inicio (HU_002): cada consulta o cambio queda registrado a su nombre.
+
+## HU_011 / CU_013 — Reportar un inconveniente (Línea B, adelanto del Sprint 4, D20)
+
+1. Botón **'Ayuda'** en el encabezado de **cualquier pantalla** y para cualquier rol.
+2. Elige el tipo de inconveniente (Bloqueante / Funcional / Consulta), describe lo que pasó y pulsa **'Enviar'**.
+   El aplicativo adjunta por su cuenta la pantalla, el navegador y el identificador de correlación (`traceparent`).
+3. Ve en pantalla su **número de caso** `INC-AAAA-NNNNNN` (severidad inicial Alta/Media/Baja según el tipo, estado 'Abierto').
+4. En **'Mis casos'** ve sus casos con estado ('Abierto', 'En atención', 'Resuelto', 'Cerrado') y las horas de atención.
+
+Fuera del MVP: notificación por correo al Coordinador del Pilotaje, panel de soporte y alertas de monitoreo (RQ_021).
 
 ## HU_003 / CU_003 — Crear estrategia
 
@@ -98,7 +108,7 @@ Tipos de documento: `RC` (registro civil), `TI` (tarjeta de identidad), `CC`, `C
 `'Guardar cambios'`, `'Bloqueada para edición'`, `'Asociar estudiantes'`, `'Buscar'`, `'Vincular'`,
 `'Estudiantes vinculados'`, `'Cargar listado'`, `'Acompañamientos'`, `'Plan mensual'`, `'Programar'`,
 `'Registrar seguimiento'`, `'Registrada'`, `'Programada'`, `'Sin conexión: tus registros se guardarán en este dispositivo'`,
-`'Pendiente'`, `'Sincronizado'`, `'En conflicto'`, `'Pilotaje'`, `'Ayuda'`.
+`'Pendiente'`, `'Sincronizado'`, `'En conflicto'`, `'Pilotaje'`, `'Ayuda'`, `'Enviar'`, `'Mis casos'`.
 
 ## Pantallas del MVP
 

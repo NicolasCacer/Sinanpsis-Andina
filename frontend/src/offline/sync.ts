@@ -24,7 +24,22 @@ async function armarItem(r: RegistroOutbox) {
   return { idempotencyKey: r.idempotencyKey, hitoId: r.hitoId, versionBase: r.versionBase, capturadoEn: r.capturadoEn, asistencia: d.asistencia, actividades: d.actividades, avances: d.avances, evidencias, resolucion: r.resolucion ?? null }
 }
 
-/** Envía la cola en orden de creación, en lotes de ≤ 50. Idempotente: reenviar nunca duplica (RQ_012). */
+const MAX_ITEMS = 50
+/** Tope por petición (las fotos viajan en base64): evita 413 del proxy. Siempre se envía al menos un registro. */
+export const MAX_BYTES_LOTE = 6_000_000
+
+/** Arma el lote en orden hasta MAX_ITEMS registros o MAX_BYTES_LOTE; lo que no cabe queda Pendiente para la siguiente vuelta. */
+async function armarLote(regs: RegistroOutbox[]) {
+  const items: Awaited<ReturnType<typeof armarItem>>[] = []; let bytes = 0
+  for (const r of regs) {
+    const it = await armarItem(r); const tam = JSON.stringify(it).length
+    if (items.length > 0 && bytes + tam > MAX_BYTES_LOTE) break
+    items.push(it); bytes += tam
+  }
+  return { items, cuantos: items.length }
+}
+
+/** Envía la cola en orden de creación, en lotes de ≤ 50 registros y ≤ 6 MB. Idempotente: reenviar nunca duplica (RQ_012). */
 export async function sincronizarAhora(): Promise<EstadoSync> {
   if (corriendo) return 'ocupado'
   corriendo = true
@@ -32,12 +47,14 @@ export async function sincronizarAhora(): Promise<EstadoSync> {
     if (!(await getAccessToken())) return 'sin-sesion' // se pide ingresar de nuevo SIN borrar la cola
     const meses = new Set<string>(); let alguno = false
     for (;;) {
-      const lote = (await db.outbox.where('estado').equals('Pendiente').sortBy('creadoEn')).slice(0, 50)
-      if (lote.length === 0) break
+      const pendientes = (await db.outbox.where('estado').equals('Pendiente').sortBy('creadoEn')).slice(0, MAX_ITEMS)
+      if (pendientes.length === 0) break
       alguno = true
       let resultados: ResultadoItem[]
+      let lote = pendientes
       try {
-        const items = await Promise.all(lote.map(armarItem))
+        const { items, cuantos } = await armarLote(pendientes)
+        lote = pendientes.slice(0, cuantos)
         const r = await apiRaw<{ resultados: ResultadoItem[] }>('/sincronizacion/seguimientos', { method: 'POST', body: { items }, timeoutMs: 120000 })
         resultados = r.data.resultados
       } catch (e) {
