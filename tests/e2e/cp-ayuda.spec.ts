@@ -11,7 +11,7 @@ test('CP_023 · el tutor reporta un inconveniente desde Ayuda y lo ve en Mis cas
   await page.getByRole('button', { name: 'Enviar' }).click()
   const numero = (await page.getByTestId('numero-caso').textContent())!.trim()
   expect(numero).toMatch(/^INC-\d{4}-\d{6}$/)
-  expect(sql(`select severidad || '|' || pantalla || '|' || (traceparent is not null) from mesa.incidente where numero='${numero}'`)).toBe('ALTA|/acompanamientos|t')
+  expect(sql(`select severidad || '|' || pantalla || '|' || (traceparent is not null) from mesa.incidente where numero='${numero}'`)).toBe('ALTA|/acompanamientos|true')
   await page.getByRole('link', { name: 'Mis casos' }).click()
   await expect(page.getByTestId('lista-casos')).toContainText(numero)
   await expect(page.getByTestId('lista-casos')).toContainText('Abierto')

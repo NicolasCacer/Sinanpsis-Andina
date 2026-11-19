@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 # Deja la base en el estado inicial del guion de demo (no re-siembra estudiantes; la bitácora NO se borra: es inmutable).
 set -euo pipefail
+export MSYS_NO_PATHCONV=1  # Git Bash en Windows: no reescribir las rutas del contenedor
 cd "$(dirname "$0")/.."
 PSQL="docker compose exec -T postgres psql -U postgres -d sses -v ON_ERROR_STOP=1 -q"
 # Cambios de esquema posteriores al primer arranque (idempotentes): mesa de ayuda y permisos (D21)
-docker compose exec -T postgres psql -U postgres -d sses -v ON_ERROR_STOP=1 -q -f /docker-entrypoint-initdb.d/03-mesa.sql
+docker compose exec -T -e PGOPTIONS=--client-min-messages=warning postgres psql -U postgres -d sses -v ON_ERROR_STOP=1 -q -f /docker-entrypoint-initdb.d/03-mesa.sql
 $PSQL <<'SQL'
 -- Transaccional del Tutor Líder demo (tutor_id = 1)
 create temp table _planes as select id from acompanamiento.plan where tutor_id = 1;
