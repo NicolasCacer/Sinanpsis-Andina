@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { createPortal } from 'react-dom'
 import { Link, useLocation } from 'react-router'
 import { ApiError } from '../../app/api'
 import { esErrorDeRed } from '../../offline/red'
@@ -21,7 +22,8 @@ export default function BotonAyuda() {
   )
 }
 
-function FormularioAyuda({ cerrar }: { cerrar: () => void }) {
+/** Se pinta en document.body: el encabezado usa backdrop-blur, que confina los hijos `fixed` a su caja. */
+export function FormularioAyuda({ cerrar }: { cerrar: () => void }) {
   const { pathname } = useLocation()
   const [tipo, setTipo] = useState<Incidente['tipo'] | ''>('')
   const [descripcion, setDescripcion] = useState('')
@@ -41,8 +43,8 @@ function FormularioAyuda({ cerrar }: { cerrar: () => void }) {
     } finally { setEnviando(false) }
   }
 
-  return (
-    <div className="fixed inset-0 z-30 bg-black/40 flex items-end sm:items-center justify-center p-0 sm:p-4" onClick={cerrar}>
+  return createPortal(
+    <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-[2px] flex items-end sm:items-center justify-center p-0 sm:p-4" onClick={cerrar}>
       <div role="dialog" aria-modal="true" aria-labelledby="titulo-ayuda" onClick={(e) => e.stopPropagation()}
         className="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-5 shadow-xl">
         <div className="flex items-center gap-3"><span className="grid place-items-center w-10 h-10 rounded-full bg-andino-50 text-andino-700"><IconoAyuda /></span><div><h2 id="titulo-ayuda" className="text-lg font-bold text-andino-900">Ayuda</h2><p className="text-xs text-slate-500">Mesa de ayuda del pilotaje</p></div></div>
@@ -76,6 +78,7 @@ function FormularioAyuda({ cerrar }: { cerrar: () => void }) {
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body,
   )
 }
