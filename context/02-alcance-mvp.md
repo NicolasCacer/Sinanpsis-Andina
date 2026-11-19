@@ -11,22 +11,23 @@
 | 5 | Plan mensual individual/grupal con hitos semanales | N2 | HU_005 | CU_006 | RQ_010 | Alta |
 | 6 | Registro de seguimiento semanal con asistencia, actividades, avances y fotos | N2 | HU_006 | CU_007 (principal) | RQ_011 | Alta |
 | 7 | Mismo registro sin señal, sincronización al volver, resolución de conflictos | N2 | HU_006 | CU_007 (alterno) | RQ_012 | Alta |
+| 8 | Botón 'Ayuda' en todas las pantallas → caso `INC-AAAA-NNNNNN` con contexto técnico y 'Mis casos' (Línea B: soporte en tiempo real del pilotaje) | N6 | HU_011 | CU_013 (flujo principal) | RQ_020 | Alta |
 | T1 | Bitácora de auditoría inmutable (cadena SHA-256) | N4 | — | transversal | RQ_005 | Alta |
 | T2 | Cifrado por columna + huella HMAC de datos del estudiante | N4 | — | transversal | RQ_026 | Alta |
 | T3 | Modelo particionado e indexado; seed con volumen | N4 | — | transversal | RQ_002 | Alta |
 
-Todos son de la **línea base / ruta crítica** de la propuesta (Sprints 1–3). Eso es un argumento de venta: "el MVP es exactamente la ruta crítica".
+Todos son de la **línea base / ruta crítica** de la propuesta (Sprints 1–3, más RQ_020 del Sprint 4 adelantado: D31). Eso es un argumento de venta: "el MVP es exactamente la ruta crítica".
 
 ## Fuera del MVP (no construir)
 
 - Habilitación de participantes y entes de control por UI (RQ_001) → los usuarios vienen del realm importado y del seed.
 - Federación con Entra ID del MEN (RQ_004, flujo alterno de CU_002).
 - Vinculación masiva asíncrona por archivo (RQ_009, flujo alterno de CU_005).
-- Todo lo de la Línea B (pilotaje): sesiones, asistencia, latidos, incidentes, alertas, instrumento SUS, informe (RQ_017–RQ_023).
+- El resto de la Línea B (pilotaje): sesiones, asistencia, latidos, alertas automáticas, instrumento SUS, informe (RQ_017–RQ_019, RQ_021–RQ_023). De la mesa de ayuda solo entra el registro del caso y 'Mis casos' (RQ_020).
 - Reportes asíncronos, WAF, alta disponibilidad, observabilidad Azure, escalado (RQ_015, RQ_021, RQ_024, RQ_025, RQ_028, RQ_029).
 - Apps nativas.
 
-Los ítems de menú de esos módulos pueden **aparecer deshabilitados** con la etiqueta "Próximo sprint" para mostrar el producto completo (p. ej. 'Pilotaje' y 'Ayuda' en el menú del Tutor Líder, como dice HU_002).
+Los ítems de menú de esos módulos pueden **aparecer deshabilitados** con la etiqueta "Próximo sprint" para mostrar el producto completo (p. ej. 'Pilotaje' en el menú del Tutor Líder, como dice HU_002).
 
 ## Stretch (solo si los 7 puntos del MVP están estables, en este orden)
 
@@ -50,4 +51,5 @@ Los ítems de menú de esos módulos pueden **aparecer deshabilitados** con la e
 - [ ] Con la red cortada (DevTools Offline o modo avión), la app abre desde caché, muestra el aviso 'Sin conexión…', guarda el registro como 'Pendiente'; al volver la red pasa a 'Sincronizado' sin reescribir nada.
 - [ ] Reenviar la misma sincronización no crea duplicados (idempotencia).
 - [ ] Si el hito cambió en el servidor mientras se estaba offline, el tutor ve 'En conflicto' con ambas versiones y elige una.
+- [ ] Desde cualquier pantalla, 'Ayuda' → tipo + descripción → 'Enviar' devuelve `INC-AAAA-NNNNNN` con la pantalla y el navegador capturados; el caso aparece en 'Mis casos'.
 - [ ] Cada una de esas acciones aparece en la bitácora y la verificación de la cadena de hashes da OK.

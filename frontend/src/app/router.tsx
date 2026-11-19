@@ -15,6 +15,7 @@ const MiAcompanamiento = lazy(() => import('../features/acompanamiento/MiAcompan
 const ReportesLey = lazy(() => import('../features/reportes/ReportesLeyRoutes'))
 const VerificarReporte = lazy(() => import('../features/reportes/VerificarReporte'))
 const Analitica = lazy(() => import('../features/analitica/AnaliticaRoutes'))
+const MisCasos = lazy(() => import('../features/ayuda/MisCasos'))
 
 function Cargando() { return <p className="p-6 text-slate-500">Cargando…</p> }
 
@@ -34,7 +35,7 @@ function Raiz() {
 const router = createBrowserRouter([
   { path: '/', element: <Raiz /> },
   { path: '/auth/callback', element: <Callback /> },
-  { element: <Privado />, children: [{ path: '/inicio', element: <Inicio /> }, { path: '/auditoria', element: <Auditoria /> }] },
+  { element: <Privado />, children: [{ path: '/inicio', element: <Inicio /> }, { path: '/auditoria', element: <Auditoria /> }, { path: '/ayuda', element: <Suspense fallback={<Cargando />}><MisCasos /></Suspense> }] },
   ...(config.demo ? [{ path: '/debug', element: <Debug /> }] : []),
   { element: <Privado roles={['GESTOR_ESTRATEGIAS']} />, children: [{ path: '/estrategias/*', element: <Suspense fallback={<Cargando />}><Estrategias /></Suspense> }] },
   { element: <Privado roles={['TUTOR_LIDER']} />, children: [{ path: '/acompanamientos/*', element: <Suspense fallback={<Cargando />}><Acompanamientos /></Suspense> }] },

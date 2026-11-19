@@ -1,8 +1,7 @@
 import { test, expect } from '@playwright/test'
-import { login } from './helpers'
-import { execSync } from 'node:child_process'
+import { login, resetDemo } from './helpers'
 
-test.beforeAll(() => { execSync('./scripts/reset-demo.sh', { cwd: '../..' }) })
+test.beforeAll(() => { resetDemo() })
 
 test('F5 · el tutor líder programa un plan grupal (3 docentes, semanas 1-3) y ve cumplimiento 0 %', async ({ page }) => {
   await login(page, 'tutor.lider@sinapsis.co')

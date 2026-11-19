@@ -10,11 +10,16 @@ nombres de pantallas y la misma arquitectura (con las sustituciones locales de `
 
 Definido en la propuesta, §15.1 "MVP: cierre del Sprint 3":
 
-1. **Acceso con segundo factor** (Keycloak, OIDC + PKCE, TOTP) y menú por rol — HU_002 / CU_002 / RQ_003, RQ_005
+1. **Acceso con segundo factor** (Keycloak 26.8.1, OIDC + PKCE, TOTP) y menú por rol — HU_002 / CU_002 / RQ_003, RQ_005
 2. **Estrategias estudiantiles con bloqueo de edición** cuando ya tienen estudiantes — HU_003 / CU_003, CU_004 / RQ_006, RQ_007
 3. **Vinculación de estudiantes existentes** por documento (huella HMAC, sin duplicados) — HU_004 / CU_005 / RQ_008
 4. **Plan mensual del Tutor Líder** (individual/grupal, hitos semanales) — HU_005 / CU_006 / RQ_010
 5. **Seguimiento semanal con evidencias, con y sin señal** (PWA offline + sincronización idempotente + conflictos) — HU_006 / CU_007 / RQ_011, RQ_012
+
+Línea B (adelanto del Sprint 4, D31): botón **'Ayuda'** en todas las pantallas → caso `INC-AAAA-NNNNNN` con
+contexto técnico y 'Mis casos' — HU_011 / CU_013 / RQ_020. El profesor exige que el MVP muestre las dos necesidades
+macro del cliente: el software piloto (Línea A) y la ejecución del pilotaje (Línea B). El MVP debe estar
+**desplegado con enlace web accesible** (D36) y **nunca** se presenta un video.
 
 Transversal: bitácora de auditoría inmutable (RQ_005), cifrado de datos del estudiante (RQ_026),
 modelo de datos para millones de registros (RQ_002). Todo lo demás está **fuera de alcance** salvo que
@@ -24,8 +29,8 @@ se pida (ver `context/02-alcance-mvp.md`, sección "Stretch").
 
 - **Front-End:** React 19 + TypeScript 5.9 + Vite 7, PWA con Workbox 7 (`vite-plugin-pwa`), Dexie 4 sobre IndexedDB, `oidc-client-ts` 3, Tailwind CSS 4, Apache ECharts solo si se hace el stretch de analítica.
 - **API:** ASP.NET Core 10 (C# 14), REST JSON en `/api/v1`, OpenAPI 3.1, errores Problem Details (RFC 9457), EF Core 10 + Npgsql, FluentValidation 12.
-- **Identidad:** Keycloak 26 (realm `sses`, TOTP obligatorio).
-- **Datos:** PostgreSQL 17 (esquemas `maestros`, `seguridad`, `estrategias`, `acompanamiento`, `auditoria`).
+- **Identidad:** Keycloak 26.8.1 (realm `sses`, TOTP obligatorio).
+- **Datos:** PostgreSQL 17.11 (esquemas `maestros`, `seguridad`, `estrategias`, `acompanamiento`, `auditoria`, `mesa`).
 - **Local:** Docker Compose. Azure (Key Vault, Blob, Service Bus, Front Door) se sustituye localmente, ver `context/decisiones.md`.
 
 ## Estructura del repo (objetivo)
@@ -50,7 +55,8 @@ Puertos del host (ver D10): Postgres 5433, Keycloak 8180, API 5080, web 5174.
 - `dotnet run --project tools/Sses.Seed -c Release -- --estudiantes 500000` — datos sintéticos
 - `npm --prefix frontend run dev` — front en desarrollo
 - `dotnet test backend/Sses.sln` / `npm --prefix frontend test` / `npm --prefix tests/e2e test` (Playwright; requiere el stack arriba y `npx playwright install chromium`)
-- `./scripts/reset-demo.sh` — (requiere el stack arriba) deja la base en el estado inicial del guion de demo
+- `./scripts/reset-demo.sh` — (requiere el stack arriba) deja la base en el estado inicial del guion de demo y aplica los scripts SQL idempotentes posteriores (D32)
+- Despliegue público: `PUBLIC_WEB_URL` y `PUBLIC_KC_URL` (HTTPS) en `.env` y `docker compose up -d --build` (D36)
 
 ## Reglas de negocio que no se negocian
 

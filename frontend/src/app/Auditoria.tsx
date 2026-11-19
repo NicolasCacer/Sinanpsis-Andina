@@ -8,7 +8,7 @@ type Verificacion = { ok: boolean; filas: number; primerIdRoto: number | null }
 
 const ETIQUETA: Record<string, string> = {
   LOGIN: 'Ingreso', CREAR_ESTRATEGIA: 'Crear estrategia', EDITAR_ESTRATEGIA: 'Editar estrategia', BUSCAR_ESTUDIANTE: 'Consulta de estudiante', VINCULAR: 'Vincular estudiantes',
-  PROGRAMAR_PLAN: 'Programar plan', REGISTRAR_SEGUIMIENTO: 'Registrar seguimiento', SINCRONIZAR: 'Sincronizar', CONFLICTO_RESUELTO: 'Conflicto resuelto', ACCESO_DENEGADO: 'Acceso denegado',
+  PROGRAMAR_PLAN: 'Programar plan', REGISTRAR_SEGUIMIENTO: 'Registrar seguimiento', SINCRONIZAR: 'Sincronizar', CONFLICTO_RESUELTO: 'Conflicto resuelto', ACCESO_DENEGADO: 'Acceso denegado', REGISTRAR_INCIDENTE: 'Reportar incidente (Ayuda)',
 }
 
 export default function Auditoria() {

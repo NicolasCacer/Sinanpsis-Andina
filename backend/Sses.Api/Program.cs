@@ -7,6 +7,7 @@ using Sses.Api.Acompanamiento;
 using Sses.Api.Auditoria;
 using Sses.Api.Comun;
 using Sses.Api.Estrategias;
+using Sses.Api.Mesa;
 using Sses.Api.Seguridad;
 using Sses.Api.Sincronizacion;
 
@@ -69,6 +70,7 @@ app.MapSincronizacion();
 app.MapMiAcompanamiento();
 app.MapAnalitica(); app.MapReportesLey();
 app.MapAuditoria();
+app.MapIncidentes();
 app.Run();
 
 public partial class Program;

@@ -10,12 +10,12 @@ test('F2 · gestor entra con TOTP y ve solo Estrategias', async ({ page }) => {
   await expect(menu.getByText('Acompañamientos')).toHaveCount(0)
 })
 
-test('F2 · tutor líder ve Acompañamientos, Pilotaje y Ayuda (deshabilitados)', async ({ page }) => {
+test('F2 · tutor líder ve Acompañamientos, Ayuda y Pilotaje (deshabilitado)', async ({ page }) => {
   await login(page, 'tutor.lider@sinapsis.co')
   const menu = page.getByRole('navigation', { name: 'Menú principal' })
   await expect(menu.getByRole('link', { name: 'Acompañamientos' })).toBeVisible()
   await expect(menu.locator('[aria-disabled=true]', { hasText: 'Pilotaje' })).toBeVisible()
-  await expect(menu.locator('[aria-disabled=true]', { hasText: 'Ayuda' })).toBeVisible()
+  await expect(menu.getByRole('link', { name: 'Ayuda' })).toBeVisible()
   await expect(menu.getByText('Estrategias')).toHaveCount(0)
 })
 

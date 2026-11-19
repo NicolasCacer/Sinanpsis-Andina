@@ -26,6 +26,7 @@ public static class SincronizacionEndpoints
             var u = await ua.ObtenerAsync(); if (u?.PersonaId == null) return Problemas.De(403, "USUARIO_NO_HABILITADO", "Tu usuario no está habilitado.");
             var items = lote.Items ?? [];
             if (items.Length == 0 || items.Length > MaxLote) return Problemas.Validacion(new Dictionary<string, string[]> { ["items"] = [$"Envía entre 1 y {MaxLote} registros por lote."] });
+            await PurgarIdempotencia(ds);
             var res = new List<Dictionary<string, object?>>();
             foreach (var it in items) res.Add(await ProcesarItem(it, u, ds, bit, cfg));
             return Results.Ok(new { resultados = res });
@@ -42,6 +43,16 @@ public static class SincronizacionEndpoints
             await bit.RegistrarAsync(cn, null, "CONFLICTO_RESUELTO", "hito", dto.HitoId.ToString(), null, new { decision = "CONSERVAR_SERVIDOR" });
             return Results.Ok(new { ok = true });
         });
+    }
+
+    // RQ_012: la clave de idempotencia se conserva 7 días. Como máximo una purga por hora; si falla no afecta la sincronización.
+    static DateTime _ultimaPurga = DateTime.MinValue;
+    static async Task PurgarIdempotencia(NpgsqlDataSource ds)
+    {
+        if (DateTime.UtcNow - _ultimaPurga < TimeSpan.FromHours(1)) return;
+        _ultimaPurga = DateTime.UtcNow;
+        try { await using var cn = await ds.OpenConnectionAsync(); await cn.ExecuteAsync("delete from acompanamiento.idempotencia where creado_en < now() - interval '7 days'"); }
+        catch (PostgresException) { /* base sin el permiso de 03-mesa.sql: se purga en el siguiente reset */ }
     }
 
     static async Task<Dictionary<string, object?>> ProcesarItem(ItemSync it, Usuario u, NpgsqlDataSource ds, IBitacora bit, IConfiguration cfg)
