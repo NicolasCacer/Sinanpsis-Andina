@@ -8,3 +8,5 @@ data/
 test-results/
 playwright-report/
 .claude/settings.local.json
+.totp-state.json
+test-results/

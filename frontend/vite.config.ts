@@ -32,6 +32,6 @@ export default defineConfig({
       devOptions: { enabled: false },
     }),
   ],
-  server: { port: 5173, host: true },
+  server: { port: 5173, host: true, proxy: { '/api': 'http://localhost:5080', '/health': 'http://localhost:5080' } },
   test: { environment: 'jsdom', globals: true, include: ['src/**/*.test.ts?(x)'] },
 })

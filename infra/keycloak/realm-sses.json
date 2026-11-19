@@ -1,1 +1,307 @@
-{ "realm": "sses", "enabled": true }
+{
+ "realm": "sses",
+ "enabled": true,
+ "displayName": "SSES · Sinapsis Andina",
+ "sslRequired": "none",
+ "internationalizationEnabled": true,
+ "supportedLocales": [
+  "es"
+ ],
+ "defaultLocale": "es",
+ "accessTokenLifespan": 600,
+ "ssoSessionIdleTimeout": 28800,
+ "ssoSessionMaxLifespan": 28800,
+ "passwordPolicy": "length(12) and passwordHistory(5) and hashAlgorithm(argon2)",
+ "otpPolicyType": "totp",
+ "otpPolicyAlgorithm": "HmacSHA1",
+ "otpPolicyDigits": 6,
+ "otpPolicyPeriod": 30,
+ "otpPolicyLookAheadWindow": 1,
+ "bruteForceProtected": true,
+ "permanentLockout": false,
+ "failureFactor": 5,
+ "waitIncrementSeconds": 900,
+ "maxFailureWaitSeconds": 900,
+ "minimumQuickLoginWaitSeconds": 60,
+ "quickLoginCheckMilliSeconds": 1000,
+ "maxDeltaTimeSeconds": 43200,
+ "eventsEnabled": true,
+ "eventsListeners": [
+  "jboss-logging"
+ ],
+ "enabledEventTypes": [
+  "LOGIN",
+  "LOGIN_ERROR",
+  "LOGOUT",
+  "UPDATE_TOTP"
+ ],
+ "browserFlow": "browser-otp",
+ "roles": {
+  "realm": [
+   {
+    "name": "ADMIN_FUNCIONAL"
+   },
+   {
+    "name": "GESTOR_ESTRATEGIAS"
+   },
+   {
+    "name": "TUTOR_LIDER"
+   },
+   {
+    "name": "TUTOR_DOCENTE"
+   },
+   {
+    "name": "ANALISTA_MEN"
+   },
+   {
+    "name": "ENTE_CONTROL"
+   },
+   {
+    "name": "COORDINADOR_PILOTO"
+   },
+   {
+    "name": "SOPORTE"
+   }
+  ]
+ },
+ "authenticationFlows": [
+  {
+   "alias": "browser-otp",
+   "description": "Navegador con TOTP obligatorio (RQ_003)",
+   "providerId": "basic-flow",
+   "topLevel": true,
+   "builtIn": false,
+   "authenticationExecutions": [
+    {
+     "authenticator": "auth-cookie",
+     "authenticatorFlow": false,
+     "requirement": "ALTERNATIVE",
+     "priority": 10,
+     "userSetupAllowed": false,
+     "autheticatorFlow": false
+    },
+    {
+     "authenticatorFlow": true,
+     "requirement": "ALTERNATIVE",
+     "priority": 30,
+     "flowAlias": "browser-otp forms",
+     "userSetupAllowed": false,
+     "autheticatorFlow": true
+    }
+   ]
+  },
+  {
+   "alias": "browser-otp forms",
+   "description": "Usuario, contraseña y TOTP",
+   "providerId": "basic-flow",
+   "topLevel": false,
+   "builtIn": false,
+   "authenticationExecutions": [
+    {
+     "authenticator": "auth-username-password-form",
+     "authenticatorFlow": false,
+     "requirement": "REQUIRED",
+     "priority": 10,
+     "userSetupAllowed": false,
+     "autheticatorFlow": false
+    },
+    {
+     "authenticator": "auth-otp-form",
+     "authenticatorFlow": false,
+     "requirement": "REQUIRED",
+     "priority": 20,
+     "userSetupAllowed": false,
+     "autheticatorFlow": false
+    }
+   ]
+  }
+ ],
+ "clients": [
+  {
+   "clientId": "sses-web",
+   "name": "SSES Web",
+   "enabled": true,
+   "publicClient": true,
+   "standardFlowEnabled": true,
+   "directAccessGrantsEnabled": false,
+   "implicitFlowEnabled": false,
+   "serviceAccountsEnabled": false,
+   "protocol": "openid-connect",
+   "redirectUris": [
+    "http://localhost:5173/*",
+    "http://localhost:5174/*"
+   ],
+   "webOrigins": [
+    "+"
+   ],
+   "attributes": {
+    "pkce.code.challenge.method": "S256",
+    "post.logout.redirect.uris": "+",
+    "access.token.lifespan": "600"
+   },
+   "defaultClientScopes": [
+    "web-origins",
+    "acr",
+    "profile",
+    "roles",
+    "email",
+    "basic"
+   ],
+   "protocolMappers": [
+    {
+     "name": "audiencia-sses-api",
+     "protocol": "openid-connect",
+     "protocolMapper": "oidc-audience-mapper",
+     "consentRequired": false,
+     "config": {
+      "included.client.audience": "sses-api",
+      "id.token.claim": "false",
+      "access.token.claim": "true"
+     }
+    },
+    {
+     "name": "persona_id",
+     "protocol": "openid-connect",
+     "protocolMapper": "oidc-usermodel-attribute-mapper",
+     "consentRequired": false,
+     "config": {
+      "user.attribute": "persona_id",
+      "claim.name": "persona_id",
+      "jsonType.label": "String",
+      "id.token.claim": "true",
+      "access.token.claim": "true"
+     }
+    }
+   ]
+  },
+  {
+   "clientId": "sses-api",
+   "name": "SSES API",
+   "enabled": true,
+   "bearerOnly": true,
+   "protocol": "openid-connect"
+  }
+ ],
+ "users": [
+  {
+   "id": "7a000000-0000-4000-8000-000000000001",
+   "username": "admin@sinapsis.co",
+   "email": "admin@sinapsis.co",
+   "emailVerified": true,
+   "enabled": true,
+   "firstName": "Admin",
+   "lastName": "Funcional",
+   "realmRoles": [
+    "ADMIN_FUNCIONAL"
+   ],
+   "attributes": {
+    "persona_id": [
+     "7a000000-0000-4000-8000-000000000001"
+    ]
+   },
+   "credentials": [
+    {
+     "type": "password",
+     "value": "${DEMO_PASSWORD}",
+     "temporary": false
+    },
+    {
+     "type": "otp",
+     "userLabel": "Autenticador demo",
+     "secretData": "{\"value\": \"SinapsisAndinaDemo01\"}",
+     "credentialData": "{\"subType\": \"totp\", \"digits\": 6, \"counter\": 0, \"period\": 30, \"algorithm\": \"HmacSHA1\"}"
+    }
+   ]
+  },
+  {
+   "id": "7a000000-0000-4000-8000-000000000002",
+   "username": "gestor.demo@sinapsis.co",
+   "email": "gestor.demo@sinapsis.co",
+   "emailVerified": true,
+   "enabled": true,
+   "firstName": "Laura",
+   "lastName": "Gestora",
+   "realmRoles": [
+    "GESTOR_ESTRATEGIAS"
+   ],
+   "attributes": {
+    "persona_id": [
+     "7a000000-0000-4000-8000-000000000002"
+    ]
+   },
+   "credentials": [
+    {
+     "type": "password",
+     "value": "${DEMO_PASSWORD}",
+     "temporary": false
+    },
+    {
+     "type": "otp",
+     "userLabel": "Autenticador demo",
+     "secretData": "{\"value\": \"SinapsisAndinaDemo01\"}",
+     "credentialData": "{\"subType\": \"totp\", \"digits\": 6, \"counter\": 0, \"period\": 30, \"algorithm\": \"HmacSHA1\"}"
+    }
+   ]
+  },
+  {
+   "id": "7a000000-0000-4000-8000-000000000003",
+   "username": "tutor.lider@sinapsis.co",
+   "email": "tutor.lider@sinapsis.co",
+   "emailVerified": true,
+   "enabled": true,
+   "firstName": "Andrés",
+   "lastName": "Tutor Líder",
+   "realmRoles": [
+    "TUTOR_LIDER"
+   ],
+   "attributes": {
+    "persona_id": [
+     "7a000000-0000-4000-8000-000000000003"
+    ]
+   },
+   "credentials": [
+    {
+     "type": "password",
+     "value": "${DEMO_PASSWORD}",
+     "temporary": false
+    },
+    {
+     "type": "otp",
+     "userLabel": "Autenticador demo",
+     "secretData": "{\"value\": \"SinapsisAndinaDemo01\"}",
+     "credentialData": "{\"subType\": \"totp\", \"digits\": 6, \"counter\": 0, \"period\": 30, \"algorithm\": \"HmacSHA1\"}"
+    }
+   ]
+  },
+  {
+   "id": "7a000000-0000-4000-8000-000000000004",
+   "username": "tutor.docente@sinapsis.co",
+   "email": "tutor.docente@sinapsis.co",
+   "emailVerified": true,
+   "enabled": true,
+   "firstName": "Marina",
+   "lastName": "Docente",
+   "realmRoles": [
+    "TUTOR_DOCENTE"
+   ],
+   "attributes": {
+    "persona_id": [
+     "7a000000-0000-4000-8000-000000000004"
+    ]
+   },
+   "credentials": [
+    {
+     "type": "password",
+     "value": "${DEMO_PASSWORD}",
+     "temporary": false
+    },
+    {
+     "type": "otp",
+     "userLabel": "Autenticador demo",
+     "secretData": "{\"value\": \"SinapsisAndinaDemo01\"}",
+     "credentialData": "{\"subType\": \"totp\", \"digits\": 6, \"counter\": 0, \"period\": 30, \"algorithm\": \"HmacSHA1\"}"
+    }
+   ]
+  }
+ ]
+}
