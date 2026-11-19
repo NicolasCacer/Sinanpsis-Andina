@@ -5,6 +5,11 @@ import { api, apiRaw, ApiError } from '../../app/api'
 import { useOnline } from '../../app/useOnline'
 import { AreaTexto, Aviso, Boton, Campo, Insignia, Tarjeta } from '../../ui/kit'
 import { mesActual, rangoSemana, type DocentesPorEstrategia, type Hito, type PlanMes } from './tipos'
+import { leerPlan, guardarPlan } from '../../offline/planLocal'
+import { esErrorDeRed } from '../../offline/red'
+import { useOutbox } from '../../offline/outbox'
+import { sincronizarAhora } from '../../offline/sync'
+import type { RegistroOutbox } from '../../offline/db'
 
 export function EstadoHito({ h }: { h: Hito }) {
   return h.estado === 'PROGRAMADA'
@@ -15,9 +20,23 @@ export function EstadoHito({ h }: { h: Hito }) {
 export default function PlanMensual() {
   const [sp, setSp] = useSearchParams()
   const mes = sp.get('mes') ?? mesActual()
-  const plan = useQuery({ queryKey: ['plan', mes], queryFn: async () => (await apiRaw<PlanMes>(`/tutores/me/plan?mes=${mes}`)).data })
-  const p = plan.data
-  const registrada = (useLocation().state as { registrada?: number } | null)?.registrada
+  const plan = useQuery({
+    queryKey: ['plan', mes],
+    queryFn: async (): Promise<PlanMes & { desdeLocal?: number }> => {
+      try { const r = await apiRaw<PlanMes>(`/tutores/me/plan?mes=${mes}`); await guardarPlan(mes, r.data, r.etag); return r.data }
+      catch (e) { if (esErrorDeRed(e)) { const l = await leerPlan(mes); if (l) return { ...l.data, desdeLocal: l.guardadoEn } } throw e }
+    },
+  })
+  const outbox = useOutbox(mes)
+  const locales = new Map<string, RegistroOutbox>(outbox.filter((r) => r.estado !== 'Rechazado').map((r) => [r.hitoId, r]))
+  const base = plan.data
+  // Cumplimiento optimista: las semanas 'Pendiente' (guardadas en este dispositivo) cuentan como registradas
+  const nPend = base ? base.planes.flatMap((pl) => pl.hitos).filter((h) => h.estado === 'PROGRAMADA' && locales.get(h.id)?.estado === 'Pendiente').length : 0
+  const p = base && nPend > 0
+    ? { ...base, cumplimiento: { ...base.cumplimiento, registradas: base.cumplimiento.registradas + nPend, porcentaje: Math.round((10000 * (base.cumplimiento.registradas + nPend)) / Math.max(1, base.cumplimiento.programadas)) / 100 } }
+    : base
+  const st = useLocation().state as { registrada?: number; pendiente?: number } | null
+  const registrada = st?.registrada
   return (
     <div className="max-w-3xl mx-auto md:mx-0">
       <div className="flex items-end justify-between gap-3 flex-wrap">
@@ -29,8 +48,10 @@ export default function PlanMensual() {
       </div>
 
       {registrada && <Aviso tono="ok" className="mt-4" data-testid="aviso-registrada">Semana {registrada} registrada.</Aviso>}
+      {st?.pendiente && <Aviso tono="alerta" className="mt-4" data-testid="aviso-pendiente">Semana {st.pendiente} guardada en este dispositivo: Pendiente. Se sincronizará cuando vuelva la señal.</Aviso>}
+      {base?.desdeLocal && <Aviso tono="info" className="mt-4" data-testid="aviso-datos-locales">Mostrando el plan guardado en este dispositivo ({new Date(base.desdeLocal).toLocaleString('es-CO', { dateStyle: 'medium', timeStyle: 'short' })}).</Aviso>}
       {plan.isLoading && <p className="mt-6 text-slate-500">Cargando plan…</p>}
-      {plan.isError && <Aviso tono="error" className="mt-4">No pudimos cargar el plan. <button className="underline" onClick={() => void plan.refetch()}>Reintentar</button></Aviso>}
+      {plan.isError && <Aviso tono="error" className="mt-4">{esErrorDeRed(plan.error) ? 'Sin conexión y sin datos guardados para este mes. Abre este mes con señal una vez para tenerlo disponible.' : 'No pudimos cargar el plan.'} <button className="underline" onClick={() => void plan.refetch()}>Reintentar</button></Aviso>}
 
       {p && (
         <>
@@ -54,19 +75,33 @@ export default function PlanMensual() {
                 </div>
                 <p className="mt-1 text-xs text-slate-500">Temas: {pl.temas}</p>
                 <ul className="mt-3 grid gap-2 sm:grid-cols-2">
-                  {pl.hitos.map((h) => (
-                    <li key={h.id} data-testid="hito" data-estado={h.estado} className={`rounded-lg border p-3 ${h.estado === 'PROGRAMADA' ? 'border-slate-200 bg-slate-50' : 'border-green-200 bg-cumple-50'}`}>
-                      <div className="flex items-center justify-between gap-2"><span className="font-medium text-sm">Semana {h.numeroSemana}</span><EstadoHito h={h} /></div>
-                      <p className="text-xs text-slate-500">{rangoSemana(h.fechaInicio, h.fechaFin)} · {h.semanaIso}</p>
-                      {h.estado === 'PROGRAMADA'
-                        ? <Link to={`registrar/${h.id}`} className="mt-2 inline-block"><Boton className="!py-1.5">Registrar seguimiento</Boton></Link>
-                        : <p className="mt-2 text-xs text-green-800">{h.seguimiento?.asistencia.filter((a) => a.asistio).length ?? 0} de {pl.docentes.length} asistieron</p>}
-                    </li>
-                  ))}
+                  {pl.hitos.map((h) => {
+                    const loc = locales.get(h.id)
+                    const pendiente = h.estado === 'PROGRAMADA' && loc?.estado === 'Pendiente'
+                    const enConflicto = loc?.estado === 'En conflicto'
+                    const estadoVista = pendiente ? 'PENDIENTE' : h.estado
+                    return (
+                      <li key={h.id} data-testid="hito" data-estado={estadoVista} className={`rounded-lg border p-3 ${pendiente ? 'border-dashed border-green-400 bg-cumple-50/60' : h.estado === 'PROGRAMADA' && !enConflicto ? 'border-slate-200 bg-slate-50' : enConflicto ? 'border-red-300 bg-red-50' : 'border-green-200 bg-cumple-50'}`}>
+                        <div className="flex items-center justify-between gap-2 flex-wrap"><span className="font-medium text-sm">Semana {h.numeroSemana}</span>
+                          <span className="flex gap-1 flex-wrap justify-end">
+                            {pendiente ? <Insignia tono="verde" data-testid="estado-hito">🕒 Registrada (pendiente)</Insignia> : <EstadoHito h={h} />}
+                            {loc && <EstadoRegistro r={loc} />}
+                          </span></div>
+                        <p className="text-xs text-slate-500">{rangoSemana(h.fechaInicio, h.fechaFin)} · {h.semanaIso}</p>
+                        {enConflicto
+                          ? <Link to={`conflicto/${loc!.idempotencyKey}`} className="mt-2 inline-block"><Boton className="!py-1.5" variante="peligro">Resolver conflicto</Boton></Link>
+                          : h.estado === 'PROGRAMADA' && !pendiente
+                            ? <Link to={`registrar/${h.id}`} className="mt-2 inline-block"><Boton className="!py-1.5">Registrar seguimiento</Boton></Link>
+                            : pendiente ? <p className="mt-2 text-xs text-green-800">Guardada en este dispositivo; se enviará al volver la señal.</p>
+                            : <p className="mt-2 text-xs text-green-800">{h.seguimiento?.asistencia.filter((a) => a.asistio).length ?? 0} de {pl.docentes.length} asistieron</p>}
+                      </li>
+                    )
+                  })}
                 </ul>
               </Tarjeta>
             ))}
           </div>
+          <PanelSincronizacion registros={outbox} />
           <Programar mes={mes} semanas={p.semanas} />
         </>
       )}
@@ -156,6 +191,34 @@ function Programar({ mes, semanas }: { mes: string; semanas: PlanMes['semanas'] 
           <Boton onClick={() => void programar()} disabled={!!motivo || enviando}>Programar</Boton>
         </div>
       </Tarjeta>
+    </>
+  )
+}
+
+export function EstadoRegistro({ r }: { r: RegistroOutbox }) {
+  const tono = { Pendiente: 'ambar', Sincronizado: 'verde', 'En conflicto': 'rojo', Rechazado: 'rojo' } as const
+  return <Insignia tono={tono[r.estado]} data-testid="estado-registro">{r.estado}</Insignia>
+}
+
+function PanelSincronizacion({ registros }: { registros: RegistroOutbox[] }) {
+  const online = useOnline(); const [ocupado, setOcupado] = useState(false)
+  const visibles = [...registros].sort((a, b) => b.creadoEn - a.creadoEn).slice(0, 10)
+  if (visibles.length === 0) return null
+  const hayPend = registros.some((r) => r.estado === 'Pendiente')
+  return (
+    <>
+      <div className="mt-6 mb-2 flex items-center justify-between gap-2">
+        <h2 className="font-semibold text-slate-800">Registros de este dispositivo</h2>
+        <Boton variante="secundario" className="!py-1.5" disabled={ocupado || !online || !hayPend} onClick={() => { setOcupado(true); void sincronizarAhora().finally(() => setOcupado(false)) }}>Sincronizar ahora</Boton>
+      </div>
+      <Tarjeta><ul className="divide-y divide-slate-100" data-testid="registros-locales">
+        {visibles.map((r) => (
+          <li key={r.idempotencyKey} className="px-4 py-2.5 flex items-center justify-between gap-2 flex-wrap text-sm" data-testid="registro-local">
+            <span>Semana {r.numeroSemana} · {r.estrategia}{r.nFotos > 0 && <small className="text-slate-400"> · {r.nFotos} foto(s)</small>}</span>
+            <span className="flex items-center gap-2">{r.motivo && <small className="text-red-700">{r.motivo}</small>}<EstadoRegistro r={r} /></span>
+          </li>
+        ))}
+      </ul></Tarjeta>
     </>
   )
 }

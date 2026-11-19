@@ -72,9 +72,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const ingresar = useCallback(() => { void userManager.signinRedirect() }, [])
   const salir = useCallback(() => {
-    guardarPerfilLocal(null)
-    void import('../offline/crypto').then((m) => m.olvidarClave()).catch(() => undefined)
-    void userManager.signoutRedirect()
+    void (async () => {
+      const { contarPendientes } = await import('../offline/outbox')
+      const n = await contarPendientes().catch(() => 0)
+      if (n > 0 && !window.confirm(`Tienes ${n} registro(s) pendientes de sincronizar en este dispositivo. Si sales ahora se perderán. ¿Salir de todos modos?`)) return
+      guardarPerfilLocal(null)
+      await import('../offline/crypto').then((m) => m.olvidarClave()).catch(() => undefined)
+      void userManager.signoutRedirect()
+    })()
   }, [])
   const completarLogin = useCallback(async () => {
     await userManager.signinRedirectCallback()

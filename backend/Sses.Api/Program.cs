@@ -6,6 +6,7 @@ using Sses.Api.Auditoria;
 using Sses.Api.Comun;
 using Sses.Api.Estrategias;
 using Sses.Api.Seguridad;
+using Sses.Api.Sincronizacion;
 
 Datos.Configurar();
 var builder = WebApplication.CreateBuilder(args);
@@ -61,6 +62,7 @@ app.MapBusquedaEstudiantes();
 app.MapAcompanamiento();
 app.MapSeguimientos();
 app.MapEvidencias();
+app.MapSincronizacion();
 app.MapAuditoria();
 app.Run();
 

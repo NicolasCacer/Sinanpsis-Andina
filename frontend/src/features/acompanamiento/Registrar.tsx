@@ -4,15 +4,23 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { apiRaw, ApiError } from '../../app/api'
 import { AreaTexto, Aviso, Boton, Campo, Tarjeta } from '../../ui/kit'
 import { reducirImagen } from '../../lib/imagen'
-import { guardarEnLinea } from './guardar'
+import { guardarSeguimiento } from './guardar'
+import { buscarHitoLocal } from '../../offline/planLocal'
+import { esErrorDeRed } from '../../offline/red'
 import { rangoSemana, type HitoDetalle } from './tipos'
 
 type Foto = { blob: Blob; url: string }
 
 export default function Registrar() {
   const { hitoId } = useParams(); const nav = useNavigate(); const qc = useQueryClient()
-  const q = useQuery({ queryKey: ['hito', hitoId], queryFn: () => apiRaw<HitoDetalle>(`/hitos/${hitoId}`) })
-  const h = q.data?.data
+  const q = useQuery({
+    queryKey: ['hito', hitoId],
+    queryFn: async (): Promise<HitoDetalle> => {
+      try { const r = await apiRaw<HitoDetalle>(`/hitos/${hitoId}`); return { ...r.data, version: r.etag ? Number(/\d+/.exec(r.etag)![0]) : r.data.version } }
+      catch (e) { if (esErrorDeRed(e)) { const l = await buscarHitoLocal(hitoId!); if (l) return l } throw e }
+    },
+  })
+  const h = q.data
   const [asis, setAsis] = useState<Record<string, boolean>>({})
   const [actividades, setActividades] = useState(''); const [avances, setAvances] = useState('')
   const [fotos, setFotos] = useState<Foto[]>([]); const [procesando, setProcesando] = useState(false)
@@ -43,10 +51,9 @@ export default function Registrar() {
     setErrores(e); if (Object.keys(e).length) return
     setEnviando(true); setAviso(null)
     try {
-      await guardarEnLinea(h.id, q.data!.etag ? Number(/\d+/.exec(q.data!.etag)![0]) : h.version,
-        { asistencia: h.docentes.map((d) => ({ docenteId: d.id, asistio: !!asis[d.id] })), actividades, avances }, fotos.map((f) => f.blob))
+      const g = await guardarSeguimiento(h, { asistencia: h.docentes.map((d) => ({ docenteId: d.id, asistio: !!asis[d.id] })), actividades, avances }, fotos.map((f) => f.blob))
       await qc.invalidateQueries({ queryKey: ['plan'] })
-      nav(`/acompanamientos?mes=${h.mes}`, { state: { registrada: h.numeroSemana } })
+      nav(`/acompanamientos?mes=${h.mes}`, { state: g.modo === 'en-linea' ? { registrada: h.numeroSemana } : { pendiente: h.numeroSemana } })
     } catch (x) {
       if (x instanceof ApiError && x.code === 'VERSION_CAMBIADA') setAviso({ tono: 'alerta', texto: 'La semana cambió mientras la editabas. Recarga para ver la versión vigente.' })
       else if (x instanceof ApiError && x.code === 'SEMANA_CERRADA') setAviso({ tono: 'alerta', texto: 'Esta semana ya tiene un seguimiento registrado.' })

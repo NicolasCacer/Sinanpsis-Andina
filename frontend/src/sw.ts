@@ -13,3 +13,9 @@ self.addEventListener('message', (e) => {
   if (e.data?.type === 'SKIP_WAITING') void self.skipWaiting()
 })
 self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()))
+
+// Background Sync (solo Chromium): disparador adicional; la cola y su estado viven en la app (D05)
+self.addEventListener('sync', (e: Event) => {
+  const ev = e as Event & { tag: string; waitUntil: (p: Promise<unknown>) => void }
+  if (ev.tag === 'sses-outbox') ev.waitUntil(self.clients.matchAll({ type: 'window' }).then((cs) => cs.forEach((c) => c.postMessage({ type: 'SYNC' }))))
+})

@@ -1,7 +1,10 @@
 import { NavLink, Outlet } from 'react-router'
 import { useAuth } from './auth'
 import { useOnline } from './useOnline'
-import { usePendientes } from '../offline/usePendientes'
+import { useEffect } from 'react'
+import { usePendientes, useEnConflicto } from '../offline/outbox'
+import { iniciarSincronizacion } from '../offline/sync'
+import { precargarPlanes } from '../offline/planLocal'
 
 const fmt = (iso: string | null) => (iso ? new Date(iso).toLocaleString('es-CO', { dateStyle: 'medium', timeStyle: 'short' }) : 'primer ingreso')
 
@@ -9,6 +12,9 @@ export default function Shell() {
   const { perfil, salir, sinSesionLocal, ingresar } = useAuth()
   const online = useOnline()
   const pendientes = usePendientes()
+  const enConflicto = useEnConflicto()
+  const esTutor = perfil?.rol === 'TUTOR_LIDER'
+  useEffect(() => { if (esTutor) { iniciarSincronizacion(); if (navigator.onLine) void precargarPlanes() } }, [esTutor])
   if (!perfil) return null
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
@@ -32,6 +38,7 @@ export default function Shell() {
           <span data-testid="indicador-pendientes" className={`text-xs rounded-full px-2.5 py-1 ${pendientes > 0 ? 'bg-amber-100 text-amber-800' : 'bg-slate-100 text-slate-500'}`}>
             {pendientes} pendientes
           </span>
+          {enConflicto > 0 && <span data-testid="indicador-conflictos" className="text-xs rounded-full px-2.5 py-1 bg-red-100 text-red-800">{enConflicto} en conflicto</span>}
           <button onClick={salir} className="text-sm text-andino-700 underline">Salir</button>
         </header>
 
