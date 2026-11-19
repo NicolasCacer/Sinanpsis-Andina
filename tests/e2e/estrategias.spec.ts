@@ -63,3 +63,19 @@ test('F3/F4 · crear, duplicado, editar, buscar, vincular y bloqueo visible y en
   const out = (() => { try { return execSync(`docker compose exec -T postgres psql -U postgres -d sses -c "update estrategias.estrategia set nombre='x' where nombre='${nombre}'" 2>&1`, { cwd: '../..' }).toString() } catch (e) { return String((e as { stdout?: Buffer }).stdout ?? e) } })()
   expect(out).toContain('ESTRATEGIA_BLOQUEADA')
 })
+
+import { tokenDe, API } from './helpers'
+
+test('F4 · búsqueda por documento entre 500.000 registros: p95 < 300 ms', async ({ page, request }) => {
+  await login(page, 'gestor.demo@sinapsis.co')
+  const h = { Authorization: `Bearer ${await tokenDe(page)}` }
+  const ms: number[] = []
+  for (let i = 0; i < 30; i++) {
+    const t0 = Date.now()
+    const r = await request.get(`${API}/estudiantes?tipoDoc=TI&numDoc=1001234567`, { headers: h })
+    ms.push(Date.now() - t0); expect(r.status()).toBe(200)
+  }
+  ms.sort((a, b) => a - b)
+  console.log(`p50=${ms[15]}ms p95=${ms[28]}ms max=${ms[29]}ms`)
+  expect(ms[28]).toBeLessThan(300)
+})
