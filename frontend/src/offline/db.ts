@@ -17,6 +17,13 @@ export interface RegistroServidor {
   asistencia: { docenteId: string; nombres: string; asistio: boolean }[]
 }
 export interface ConflictoLocal { idempotencyKey: string; hitoId: string; mes: string; numeroSemana: number; servidor: RegistroServidor; versionServidor: number; creadoEn: number }
+export interface ConfirmacionLocal {
+  idempotencyKey: string; hitoId: string; mes: string; numeroSemana: number; estrategia: string
+  estado: EstadoRegistro; intentos: number; creadoEn: number; capturadoEn: string
+  payload: Cifrado // { confirmado, observacion } cifrado con AES-GCM
+  motivo?: string; sincronizadoEn?: number
+}
+export interface MiAcompLocal { mes: string; data: unknown; guardadoEn: number }
 export interface Meta { clave: string; valor: unknown }
 
 class SsesDb extends Dexie {
@@ -25,6 +32,8 @@ class SsesDb extends Dexie {
   evidenciasLocales!: Table<EvidenciaLocal, string>
   conflictos!: Table<ConflictoLocal, string>
   meta!: Table<Meta, string>
+  confirmaciones!: Table<ConfirmacionLocal, string>
+  miAcomp!: Table<MiAcompLocal, string>
   constructor() {
     super('sses-local')
     this.version(1).stores({
@@ -34,6 +43,8 @@ class SsesDb extends Dexie {
       conflictos: 'idempotencyKey, hitoId',
       meta: 'clave',
     })
+    // RQ_016: cola de confirmaciones del Tutor Docente y copia local de 'Mi acompañamiento'
+    this.version(2).stores({ confirmaciones: 'idempotencyKey, estado, creadoEn, hitoId', miAcomp: 'mes' })
   }
 }
 export const db = new SsesDb()

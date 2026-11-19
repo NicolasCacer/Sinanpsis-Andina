@@ -145,6 +145,19 @@ create table acompanamiento.hito_semanal (
   actualizado_en timestamptz not null default now(),
   unique (plan_id, numero_semana));
 
+-- RQ_016: confirmación del acompañamiento por el Tutor Docente (una por docente y semana)
+create table acompanamiento.confirmacion_docente (
+  id bigint generated always as identity primary key,
+  public_id uuid not null unique,
+  hito_id bigint not null references acompanamiento.hito_semanal(id),
+  docente_id bigint not null references maestros.docente(id),
+  confirmado boolean not null, observacion varchar(500),
+  origen text not null check (origen in ('EN_LINEA','SIN_CONEXION')),
+  capturado_en timestamptz not null, creado_en timestamptz not null default now(),
+  constraint ux_confirmacion_hito_docente unique (hito_id, docente_id),
+  constraint ck_confirmacion_obs check (confirmado or length(btrim(coalesce(observacion,''))) > 0));
+create index ix_confirmacion_docente on acompanamiento.confirmacion_docente (docente_id);
+
 -- RQ_002: partición mensual (D03). hito_id sin UNIQUE global (la unicidad se garantiza bajo FOR UPDATE del hito).
 create table acompanamiento.seguimiento_semanal (
   id bigint generated always as identity,

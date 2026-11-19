@@ -15,14 +15,16 @@ public static class SesionEndpoints
         Roles.TutorLider => [new("acompanamientos", "Acompañamientos", "/acompanamientos", true, null),
                              new("pilotaje", "Pilotaje", "/pilotaje", false, "Próximo sprint"),
                              new("ayuda", "Ayuda", "/ayuda", false, "Próximo sprint")],
-        Roles.TutorDocente => [new("mi-acompanamiento", "Mi acompañamiento", "/mi-acompanamiento", false, "Próximo sprint")],
+        Roles.TutorDocente => [new("mi-acompanamiento", "Mi acompañamiento", "/mi-acompanamiento", true, null)],
+        Roles.Analista => [new("analitica", "Analítica", "/analitica", true, null)],
+        Roles.EnteControl => [new("reportes-ley", "Reportes de Ley", "/reportes-ley", true, null)],
         _ => []
     };
-    static readonly string[] RolesMvp = [Roles.Admin, Roles.Gestor, Roles.TutorLider, Roles.TutorDocente];
+    static readonly string[] RolesMvp = [Roles.Admin, Roles.Gestor, Roles.TutorLider, Roles.TutorDocente, Roles.Analista, Roles.EnteControl];
     static string? RolDe(ClaimsPrincipal u) => u.FindAll(ClaimTypes.Role).Select(c => c.Value).FirstOrDefault(r => RolesMvp.Contains(r));
     static string Etiqueta(string rol) => rol switch
     {
-        Roles.Gestor => "Gestor de Estrategias", Roles.TutorLider => "Tutor Líder", Roles.TutorDocente => "Tutor Docente", Roles.Admin => "Administrador Funcional", _ => rol
+        Roles.Gestor => "Gestor de Estrategias", Roles.TutorLider => "Tutor Líder", Roles.TutorDocente => "Tutor Docente", Roles.Analista => "Analista del MEN", Roles.EnteControl => "Ente de Control", Roles.Admin => "Administrador Funcional", _ => rol
     };
 
     public static void MapSesion(this IEndpointRouteBuilder app)

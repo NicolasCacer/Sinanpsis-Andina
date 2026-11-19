@@ -14,7 +14,8 @@ export default function Shell() {
   const pendientes = usePendientes()
   const enConflicto = useEnConflicto()
   const esTutor = perfil?.rol === 'TUTOR_LIDER'
-  useEffect(() => { if (esTutor) { iniciarSincronizacion(); if (navigator.onLine) void precargarPlanes() } }, [esTutor])
+  const esDocente = perfil?.rol === 'TUTOR_DOCENTE'
+  useEffect(() => { if (esTutor || esDocente) { iniciarSincronizacion(); if (esTutor && navigator.onLine) void precargarPlanes() } }, [esTutor, esDocente])
   if (!perfil) return null
   return (
     <div className="min-h-screen flex flex-col md:flex-row">

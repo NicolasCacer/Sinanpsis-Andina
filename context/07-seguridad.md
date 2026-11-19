@@ -7,7 +7,7 @@
   - `sses-api`: bearer-only / audiencia. Mapper de audiencia en `sses-web` para que el access token traiga `aud: sses-api`.
 - **Tokens:** access 10 min (RS256), SSO session / refresh 8 h.
 - **Roles de realm:** `ADMIN_FUNCIONAL, GESTOR_ESTRATEGIAS, TUTOR_LIDER, TUTOR_DOCENTE, ANALISTA_MEN, ENTE_CONTROL, COORDINADOR_PILOTO, SOPORTE` en `realm_access.roles`.
-- **Atributos de usuario → claims:** `persona_id` (public_id de tutor/docente), `organizacion_id` (no se usa en MVP).
+- **Atributos de usuario → claims:** `persona_id` (public_id de tutor/docente), `organizacion_id` (no se usa en MVP; la organización de control se lee de `seguridad.participante`, ver D29).
 - **Política de contraseñas:** `length(12) and passwordHistory(5)`, hash Argon2 (disponible en Keycloak 26).
 - **2FA:** OTP Policy TOTP, 6 dígitos, 30 s, HmacSHA1 (compatible con Google/Microsoft Authenticator). Flujo `browser` con OTP **requerido** para todos.
 - **Fuerza bruta:** `bruteForceProtected: true`, `failureFactor: 5`, espera 15 min.

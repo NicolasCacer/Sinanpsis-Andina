@@ -3,6 +3,7 @@
  "enabled": true,
  "displayName": "SSES · Sinapsis Andina",
  "sslRequired": "none",
+ "loginTheme": "sses",
  "internationalizationEnabled": true,
  "supportedLocales": [
   "es"
@@ -287,6 +288,96 @@
    "attributes": {
     "persona_id": [
      "7a000000-0000-4000-8000-000000000004"
+    ]
+   },
+   "credentials": [
+    {
+     "type": "password",
+     "value": "${DEMO_PASSWORD}",
+     "temporary": false
+    },
+    {
+     "type": "otp",
+     "userLabel": "Autenticador demo",
+     "secretData": "{\"value\": \"SinapsisAndinaDemo01\"}",
+     "credentialData": "{\"subType\": \"totp\", \"digits\": 6, \"counter\": 0, \"period\": 30, \"algorithm\": \"HmacSHA1\"}"
+    }
+   ]
+  },
+  {
+   "id": "7a000000-0000-4000-8000-000000000005",
+   "username": "analista.men@sinapsis.co",
+   "email": "analista.men@sinapsis.co",
+   "emailVerified": true,
+   "enabled": true,
+   "firstName": "Carolina",
+   "lastName": "Analista",
+   "realmRoles": [
+    "ANALISTA_MEN"
+   ],
+   "attributes": {
+    "persona_id": [
+     "7a000000-0000-4000-8000-000000000005"
+    ]
+   },
+   "credentials": [
+    {
+     "type": "password",
+     "value": "${DEMO_PASSWORD}",
+     "temporary": false
+    },
+    {
+     "type": "otp",
+     "userLabel": "Autenticador demo",
+     "secretData": "{\"value\": \"SinapsisAndinaDemo01\"}",
+     "credentialData": "{\"subType\": \"totp\", \"digits\": 6, \"counter\": 0, \"period\": 30, \"algorithm\": \"HmacSHA1\"}"
+    }
+   ]
+  },
+  {
+   "id": "7a000000-0000-4000-8000-000000000006",
+   "username": "contraloria@sinapsis.co",
+   "email": "contraloria@sinapsis.co",
+   "emailVerified": true,
+   "enabled": true,
+   "firstName": "Camilo",
+   "lastName": "Contraloría",
+   "realmRoles": [
+    "ENTE_CONTROL"
+   ],
+   "attributes": {
+    "persona_id": [
+     "7a000000-0000-4000-8000-000000000006"
+    ]
+   },
+   "credentials": [
+    {
+     "type": "password",
+     "value": "${DEMO_PASSWORD}",
+     "temporary": false
+    },
+    {
+     "type": "otp",
+     "userLabel": "Autenticador demo",
+     "secretData": "{\"value\": \"SinapsisAndinaDemo01\"}",
+     "credentialData": "{\"subType\": \"totp\", \"digits\": 6, \"counter\": 0, \"period\": 30, \"algorithm\": \"HmacSHA1\"}"
+    }
+   ]
+  },
+  {
+   "id": "7a000000-0000-4000-8000-000000000007",
+   "username": "procuraduria@sinapsis.co",
+   "email": "procuraduria@sinapsis.co",
+   "emailVerified": true,
+   "enabled": true,
+   "firstName": "Paula",
+   "lastName": "Procuraduría",
+   "realmRoles": [
+    "ENTE_CONTROL"
+   ],
+   "attributes": {
+    "persona_id": [
+     "7a000000-0000-4000-8000-000000000007"
     ]
    },
    "credentials": [

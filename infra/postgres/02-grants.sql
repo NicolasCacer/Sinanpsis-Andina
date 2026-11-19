@@ -10,6 +10,7 @@ grant select on acompanamiento.asignacion to sses_api;
 grant select, insert, update on acompanamiento.plan, acompanamiento.plan_docente, acompanamiento.hito_semanal,
   acompanamiento.seguimiento_semanal, acompanamiento.asistencia_seguimiento, acompanamiento.evidencia,
   acompanamiento.idempotencia to sses_api;
+grant select, insert on acompanamiento.confirmacion_docente to sses_api;
 grant delete on acompanamiento.asistencia_seguimiento, acompanamiento.evidencia to sses_api;
 grant select, insert on auditoria.bitacora to sses_api;
 grant execute on function auditoria.verificar_cadena() to sses_api;

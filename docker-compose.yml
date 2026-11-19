@@ -32,7 +32,8 @@ services:
       DEMO_PASSWORD: ${DEMO_PASSWORD}
     ports: ["${PORT_KEYCLOAK:-8180}:8080"]
     volumes:
-      - ./infra/keycloak:/opt/keycloak/data/import:ro
+      - ./infra/keycloak/realm-sses.json:/opt/keycloak/data/import/realm-sses.json:ro
+      - ./infra/keycloak/themes:/opt/keycloak/themes:ro
     depends_on:
       postgres: { condition: service_healthy }
     healthcheck:

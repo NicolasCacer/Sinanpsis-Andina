@@ -53,6 +53,10 @@ Avanzar en orden. Cada fase termina cuando su criterio está **verificado** (com
 - ✅ Ensayo cronometrado del guion de `08-semilla-y-demo.md` sin intervención manual.
 
 ### F9 · Stretch (en el orden de `02-alcance-mvp.md`)
+- ✅ 1. Confirmación del Tutor Docente (HU_009 / CU_010 / RQ_016): `mi-acompanamiento`, `confirmaciones` idempotentes, cola offline (Dexie v2) y E2E `docente.spec.ts`. 
+- ✅ 2. Tablero de desempeño de tutores (HU_007 / RQ_013): vistas materializadas, `/api/v1/analitica/*` (filtros, indicadores, detalle, XLSX), pantalla con ECharts y E2E `analitica.spec.ts`.
+- ✅ 3. Reporte de ley (HU_008 / CU_009 / RQ_014): esquema `reportes` con RLS por organización, `POST/GET /api/v1/reportes-ley`, PDF/A-2b (QuestPDF) con huella SHA-256 y código impresos, verificación pública `GET /api/v1/reportes-ley/verificar/{codigo}` + pantalla `/verificar`, y E2E `reportes.spec.ts`. 
+- ✅ 4. Tema de login de Keycloak `sses` (`infra/keycloak/themes/sses/login`, hereda `keycloak.v2`; logo, degradado andino, botón verde), montado en el compose y fijado con `loginTheme` en el realm.
 
 ## Pruebas (subconjunto de la Matriz de Pruebas §14.4 de la propuesta)
 

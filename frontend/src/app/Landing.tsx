@@ -15,6 +15,7 @@ export default function Landing() {
       <button onClick={ingresar} className="rounded-lg bg-cumple px-10 py-3 text-lg font-semibold shadow hover:brightness-110 focus:outline-none focus:ring-4 focus:ring-white/40">
         Ingresar
       </button>
+      <a href="/verificar" className="text-sm text-andino-50 underline">Verificar un reporte de ley</a>
       <p className="text-xs text-andino-50/70 max-w-sm text-center">Acceso con segundo factor. Cada consulta o cambio queda registrado a tu nombre.</p>
     </main>
   )
