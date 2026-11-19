@@ -1,6 +1,7 @@
 using FluentValidation;
 using Npgsql;
 using Sses.Api.Maestros;
+using Sses.Api.Acompanamiento;
 using Sses.Api.Auditoria;
 using Sses.Api.Comun;
 using Sses.Api.Estrategias;
@@ -57,6 +58,7 @@ app.MapSesion();
 app.MapMaestros();
 app.MapEstrategias();
 app.MapBusquedaEstudiantes();
+app.MapAcompanamiento();
 app.MapAuditoria();
 app.Run();
 

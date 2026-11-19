@@ -16,8 +16,8 @@ export function Insignia({ tono, children, ...rest }: { tono: 'verde' | 'ambar' 
   return <span {...rest} className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium ${t}`}>{children}</span>
 }
 
-export function Tarjeta({ children, className = '' }: { children: ReactNode; className?: string }) {
-  return <section className={`rounded-xl bg-white border border-slate-200 shadow-sm ${className}`}>{children}</section>
+export function Tarjeta({ children, className = '', ...rest }: { children: ReactNode; className?: string } & React.HTMLAttributes<HTMLElement>) {
+  return <section {...rest} className={`rounded-xl bg-white border border-slate-200 shadow-sm ${className}`}>{children}</section>
 }
 
 export function Campo({ etiqueta, error, ayuda, children, htmlFor }: { etiqueta: string; error?: string; ayuda?: string; children: ReactNode; htmlFor: string }) {

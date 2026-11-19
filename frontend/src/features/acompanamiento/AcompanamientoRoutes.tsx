@@ -1,1 +1,12 @@
-export default function AcompanamientoRoutes() { return <h1 className="text-xl font-bold">Acompañamientos</h1> }
+import { Route, Routes } from 'react-router'
+import PlanMensual from './PlanMensual'
+import Registrar from './Registrar'
+
+export default function AcompanamientoRoutes() {
+  return (
+    <Routes>
+      <Route index element={<PlanMensual />} />
+      <Route path="registrar/:hitoId" element={<Registrar />} />
+    </Routes>
+  )
+}
