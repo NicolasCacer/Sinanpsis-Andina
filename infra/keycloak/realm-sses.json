@@ -3,6 +3,7 @@
  "enabled": true,
  "displayName": "SSES · Sinapsis Andina",
  "sslRequired": "none",
+ "loginTheme": "sses",
  "internationalizationEnabled": true,
  "supportedLocales": [
   "es"

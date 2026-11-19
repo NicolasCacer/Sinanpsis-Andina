@@ -1,0 +1,25 @@
+/* Marca Sinapsis Andina / SSES (colores de la web: andino-900 #0b3a63, andino-700 #14538a, cumple #15803d) */
+:root, .login-pf {
+  --pf-v5-global--primary-color--100: #0b3a63;
+  --pf-v5-global--primary-color--200: #14538a;
+  --pf-v5-global--link--Color: #14538a;
+  --pf-v5-global--link--Color--hover: #0b3a63;
+  --pf-v5-global--active-color--100: #14538a;
+}
+.login-pf body, body.pf-v5-c-login, .pf-v5-c-login {
+  background: linear-gradient(180deg, #0b3a63 0%, #14538a 100%) fixed !important;
+}
+.pf-v5-c-login__container { color: #fff; }
+.pf-v5-c-login__main { border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,.25); color: #1e293b; }
+/* Logo y nombre sobre la tarjeta */
+#kc-header-wrapper { font-size: 1.6rem; font-weight: 700; letter-spacing: .02em; color: #fff; text-transform: none; }
+#kc-header-wrapper::before {
+  content: ""; display: block; width: 72px; height: 72px; margin: 0 auto 12px;
+  background: url("../img/logo.svg") center/contain no-repeat;
+}
+.pf-v5-c-login__main-header .pf-v5-c-title { color: #0b3a63; }
+.pf-v5-c-button.pf-m-primary { background-color: #15803d; border-radius: 8px; font-weight: 600; }
+.pf-v5-c-button.pf-m-primary:hover, .pf-v5-c-button.pf-m-primary:focus { background-color: #166534; }
+.pf-v5-c-form-control:focus-within { --pf-v5-c-form-control--after--BorderBottomColor: #14538a; }
+.pf-v5-c-login__footer, .pf-v5-c-login__main-footer-band { color: #e2e8f0; }
+@media (max-width: 576px) { .pf-v5-c-login__main { border-radius: 0; } }
