@@ -91,6 +91,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   return <AuthCtx.Provider value={v}>{children}</AuthCtx.Provider>
 }
 
+// El hook comparte archivo con el proveedor a propósito: separarlos tocaría a todos los importadores.
+// eslint-disable-next-line react-refresh/only-export-components
 export function useAuth() {
   const c = useContext(AuthCtx)
   if (!c) throw new Error('useAuth fuera de AuthProvider')
