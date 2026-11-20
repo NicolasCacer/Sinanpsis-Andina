@@ -13,6 +13,7 @@ export const userManager = new UserManager({
   userStore: new WebStorageStateStore({ store: window.sessionStorage }),
   stateStore: new WebStorageStateStore({ store: window.sessionStorage }),
   automaticSilentRenew: true,
+  silentRequestTimeoutInSeconds: 6,
   filterProtocolClaims: true,
 })
 
