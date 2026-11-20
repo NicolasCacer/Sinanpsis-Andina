@@ -6,6 +6,7 @@ export const userManager = new UserManager({
   authority: config.authority,
   client_id: 'sses-web',
   redirect_uri: `${window.location.origin}/auth/callback`,
+  silent_redirect_uri: `${window.location.origin}/auth/callback`, // renovación silenciosa en iframe (mismo origen, D38)
   post_logout_redirect_uri: window.location.origin,
   response_type: 'code', // Authorization Code + PKCE S256
   scope: 'openid profile email',

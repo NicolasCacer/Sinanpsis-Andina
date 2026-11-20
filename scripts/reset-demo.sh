@@ -27,6 +27,8 @@ delete from estrategias.estrategia_estudiante where estrategia_id > 60;
 delete from estrategias.estrategia where id > 60;
 SQL
 rm -f data/evidencias/* 2>/dev/null || true
+# D38: cliente sses-web con URIs del mismo origen (realms importados antes de este cambio)
+bash scripts/actualizar-cliente-web.sh || echo "Aviso: no se pudo actualizar el cliente sses-web (¿Keycloak arriba?)"
 # Limpia bloqueos de fuerza bruta de Keycloak (si está arriba)
 KC=${KC_URL:-http://localhost:8180}
 T=$(curl -sf -d "grant_type=password&client_id=admin-cli&username=${KEYCLOAK_ADMIN:-admin}&password=${KEYCLOAK_ADMIN_PASSWORD:-admin}" "$KC/realms/master/protocol/openid-connect/token" 2>/dev/null | python3 -c 'import sys,json;print(json.load(sys.stdin)["access_token"])' 2>/dev/null || true)
